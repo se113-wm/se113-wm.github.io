@@ -11,52 +11,24 @@ start
 :(1) Select function Add New Route;
 
 |Sy|
-:(2) Display route form;
+:(2) Display add route form \n (name, start, end, days, image, status);
 
 repeat
   |S|
   :(3) Enter route information;
-  :(4) Select attractions for each day;
-  :(5) Submit route information;
+  :(4) Click save button;
 
   |Sy|
-  :(6) Verify route information;
+  :(5) Verify data valid;
+repeat while (Check data valid?) is (No) not (Yes)
 
-  if (Check data valid?) then (No)
-    :(6.1) Display validation error;
-    |S|
-  else (Yes)
-    |Sy|
-    :(7) Verify route name unique;
+|Sy|
+:(6) Update route (insert new record);
+:(7) Notify success and redirect to routes list;
 
-    if (Check route name not exists?) then (No)
-      :(7.1) Display duplicate name error;
-      |S|
-    else (Yes)
-      |Sy|
-      :(8) Verify has attractions;
-
-      if (Check has at least one attraction?) then (No)
-        :(8.1) Display missing attractions error;
-        |S|
-      else (Yes)
-        |Sy|
-        :(9) Update route data;
-
-        if (Check database update successful?) then (No)
-          :(9.1) Display database error;
-          |S|
-        else (Yes)
-          |Sy|
-          :(10) Display success notification;
-          |S|
-        endif
-      endif
-    endif
-  endif
-repeat while (Check data valid and successful?) is (No) not (Yes)
-
-:(11) Confirm end;
+|S|
+:(8) View new route in list;
+:(9) Confirm end;
 
 stop
 

@@ -8,58 +8,54 @@
 |C|
 start
 
-:(1) Select function View Cart;
+:(1) In cart page click edit button;
+
+|S|
+:(2) Query cart item information from database;
+
+:(3) Verify trip still valid;
+
+if (Check trip valid and editable?) then (No)
+  :(3.1) Display trip invalid warning with remove option;
+
+  |C|
+  :(3.2) Confirm end;
+
+  stop
+else (Yes)
+endif
+
+|S|
+:(4) Display edit form with \n current quantity and available seats;
+
+|C|
+:(5) Change quantity of seats;
+
+|S|
+:(6) Auto calculate and display new total price;
 
 repeat
-  :(2) Select cart item;
+  |C|
+  :(7) Click save changes button;
 
   |S|
-  :(3) Verify cart item status;
+  :(8) Verify quantity valid;
 
-  if (Check cart item exists?) then (No)
-    :(3.1) Display error notification;
-    |C|
-  else (Yes)
-    |S|
-    :(4) Display edit form;
-    note right
-      - Current quantity
-      - Current price
-    end note
+  :(9) Query available seats from database;
 
-    repeat
-      |C|
-      :(5) Enter new quantity;
-      :(6) Submit changes;
+  :(10) Verify sufficient seats for new quantity;
+repeat while (Check quantity valid and sufficient seats?) is (No) not (Yes)
 
-      |S|
-      :(7) Verify quantity;
-      if (Check quantity valid?) then (No)
-        :(7.1) Display validation error;
-      else (Yes)
-      endif
-    repeat while (Check quantity valid?) is (No) not (Yes)
+:(11) Update cart item quantity in database;
 
-    :(8) Verify seat availability;
-    if (Check enough seats?) then (No)
-      :(8.1) Display insufficient seats notification;
-      |C|
-    else (Yes)
-      |S|
-      :(9) Update cart item data;
-      note right
-        - Update quantity
-        - Recalculate price
-      end note
-      :(10) Display success notification;
+:(12) Display update success notification;
 
-      |C|
-      :(11) Confirm notification;
-    endif
-  endif
-repeat while (Check want to edit another item?) is (Yes) not (No)
+:(13) Auto update total cart price on interface;
 
-:(12) Confirm end;
+|C|
+:(14) View updated cart;
+
+:(15) Confirm end;
 
 stop
 

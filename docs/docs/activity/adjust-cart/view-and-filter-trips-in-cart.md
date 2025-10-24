@@ -8,45 +8,44 @@
 |C|
 start
 
-:(1) Select function View Cart;
+:(1) Click cart icon;
 
 |S|
-:(2) Display cart items;
+:(2) Query cart with items and details;
+
+if (Check cart has items?) then (No)
+  :(2.1) Display empty cart message \n with explore tours button;
+  |C|
+  :(2.2) Confirm end;
+  stop
+else (Yes)
+endif
+
+:(3) Display cart items list;
 
 repeat
   |C|
-  :(3) Enter search criteria;
-  note right
-    - Trip name
-    - Date range
-    - Price range
-  end note
-  :(4) Submit search;
+  :(4) Enter filter criteria;
+  :(5) Submit filter;
 
   |S|
-  :(5) Verify search criteria;
+  :(6) Verify filter criteria;
 
   if (Check has results?) then (No)
-    :(5.1) Display no results notification;
+    :(6.1) Display no matching trips message;
     |C|
   else (Yes)
     |S|
-    :(6) Display search results;
-    note right
-      **Extended actions:**
-      - Edit Trip Details
-      - Remove Trip from Cart
-    end note
-
+    :(7) Display filtered results with updated totals;
     |C|
   endif
-repeat while (Check want to search again?) is (Yes) not (No)
+repeat while (Check want to filter again?) is (Yes) not (No)
 
-:(7) Confirm end;
+:(8) Confirm end;
 
 stop
 
 @enduml
-```
 
 <!-- diagram id="activity-adjust-cart-view-and-filter-trips-in-cart" -->
+```

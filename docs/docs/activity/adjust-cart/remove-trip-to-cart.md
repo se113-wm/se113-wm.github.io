@@ -8,48 +8,47 @@
 |C|
 start
 
-:(1) Select function View Cart;
+:(1) In cart page click remove button;
 
-repeat
-  :(2) Select cart item;
+|S|
+:(2) Query cart item information for confirmation;
 
-  |S|
-  :(3) Verify cart item status;
+:(3) Display confirmation dialog with trip details;
 
-  if (Check cart item exists?) then (No)
-    :(3.1) Display error notification;
-    |C|
-  else (Yes)
-    |S|
-    :(4) Display confirmation dialog;
+|C|
+:(4) Click button in dialog;
 
-    |C|
-    :(5) Click button;
+if (Check confirmation action?) then (Cancel)
+  :(4.1) Close dialog;
 
-    if (Check confirmation?) then (Cancel)
-      |C|
-    else (Confirm)
-      |S|
-      :(6) Verify cart item data;
-      if (Check can remove?) then (No)
-        :(6.1) Display error notification;
-        |C|
-      else (Yes)
-        |S|
-        :(7) Update cart data;
-        note right
-          - Delete cart item record
-        end note
-        :(8) Display success notification;
+  :(4.2) Confirm end;
 
-        |C|
-        :(9) Confirm notification;
-      endif
-    endif
-  endif
-repeat while (Check want to remove another item?) is (Yes) not (No)
+  stop
+else (Confirm Delete)
+endif
 
-:(10) Confirm end;
+|S|
+:(5) Delete cart item from database;
+
+:(6) Display removed from cart notification;
+
+:(7) Remove item from list on interface;
+
+:(8) Update total item count and total price;
+
+:(9) Check cart has remaining items;
+
+if (Check cart empty?) then (Yes)
+  :(9.1) Display empty cart message with explore tours button;
+
+  :(9.2) Disable checkout button;
+else (No)
+endif
+
+|C|
+:(10) View cart after removal;
+
+:(11) Confirm end;
 
 stop
 

@@ -15,3 +15,8 @@
 - There must be only one start node and one end node; therefore, if any exceptions occur, they should be represented as a repeat - repeat while loop.
 - The folder which only has 1 file in that folder, same filename as the folder is a special activity. It isn't generic use case, but a single use case.
 - Do not use notes. Nodes should have more explicit content.
+- Add "\n" to create a line break for nodes with content that is too long, for example:
+  "Display no bookings message with explore tours button;" → "Display no bookings message \n with explore tours button;".
+- An activity should not exceed 15 lines (a line is counted when there is at least one node on that line).
+There should be no more than two nodes on the same line within the same swimlane.
+If there are more nodes, they should be grouped together to shorten the diagram, and the content of each node should not be too long.

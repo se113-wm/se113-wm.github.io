@@ -8,54 +8,57 @@
 |C|
 start
 
-:(1) Select button Add Trip to Cart;
+:(1) View trip details;
 
-repeat
-  :(2) Choose trip details;
+:(2) Click add to cart button;
+
+|S|
+:(3) Verify authentication status;
+
+if (Check user authenticated?) then (No)
+  :(3.1) Display login required notification;
+
+  |C|
+  :(3.2) Perform login;
 
   |S|
-  :(3) Verify trip status;
+else (Yes)
+endif
 
-  if (Check trip exists and has available seats?) then (No)
-    :(3.1) Display error notification;
-    |C|
-  else (Yes)
-    |S|
-    :(4) Display quantity form;
+:(4) Get or create cart for user;
 
-    repeat
-      |C|
-      :(5) Enter quantity;
-      :(6) Submit quantity;
+:(5) Display quantity input form with default value one;
 
-      |S|
-      :(7) Verify quantity;
-      if (Check quantity valid?) then (No)
-        :(7.1) Display validation error;
-      else (Yes)
-      endif
-    repeat while (Check quantity valid?) is (No) not (Yes)
+repeat
+  |C|
+  :(6) Enter quantity of seats;
 
-    :(8) Verify seat availability;
-    if (Check enough seats?) then (No)
-      :(8.1) Display insufficient seats notification;
-      |C|
-    else (Yes)
-      |S|
-      :(9) Update cart data;
-      note right
-        - Create/Update cart item
-        - Calculate price
-      end note
-      :(10) Display success notification;
+  :(7) Click confirm add to cart button;
 
-      |C|
-      :(11) Confirm notification;
-    endif
-  endif
-repeat while (Check want to add another trip?) is (Yes) not (No)
+  |S|
+  :(8) Verify quantity valid;
 
-:(12) Confirm end;
+  :(9) Query available seats from database;
+
+  :(10) Verify sufficient seats available;
+repeat while (Check quantity valid and sufficient seats?) is (No) not (Yes)
+
+:(11) Check trip already exists in cart;
+
+if (Check trip in cart?) then (Yes)
+  :(12) Update cart item quantity;
+else (No)
+  :(13) Insert new cart item \n with trip and price;
+endif
+
+:(14) Display success notification \n with trip name and quantity;
+
+:(15) Update cart icon badge with item count;
+
+|C|
+:(16) View notification and continue browsing;
+
+:(17) Confirm end;
 
 stop
 

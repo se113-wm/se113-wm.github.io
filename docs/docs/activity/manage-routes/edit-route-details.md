@@ -11,64 +11,33 @@ start
 :(1) Select function Edit Route;
 
 |Sy|
-:(2) Verify route exists;
+:(2) Query route details and status;
 
-if (Check route exists?) then (No)
-  :(2.1) Display route not found error;
-
+if (Check route exists and editable?) then (No)
+  :(2.1) Display cannot edit or not found notification;
   |S|
   :(2.2) Confirm end;
+  stop
 else (Yes)
-  |Sy|
-  :(3) Verify route status;
-
-  if (Check route not closed?) then (No)
-    :(3.1) Display cannot edit closed route error;
-
-    |S|
-    :(3.2) Confirm end;
-  else (Yes)
-    |Sy|
-    :(4) Display route edit form;
-
-    repeat
-      |S|
-      :(5) Edit route information;
-      :(6) Edit attractions list;
-      :(7) Submit changes;
-
-      |Sy|
-      :(8) Verify route information;
-
-      if (Check data valid?) then (No)
-        :(8.1) Display validation error;
-        |S|
-      else (Yes)
-        |Sy|
-        :(9) Verify route name unique;
-
-        if (Check route name not exists or same?) then (No)
-          :(9.1) Display duplicate name error;
-          |S|
-        else (Yes)
-          |Sy|
-          :(10) Update route data;
-
-          if (Check database update successful?) then (No)
-            :(10.1) Display database error;
-            |S|
-          else (Yes)
-            |Sy|
-            :(11) Display success notification;
-            |S|
-          endif
-        endif
-      endif
-    repeat while (Check data valid and successful?) is (No) not (Yes)
-
-    :(12) Confirm end;
-  endif
 endif
+
+:(3) Display route edit form with current data;
+
+repeat
+  |S|
+  :(4) Edit route information;
+  :(5) Click save button;
+  |Sy|
+  :(6) Verify data valid and constraints satisfied;
+repeat while (Check data valid and constraints satisfied?) is (No) not (Yes)
+
+|Sy|
+:(7) Update route information;
+:(8) Display success notification and reload list;
+
+|S|
+:(9) View updated route details;
+:(10) Confirm end;
 
 stop
 

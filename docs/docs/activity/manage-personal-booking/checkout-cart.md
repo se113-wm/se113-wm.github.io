@@ -7,96 +7,53 @@
 
 |C|
 start
-
 :(1) View cart with items;
-
 :(2) Click checkout cart button;
 
 |S|
-:(3) Verify authentication status;
-
-if (Check user authenticated?) then (No)
-  :(3.1) Display login required notification;
-
-  |C|
-  :(3.2) Perform login;
-
-  |S|
-else (Yes)
-endif
-
-:(4) Query cart items and trip details from database;
+:(3) Query cart items and trip details;
 
 if (Check cart has items?) then (No)
-  :(4.1) Display empty cart notification with explore tours link;
-
+  :(3.1) Display empty cart notification;
   |C|
-  :(4.2) Confirm end;
-
+  :(3.2) Confirm end;
   stop
 else (Yes)
 endif
-
 |S|
-:(5) Verify all trips validity;
+:(4) Verify all trips validity;
 
 if (Check all trips valid?) then (No)
-  :(5.1) Display list of invalid trips with issues;
-
+  :(4.1) Display invalid trips list;
   |C|
-  :(5.2) Remove invalid trips or return to cart;
-
-  :(5.3) Confirm end;
-
+  :(4.2) Remove invalid trips or cancel;
   stop
 else (Yes)
 endif
 
 |S|
-:(6) Display passenger information form for all cart items;
+:(5) Display passenger information form;
 
 repeat
   |C|
-  :(7) Enter number of adults and children for each trip;
-
-  :(8) Enter traveler details for each passenger;
-
-  :(9) Click confirm all bookings button;
-
+  :(6) Enter passenger quantity and traveler details;
+  :(7) Click confirm bookings button;
   |S|
-  :(10) Verify passenger data for all trips;
-repeat while (Check all data valid?) is (No) not (Yes)
+  :(8) Verify passenger data;
+repeat while (Check data valid?) is (No) not (Yes)
 
-:(11) Calculate total price for all trips;
-
-:(12) Display confirmation page with all booking details and total amount;
+:(9) Display confirmation page with total amount;
 
 |C|
-:(13) Confirm checkout;
+:(10) Confirm checkout;
 
 |S|
-:(14) Create tour bookings for each cart item in transaction;
-
-:(15) Create booking details for each booking;
-
-:(16) Create traveler records for all passengers;
-
-:(17) Update booked seats for all trips;
-
-:(18) Create invoices for all bookings;
-
-:(19) Delete all cart items;
-
-:(20) Commit transaction;
-
-:(21) Display success notification with all booking codes;
-
-:(22) Send email confirmation with all booking details;
+:(11) Create bookings, travelers, invoices in transaction;
+:(12) Update booked seats and clear cart;
+:(13) Display success notification and send email;
 
 |C|
-:(23) View created bookings;
-
-:(24) Confirm end;
+:(14) Confirm end;
 
 stop
 

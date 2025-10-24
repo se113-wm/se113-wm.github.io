@@ -465,6 +465,20 @@ export default defineConfig({
 								],
 							},
 							{
+								text: "Manage Attraction",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Attraction",
+										link: "/docs/activity/manage-attraction/add-new-attraction",
+									},
+									{
+										text: "Use Case Specification",
+										link: "/docs/activity/manage-attraction/UCS-manage-attraction",
+									},
+								],
+							},
+							{
 								text: "Manage User",
 								collapsed: true,
 								items: [

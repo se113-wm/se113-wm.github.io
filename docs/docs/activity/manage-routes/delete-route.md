@@ -8,52 +8,42 @@
 |S|
 start
 
-:(1) Select function Delete Route;
+:(1) View routes list;
+:(2) Click delete button on a route;
 
 |Sy|
-:(2) Display delete confirmation dialog;
+:(3) Query related data (Trips and Route_Attractions);
+
+if (Check has related data?) then (Yes)
+  :(3.1) Display cannot delete route notification;
+  |S|
+  :(3.2) Confirm end;
+  stop
+else (No)
+endif
+
+|Sy|
+:(4) Display confirmation dialog with route name;
 
 |S|
-:(3) Confirm delete action;
+:(5) Click confirm or cancel button;
 
-if (Check confirm delete?) then (No)
-  :(3.1) Cancel delete action;
-
-  :(3.2) Confirm end;
+|Sy|
+if (Check Staff confirms delete?) then (No)
+  :(5.1) Close confirmation dialog;
+  |S|
+  :(5.2) Confirm end;
+  stop
 else (Yes)
-  |Sy|
-  :(4) Verify route constraints;
-
-  if (Check has related data?) then (No)
-    :(4.1) Delete route from database;
-    :(4.2) Delete route attractions from database;
-
-    if (Check database delete successful?) then (No)
-      :(4.3) Display database error;
-      |S|
-      :(4.4) Confirm end;
-    else (Yes)
-      |Sy|
-      :(4.5) Display route deleted notification;
-      |S|
-      :(4.6) Confirm end;
-    endif
-  else (Yes)
-    |Sy|
-    :(5.1) Update route status to closed;
-
-    if (Check database update successful?) then (No)
-      :(5.2) Display database error;
-      |S|
-      :(5.3) Confirm end;
-    else (Yes)
-      |Sy|
-      :(5.4) Display route closed notification;
-      |S|
-      :(5.5) Confirm end;
-    endif
-  endif
 endif
+
+|Sy|
+:(6) Delete route in transaction;
+:(7) Display success notification and reload list;
+
+|S|
+:(8) View updated list;
+:(9) Confirm end;
 
 stop
 

@@ -7,57 +7,37 @@
 
 |C|
 start
-
-:(1) Click my bookings in menu;
+:(1) Click "Booking của tôi" in menu;
 
 |S|
-:(2) Query booking list from database;
+:(2) Query bookings from database;
 
 if (Check customer has bookings?) then (No)
-  :(2.1) Display no bookings message with explore tours button;
-
+  :(2.1) Display no bookings message \n with explore tours button;
   |C|
   :(2.2) Confirm end;
-
   stop
 else (Yes)
 endif
-
 |S|
-:(3) Display bookings with three tabs;
-
-:(4) Display each booking with details and action buttons;
+:(3) Display bookings with tabs and filter form;
 
 |C|
-:(5) View booking list;
+:(4) View bookings and enter filter criteria;
 
-repeat
-  if (Check want to filter?) then (Yes)
-    :(6) Click filter and select criteria;
+:(5) Click apply filter button;
 
-    |S|
-    :(7) Display filter form;
+|S|
+:(6) Query bookings with filter conditions;
 
-    |C|
-    :(8) Enter filter criteria;
+if (Check has matching results?) then (No)
+  :(6.1) Display no matching bookings message;
+else (Yes)
+  :(7) Display filtered bookings list;
+endif
 
-    :(9) Click apply button;
-
-    |S|
-    :(10) Query bookings with filter conditions;
-
-    if (Check has matching results?) then (No)
-      :(10.1) Display no matching bookings message;
-    else (Yes)
-      :(11) Display filtered booking list;
-    endif
-
-    |C|
-  else (No)
-  endif
-repeat while (Check want to continue filtering?) is (Yes) not (No)
-
-:(12) Confirm end;
+|C|
+:(8) Confirm end;
 
 stop
 

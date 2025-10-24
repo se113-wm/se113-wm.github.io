@@ -11,20 +11,23 @@ start
 :(1) Select route from list;
 
 |Sy|
-:(2) Verify route exists;
+:(2) Query route details from database;
 
 if (Check route exists?) then (No)
-  :(2.1) Display route not found error;
-
+  :(2.1) Display route not found notification;
   |S|
   :(2.2) Confirm end;
+  stop
 else (Yes)
-  |Sy|
-  :(3) Display route detail;
-
-  |S|
-  :(4) Confirm end;
 endif
+|Sy|
+:(3) Query total trips and schedule summary;
+
+:(4) Display route details with totals \n and schedule summary by day;
+
+|S|
+:(5) View route details;
+:(6) Confirm end;
 
 stop
 

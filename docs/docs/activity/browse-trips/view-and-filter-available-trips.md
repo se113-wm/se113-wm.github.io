@@ -16,12 +16,6 @@ start
 repeat
   |C|
   :(3) Enter search criteria;
-  note right
-    - Destination
-    - Date range
-    - Price range
-    - Available seats
-  end note
   :(4) Submit search;
 
   |S|

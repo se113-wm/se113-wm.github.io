@@ -36,7 +36,7 @@ else (Yes)
 endif
 
 |S|
-:(8) Display passenger information edit form with current data;
+:(8) Display passenger information edit form \n with current data;
 
 repeat
   |C|

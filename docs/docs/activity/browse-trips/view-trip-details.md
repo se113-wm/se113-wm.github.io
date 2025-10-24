@@ -22,20 +22,6 @@ repeat
   else (Yes)
     |S|
     :(4) Display trip details;
-    note right
-      - Trip ID
-      - Route information
-      - Departure/Return dates
-      - Price
-      - Total/Available seats
-      - Pick-up time & location
-      - Status
-      - Route attractions by day
-      **Extended actions:**
-      - Book a Trip
-      - Add to Favorites
-      - Add to Cart
-    end note
 
     |C|
     :(5) Confirm view;

@@ -330,6 +330,10 @@ export default defineConfig({
 										text: "View and Filter Trips in Cart",
 										link: "/docs/activity/adjust-cart/view-and-filter-trips-in-cart",
 									},
+									{
+										text: "UCS-Adjust-Cart",
+										link: "/docs/activity/adjust-cart/UCS-adjust-cart",
+									},
 								],
 							},
 							{
@@ -403,8 +407,8 @@ export default defineConfig({
 										link: "/docs/activity/manage-personal-booking/view-and-pay-booking-invoice-details",
 									},
 									{
-										text: "Use Case Specification",
-										link: "/docs/activity/manage-personal-booking/đặc tả các use case",
+										text: "UCS-Manage-Personal-Booking",
+										link: "/docs/activity/manage-personal-booking/UCS-manage-personal-booking",
 									},
 								],
 							},
@@ -462,6 +466,32 @@ export default defineConfig({
 										text: "View Route Detail",
 										link: "/docs/activity/manage-routes/view-route-detail",
 									},
+									{
+										text: "UCS-Manage-Routes",
+										link: "/docs/activity/manage-routes/UCS-manage-routes",
+									},
+								],
+							},
+							{
+								text: "Manage Route Schedule",
+								collapsed: true,
+								items: [
+									{
+										text: "Add Itinerary",
+										link: "/docs/activity/manage-route-schedule/add-itinerary",
+									},
+									{
+										text: "Delete Itinerary",
+										link: "/docs/activity/manage-route-schedule/delete-itinerary",
+									},
+									{
+										text: "Edit Itinerary",
+										link: "/docs/activity/manage-route-schedule/edit-itinerary",
+									},
+									{
+										text: "UCS-Manage-Route-Schedule",
+										link: "/docs/activity/manage-route-schedule/UCS-manage-route-schedule",
+									},
 								],
 							},
 							{
@@ -473,8 +503,16 @@ export default defineConfig({
 										link: "/docs/activity/manage-attraction/add-new-attraction",
 									},
 									{
-										text: "Use Case Specification",
-										link: "/docs/activity/manage-attraction/UCS-manage-attraction",
+										text: "Delete Itinerary",
+										link: "/docs/activity/manage-route-schedule/delete-itinerary",
+									},
+									{
+										text: "Edit Itinerary",
+										link: "/docs/activity/manage-route-schedule/edit-itinerary",
+									},
+									{
+										text: "UCS-Manage-Route-Schedule",
+										link: "/docs/activity/manage-route-schedule/UCS-manage-route-schedule",
 									},
 								],
 							},

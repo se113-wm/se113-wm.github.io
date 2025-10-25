@@ -503,16 +503,92 @@ export default defineConfig({
 										link: "/docs/activity/manage-attraction/add-new-attraction",
 									},
 									{
-										text: "Delete Itinerary",
-										link: "/docs/activity/manage-route-schedule/delete-itinerary",
+										text: "Delete Attraction",
+										link: "/docs/activity/manage-attraction/delete-attraction",
 									},
 									{
-										text: "Edit Itinerary",
-										link: "/docs/activity/manage-route-schedule/edit-itinerary",
+										text: "Edit Attraction Detail",
+										link: "/docs/activity/manage-attraction/edit-attraction-detail",
 									},
 									{
-										text: "UCS-Manage-Route-Schedule",
-										link: "/docs/activity/manage-route-schedule/UCS-manage-route-schedule",
+										text: "View Attraction Detail",
+										link: "/docs/activity/manage-attraction/view-attraction-detail",
+									},
+									{
+										text: "View and Filter Attractions",
+										link: "/docs/activity/manage-attraction/view-and-filter-attractions",
+									},
+									{
+										text: "UCS-Manage-Attraction",
+										link: "/docs/activity/manage-attraction/UCS-manage-attraction",
+									},
+								],
+							},
+							{
+								text: "Manage Trips",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Trip",
+										link: "/docs/activity/manage-trips/add-new-trip",
+									},
+									{
+										text: "Add New Booking for Trip",
+										link: "/docs/activity/manage-trips/add-new-booking-for-trip",
+									},
+									{
+										text: "Delete Trip",
+										link: "/docs/activity/manage-trips/delete-trip",
+									},
+									{
+										text: "Edit Trip",
+										link: "/docs/activity/manage-trips/edit-trip",
+									},
+									{
+										text: "View Trip Details",
+										link: "/docs/activity/manage-trips/view-trip-details",
+									},
+									{
+										text: "View and Filter Trips",
+										link: "/docs/activity/manage-trips/view-and-filter-trips",
+									},
+									{
+										text: "UCS-Manage-Trips",
+										link: "/docs/activity/manage-trips/UCS-manage-trips",
+									},
+								],
+							},
+							{
+								text: "Adjust and Track Bookings",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Booking",
+										link: "/docs/activity/manage-trips/add-new-booking",
+									},
+									{
+										text: "Delete Booking",
+										link: "/docs/activity/manage-trips/delete-booking",
+									},
+									{
+										text: "Edit Pre-Departure Booking",
+										link: "/docs/activity/manage-trips/edit-pre-departure-booking",
+									},
+									{
+										text: "View Booking Details",
+										link: "/docs/activity/manage-trips/view-booking-details",
+									},
+									{
+										text: "View and Filter Bookings",
+										link: "/docs/activity/manage-trips/view-and-filter-bookings",
+									},
+									{
+										text: "View Booking's Invoice",
+										link: "/docs/activity/manage-trips/view-booking's-invoice",
+									},
+									{
+										text: "UCS-Adjust-and-Track-Bookings",
+										link: "/docs/activity/manage-trips/UCS-adjust-and-track-bookings",
 									},
 								],
 							},

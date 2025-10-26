@@ -65,6 +65,62 @@ export default defineConfig({
 						collapsed: true,
 						items: [
 							{
+								text: "Adjust and Track Bookings",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Booking",
+										link: "/docs/sequence/adjust-and-track-bookings/add-new-booking",
+									},
+									{
+										text: "Delete Booking",
+										link: "/docs/sequence/adjust-and-track-bookings/delete-booking",
+									},
+									{
+										text: "Edit Pre-departure Booking",
+										link: "/docs/sequence/adjust-and-track-bookings/edit-pre-departure-booking",
+									},
+									{
+										text: "View and Filter Bookings",
+										link: "/docs/sequence/adjust-and-track-bookings/view-and-filter-bookings",
+									},
+									{
+										text: "View Booking Details",
+										link: "/docs/sequence/adjust-and-track-bookings/view-booking-details",
+									},
+									{
+										text: "View Booking's Invoice",
+										link: "/docs/sequence/adjust-and-track-bookings/view-booking's-invoice",
+									},
+									{
+										text: "UCS-Adjust-and-Track-Bookings",
+										link: "/docs/sequence/adjust-and-track-bookings/UCS-adjust-and-track-bookings",
+									},
+								],
+							},
+							{
+								text: "Adjust Cart",
+								collapsed: true,
+								items: [
+									{
+										text: "Add Trip to Cart",
+										link: "/docs/sequence/adjust-cart/add-trip-to-cart",
+									},
+									{
+										text: "Edit Trip Details",
+										link: "/docs/sequence/adjust-cart/edit-trip-details",
+									},
+									{
+										text: "Remove Trip from Cart",
+										link: "/docs/sequence/adjust-cart/remove-trip-to-cart",
+									},
+									{
+										text: "View and Filter Trips in Cart",
+										link: "/docs/sequence/adjust-cart/view-and-filter-trips-in-cart",
+									},
+								],
+							},
+							{
 								text: "Adjust Document",
 								collapsed: true,
 								items: [
@@ -91,11 +147,39 @@ export default defineConfig({
 								],
 							},
 							{
+								text: "Adjust Favorite Trips",
+								collapsed: true,
+								items: [
+									{
+										text: "Toggle Favorite Trip",
+										link: "/docs/sequence/adjust-favorite-trips/toggle-favorite-trip",
+									},
+									{
+										text: "View and Filter Favorite Trips",
+										link: "/docs/sequence/adjust-favorite-trips/view-and-filter-favorite-trips",
+									},
+								],
+							},
+							{
 								text: "Auth",
 								collapsed: true,
 								items: [
 									{ text: "Sign In", link: "/docs/sequence/auth/sign-in" },
 									{ text: "Sign Up", link: "/docs/sequence/auth/sign-up" },
+								],
+							},
+							{
+								text: "Browse Trips",
+								collapsed: true,
+								items: [
+									{
+										text: "View and Filter Available Trips",
+										link: "/docs/sequence/browse-trips/view-and-filter-available-trips",
+									},
+									{
+										text: "View Trip Details",
+										link: "/docs/sequence/browse-trips/view-trip-details",
+									},
 								],
 							},
 							{
@@ -105,6 +189,100 @@ export default defineConfig({
 									{
 										text: "Contact Support",
 										link: "/docs/sequence/contact-support/contact-support",
+									},
+								],
+							},
+							{
+								text: "Manage Attraction",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Attraction",
+										link: "/docs/sequence/manage-attraction/add-new-attraction",
+									},
+									{
+										text: "Delete Attraction",
+										link: "/docs/sequence/manage-attraction/delete-attraction",
+									},
+									{
+										text: "Edit Attraction Detail",
+										link: "/docs/sequence/manage-attraction/edit-attraction-detail",
+									},
+									{
+										text: "Search Attraction",
+										link: "/docs/sequence/manage-attraction/search-attraction",
+									},
+									{
+										text: "View Attraction Detail",
+										link: "/docs/sequence/manage-attraction/view-attraction-detail",
+									},
+									{
+										text: "View and Filter Attractions",
+										link: "/docs/sequence/manage-attraction/view-and-filter-attractions",
+									},
+									{
+										text: "UCS-Manage-Attraction",
+										link: "/docs/sequence/manage-attraction/UCS-manage-attraction",
+									},
+								],
+							},
+							{
+								text: "Manage Cart",
+								collapsed: true,
+								items: [
+									{
+										text: "Add Trip to Cart",
+										link: "/docs/sequence/manage-cart/add-trip-to-cart",
+									},
+									{
+										text: "Checkout Cart",
+										link: "/docs/sequence/manage-cart/checkout-cart",
+									},
+									{
+										text: "Remove Trip from Cart",
+										link: "/docs/sequence/manage-cart/remove-trip-from-cart",
+									},
+									{
+										text: "Update Cart Item Quantity",
+										link: "/docs/sequence/manage-cart/update-cart-item-quantity",
+									},
+									{
+										text: "View Cart",
+										link: "/docs/sequence/manage-cart/view-cart",
+									},
+								],
+							},
+							{
+								text: "Manage Personal Booking",
+								collapsed: true,
+								items: [
+									{
+										text: "Book a Trip",
+										link: "/docs/sequence/manage-personal-booking/book-a-trip",
+									},
+									{
+										text: "Cancel Booking",
+										link: "/docs/sequence/manage-personal-booking/cancel-booking",
+									},
+									{
+										text: "Checkout Cart",
+										link: "/docs/sequence/manage-personal-booking/checkout-cart",
+									},
+									{
+										text: "Edit Upcoming Trip's Passenger Details",
+										link: "/docs/sequence/manage-personal-booking/edit-upcoming-trip's-passenger-details",
+									},
+									{
+										text: "View and Filter Personal Bookings",
+										link: "/docs/sequence/manage-personal-booking/view-and-filter-personal-bookings",
+									},
+									{
+										text: "View and Pay Booking Invoice Details",
+										link: "/docs/sequence/manage-personal-booking/view-and-pay-booking-invoice-details",
+									},
+									{
+										text: "UCS-Manage-Personal-Booking",
+										link: "/docs/sequence/manage-personal-booking/UCS-manage-personal-booking",
 									},
 								],
 							},
@@ -135,6 +313,96 @@ export default defineConfig({
 									{
 										text: "Update Product",
 										link: "/docs/sequence/manage-product/update-product",
+									},
+								],
+							},
+							{
+								text: "Manage Route Schedule",
+								collapsed: true,
+								items: [
+									{
+										text: "Add Itinerary",
+										link: "/docs/sequence/manage-route-schedule/add-itinerary",
+									},
+									{
+										text: "Delete Itinerary",
+										link: "/docs/sequence/manage-route-schedule/delete-itinerary",
+									},
+									{
+										text: "Edit Itinerary",
+										link: "/docs/sequence/manage-route-schedule/edit-itinerary",
+									},
+									{
+										text: "UCS-Manage-Route-Schedule",
+										link: "/docs/sequence/manage-route-schedule/UCS-manage-route-schedule",
+									},
+								],
+							},
+							{
+								text: "Manage Routes",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Route",
+										link: "/docs/sequence/manage-routes/add-new-route",
+									},
+									{
+										text: "Delete Route",
+										link: "/docs/sequence/manage-routes/delete-route",
+									},
+									{
+										text: "Edit Route Details",
+										link: "/docs/sequence/manage-routes/edit-route-details",
+									},
+									{
+										text: "Search Route",
+										link: "/docs/sequence/manage-routes/search-route",
+									},
+									{
+										text: "View Route Detail",
+										link: "/docs/sequence/manage-routes/view-route-detail",
+									},
+									{
+										text: "View and Filter Routes",
+										link: "/docs/sequence/manage-routes/view-and-filter-routes",
+									},
+									{
+										text: "UCS-Manage-Routes",
+										link: "/docs/sequence/manage-routes/UCS-manage-routes",
+									},
+								],
+							},
+							{
+								text: "Manage Trips",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Booking for Trip",
+										link: "/docs/sequence/manage-trips/add-new-booking-for-trip",
+									},
+									{
+										text: "Add New Trip",
+										link: "/docs/sequence/manage-trips/add-new-trip",
+									},
+									{
+										text: "Delete Trip",
+										link: "/docs/sequence/manage-trips/delete-trip",
+									},
+									{
+										text: "Edit Trip",
+										link: "/docs/sequence/manage-trips/edit-trip",
+									},
+									{
+										text: "View Trip Details",
+										link: "/docs/sequence/manage-trips/view-trip-details",
+									},
+									{
+										text: "View and Filter Trips",
+										link: "/docs/sequence/manage-trips/view-and-filter-trips",
+									},
+									{
+										text: "UCS-Manage-Trips",
+										link: "/docs/sequence/manage-trips/UCS-manage-trips",
 									},
 								],
 							},

@@ -23,9 +23,9 @@ deactivate B
 
 break Cannot edit
   BC <-- B: Error
+  deactivate B
   BDV <-- BC: Error notification
   deactivate BC
-  deactivate B
   BDV -> BDV: Display error message
   activate BDV
   deactivate BDV

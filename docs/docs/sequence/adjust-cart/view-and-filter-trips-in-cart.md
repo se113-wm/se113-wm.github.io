@@ -22,6 +22,7 @@ deactivate CA
 CC <-- CA: Cart items list
 deactivate CA
 CC --> CV: Cart data
+deactivate CC
 
 
 opt Cart empty

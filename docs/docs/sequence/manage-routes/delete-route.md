@@ -22,7 +22,6 @@ deactivate R
 
 alt Has related data
   RC <-- R: Has dependencies
-  deactivate R
   RLV <-- RC: Cannot delete notification
   deactivate RC
   RLV -> RLV: Display error message
@@ -31,6 +30,7 @@ alt Has related data
 else No related data
   RC <-- R: Can delete
   deactivate R
+  activate RC
   RLV <-- RC: Show confirmation
   deactivate RC
   RLV -> RLV: Display confirmation dialog

@@ -49,7 +49,6 @@ alt Has related bookings
     TC <-- T: Success notification
     deactivate T
     TLV <-- TC: Success notification
-    deactivate TC
     TLV -> TLV: Display success message
     activate TLV
     deactivate TLV

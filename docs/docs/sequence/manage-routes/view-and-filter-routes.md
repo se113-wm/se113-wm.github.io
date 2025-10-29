@@ -24,7 +24,6 @@ deactivate R
 
 alt No routes found
   RLV <-- RC: Empty list
-  deactivate RC
   RLV -> RLV: Display "no routes" message
   activate RLV
   deactivate RLV
@@ -54,7 +53,6 @@ loop User wants to filter
 
   alt No results
     RLV <-- RC: Empty list
-    deactivate RC
     RLV -> RLV: Display "no results" message
     activate RLV
     deactivate RLV

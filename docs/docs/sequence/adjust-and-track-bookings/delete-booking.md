@@ -29,7 +29,7 @@ alt Cannot cancel
   deactivate BDV
 else Can cancel
   BC <-- B: Can cancel
-  deactivate B
+  activate BC
   BDV <-- BC: Show confirmation
   deactivate BC
   BDV -> BDV: Display confirmation dialog
@@ -40,7 +40,6 @@ else Can cancel
   BDV -> BC: Cancel booking
   activate BC
   BC -> B: Update booking status
-  activate B
   B -> B: Set status to CANCELED
   activate B
   deactivate B

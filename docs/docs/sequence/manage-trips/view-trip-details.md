@@ -21,6 +21,7 @@ T -> T: Query trip details
 activate T
 deactivate T
 TC <-- T: Trip data
+deactivate T
 
 break Trip not found
   TLV <-- TC: Error notification

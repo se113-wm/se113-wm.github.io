@@ -44,7 +44,6 @@ deactivate B
 break Insufficient seats
   BC <-- B: Error notification
   ABV <-- BC: Error notification
-  deactivate BC
   ABV -> ABV: Display error message
   activate ABV
   deactivate ABV

@@ -20,9 +20,10 @@ CA -> CA: Query item with trip info
 activate CA
 deactivate CA
 CC <-- CA: Cart item data
+deactivate CA
 
 break Trip invalid
-  TDV <-- CC: Error notification
+  CV <-- CC: Error notification
   CV -> CV: Display warning with remove option
   activate CV
   deactivate CV

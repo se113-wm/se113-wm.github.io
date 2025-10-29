@@ -25,8 +25,6 @@ deactivate B
 alt Invoice not found
   BC <-- B: No invoice
   BDV <-- BC: Error notification
-  deactivate BC
-  deactivate B
   BDV -> BDV: Display no invoice message
   activate BDV
   deactivate BDV
@@ -34,6 +32,7 @@ else Invoice exists
   BC <-- B: Invoice data
   deactivate B
   BDV <-- BC: Invoice details
+  deactivate B
   deactivate BC
   BDV -> IV: Navigate to invoice
   deactivate BDV

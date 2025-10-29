@@ -39,7 +39,6 @@ alt Has references
     activate ATR
     deactivate ATR
     AC <-- ATR: Success notification
-    deactivate ATR
     ALV <-- AC: Success notification
     deactivate AC
     ALV -> ALV: Display success message
@@ -57,6 +56,7 @@ alt Has references
 else No references
   AC <-- ATR: No references
   deactivate ATR
+  activate AC
   ALV <-- AC: Can delete
   deactivate AC
   ALV -> ALV: Display confirmation dialog

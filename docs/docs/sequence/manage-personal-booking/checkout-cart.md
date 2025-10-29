@@ -18,6 +18,9 @@ activate BC
 BC -> B: Get cart items
 activate B
 B -> B: Query cart with trips
+activate B
+deactivate B
+
 
 break Cart empty
   BC <-- B: Empty cart
@@ -30,6 +33,8 @@ end
 BC <-- B: Cart items
 BC -> B: Validate trips
 B -> B: Check trips validity
+activate B
+deactivate B
 
 break Invalid trips
   BC <-- B: Invalid trips list
@@ -68,6 +73,8 @@ activate BC
 BC -> B: Create bookings
 activate B
 B -> B: Process bookings in transaction
+activate B
+deactivate B
 BC <-- B: Success notification
 deactivate B
 CHV <-- BC: Success notification

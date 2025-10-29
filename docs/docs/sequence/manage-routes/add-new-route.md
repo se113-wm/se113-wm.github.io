@@ -38,14 +38,17 @@ activate RC
 RC -> R: Create new route
 activate R
 R -> R: Store route data
+activate R
+deactivate R
 RC <-- R: Success notification
 deactivate R
 ARV <-- RC: Success notification
 deactivate RC
 ARV -> ARV: Display success message
 activate ARV
-ARV -> ARV: Redirect to list
 deactivate ARV
+ARV -> ARV: Redirect to list
+activate ARV
 deactivate ARV
 
 @enduml

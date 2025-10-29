@@ -18,6 +18,8 @@ activate TC
 TC -> B: Check related bookings\n(PENDING/CONFIRMED)
 activate B
 B -> B: Query bookings
+activate B
+deactivate B
 TC <-- B: Booking check result
 deactivate B
 
@@ -29,11 +31,11 @@ alt Has related bookings
   deactivate TLV
 
   S -> TLV: Choose cancel trip or close
+  deactivate S
 
   alt Staff closes dialog
     TLV -> TLV: Close dialog
     activate TLV
-    deactivate TLV
     deactivate TLV
     deactivate S
   else Staff chooses cancel trip
@@ -42,14 +44,17 @@ alt Has related bookings
     TC -> T: Update trip status to CANCELED
     activate T
     T -> T: Update status
+    activate T
+    deactivate T
     TC <-- T: Success notification
     deactivate T
     TLV <-- TC: Success notification
     deactivate TC
     TLV -> TLV: Display success message
     activate TLV
-    TLV -> TLV: Reload list
     deactivate TLV
+    TLV -> TLV: Reload list
+    activate TLV
     deactivate TLV
     deactivate S
   end
@@ -67,7 +72,6 @@ else No related bookings
     TLV -> TLV: Close dialog
     activate TLV
     deactivate TLV
-    deactivate TLV
     deactivate S
   else Staff confirms
     TLV -> TC: Confirm delete
@@ -81,7 +85,9 @@ else No related bookings
     deactivate TC
     TLV -> TLV: Display success message
     activate TLV
+    deactivate TLV
     TLV -> TLV: Reload list
+    activate TLV
     deactivate TLV
     deactivate TLV
     deactivate S

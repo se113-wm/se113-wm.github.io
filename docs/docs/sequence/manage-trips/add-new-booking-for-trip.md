@@ -38,6 +38,8 @@ activate BC
 BC -> B: Check seat availability
 activate B
 B -> B: Query available seats
+activate B
+deactivate B
 
 break Insufficient seats
   BC <-- B: Error notification
@@ -51,6 +53,8 @@ end
 BC <-- B: Seats available
 BC -> B: Create booking
 B -> B: Store booking data
+activate B
+deactivate B
 BC <-- B: Success notification
 deactivate B
 ABV <-- BC: Success notification

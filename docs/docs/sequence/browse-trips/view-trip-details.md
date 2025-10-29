@@ -18,6 +18,8 @@ activate TC
 TC -> T: Get trip by ID
 activate T
 T -> T: Query trip details
+activate T
+deactivate T
 TC <-- T: Trip data
 
 break Trip not found
@@ -29,6 +31,8 @@ end
 
 TC -> T: Get route details
 T -> T: Query route and attractions
+activate T
+deactivate T
 TC <-- T: Route data
 deactivate T
 TBV <-- TC: Trip details

@@ -18,7 +18,10 @@ activate AC
 AC -> ATR: Get attraction by ID
 activate ATR
 ATR -> ATR: Query attraction details
+activate ATR
+deactivate ATR
 AC <-- ATR: Attraction data
+deactivate ATR
 
 break Attraction not found
   ALV <-- AC: Error notification
@@ -55,6 +58,9 @@ activate AC
 AC -> ATR: Validate category exists
 activate ATR
 ATR -> ATR: Check category
+activate ATR
+deactivate ATR
+
 
 break Category not found
   AC <-- ATR: Error notification
@@ -67,6 +73,9 @@ end
 AC <-- ATR: Category valid
 AC -> ATR: Check duplicate
 ATR -> ATR: Query existing attraction
+activate ATR
+deactivate ATR
+
 
 break Duplicate found
   AC <-- ATR: Error notification
@@ -79,14 +88,17 @@ end
 AC <-- ATR: No duplicate
 AC -> ATR: Update attraction
 ATR -> ATR: Update attraction data
+activate ATR
+deactivate ATR
 AC <-- ATR: Success notification
 deactivate ATR
 EAV <-- AC: Success notification
 deactivate AC
 EAV -> EAV: Display success message
 activate EAV
-EAV -> EAV: Redirect to list
 deactivate EAV
+EAV -> EAV: Redirect to list
+activate EAV
 deactivate EAV
 
 @enduml

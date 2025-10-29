@@ -17,6 +17,8 @@ activate CC
 CC -> CA: Get cart item
 activate CA
 CA -> CA: Query item details
+activate CA
+deactivate CA
 CC <-- CA: Item data
 deactivate CA
 CV <-- CC: Item details
@@ -33,14 +35,20 @@ alt Confirm remove
   CC -> CA: Delete cart item
   activate CA
   CA -> CA: Remove item
+  activate CA
+  deactivate CA
   CC <-- CA: Success notification
   deactivate CA
   CV <-- CC: Success notification
   deactivate CC
   CV -> CV: Display success message
   activate CV
+  deactivate CV
   CV -> CV: Remove item from list
+  activate CV
+  deactivate CV
   CV -> CV: Update totals
+  activate CV
   deactivate CV
 
   opt Cart empty

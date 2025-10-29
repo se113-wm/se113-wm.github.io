@@ -17,6 +17,8 @@ activate RC
 RC -> R: Check related data
 activate R
 R -> R: Query trips and attractions
+activate R
+deactivate R
 
 alt Has related data
   RC <-- R: Has dependencies
@@ -43,17 +45,22 @@ else No related data
     RC -> R: Delete route
     activate R
     R -> R: Remove route data
+    activate R
+    deactivate R
     RC <-- R: Success notification
     deactivate R
     RLV <-- RC: Success notification
     deactivate RC
     RLV -> RLV: Display success message
     activate RLV
+    deactivate RLV
     RLV -> RLV: Reload list
+    activate RLV
     deactivate RLV
   else Cancel
     RLV -> RLV: Close dialog
     activate RLV
+    deactivate RLV
     deactivate RLV
   end
 end

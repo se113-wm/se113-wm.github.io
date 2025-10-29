@@ -17,12 +17,13 @@ activate TC
 TC -> T: Query trips
 activate T
 T -> T: Retrieve trips
+activate T
+deactivate T
 TC <-- T: Trips data
 deactivate T
 
 alt No trips found
   TLV <-- TC: Empty list
-  deactivate TC
   TLV -> TLV: Display "no trips" message
   activate TLV
   deactivate TLV
@@ -45,12 +46,13 @@ loop User wants to filter
   TC -> T: Query with filters
   activate T
   T -> T: Apply filters
+  activate T
+  deactivate T
   TC <-- T: Filtered results
   deactivate T
 
   alt No results
     TLV <-- TC: Empty list
-    deactivate TC
     TLV -> TLV: Display "no results" message
     activate TLV
     deactivate TLV

@@ -21,11 +21,12 @@ activate BC
 BC -> B: Get booking by ID
 activate B
 B -> B: Query booking data
+activate B
+deactivate B
 
 break Booking not found
   BC <-- B: Not found error
   BDV <-- BC: Error notification
-  deactivate BC
   BDV -> BDV: Display error message
   activate BDV
   deactivate BDV

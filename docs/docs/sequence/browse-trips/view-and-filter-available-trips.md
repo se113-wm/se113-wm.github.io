@@ -17,6 +17,8 @@ activate TC
 TC -> T: Get available trips
 activate T
 T -> T: Query trips with routes
+activate T
+deactivate T
 TC <-- T: Available trips list
 deactivate T
 TBV <-- TC: Trips data
@@ -38,6 +40,8 @@ activate TC
 TC -> T: Get filtered trips
 activate T
 T -> T: Query with criteria
+activate T
+deactivate T
 TC <-- T: Search results
 deactivate T
 TBV <-- TC: Filtered data

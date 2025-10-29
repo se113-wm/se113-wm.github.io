@@ -17,6 +17,8 @@ activate FC
 FC -> FT: Get user's favorite trips
 activate FT
 FT -> FT: Query favorites with trip details
+activate FT
+deactivate FT
 FC <-- FT: Favorite trips list
 deactivate FT
 FTV <-- FC: Favorites data
@@ -38,6 +40,8 @@ activate FC
 FC -> FT: Get filtered favorites
 activate FT
 FT -> FT: Query with criteria
+activate FT
+deactivate FT
 FC <-- FT: Filtered results
 deactivate FT
 FTV <-- FC: Filtered data

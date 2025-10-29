@@ -38,7 +38,11 @@ activate TC
 TC -> T: Check duplicate schedule
 activate T
 T -> T: Query existing trips
+activate T
+deactivate T
+
 TC <-- T: Check result
+deactivate T
 
 break Duplicate schedule found
   ATV <-- TC: Duplicate error
@@ -51,6 +55,8 @@ deactivate T
 TC -> T: Insert new trip
 activate T
 T -> T: Store trip data
+activate T
+deactivate T
 TC <-- T: Success notification
 deactivate T
 ATV <-- TC: Success notification

@@ -18,6 +18,8 @@ activate BC
 BC -> B: Check edit conditions
 activate B
 B -> B: Validate deadline
+activate B
+deactivate B
 
 break Cannot edit
   BC <-- B: Error
@@ -57,7 +59,9 @@ EBV -> BC: Send update request
 activate BC
 BC -> B: Update booking
 activate B
-B -> B: Modify booking data
+B -> B: Modify booking data'
+activate B
+deactivate B
 BC <-- B: Success notification
 deactivate B
 EBV <-- BC: Success notification

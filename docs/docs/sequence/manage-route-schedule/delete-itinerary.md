@@ -17,6 +17,8 @@ activate RSC
 RSC -> RA: Check route status
 activate RA
 RA -> RA: Query route status
+activate RA
+deactivate RA
 
 break Route closed
   RSC <-- RA: Error notification
@@ -29,6 +31,8 @@ end
 RSC <-- RA: Route editable
 RSC -> RA: Get itinerary details
 RA -> RA: Query route attraction
+activate RA
+deactivate RA
 
 break Itinerary not found
   RSC <-- RA: Error notification
@@ -41,6 +45,9 @@ end
 RSC <-- RA: Itinerary data
 RSC -> RA: Check attractions count
 RA -> RA: Count route attractions
+activate RA
+deactivate RA
+
 
 break Last attraction
   RSC <-- RA: Error notification
@@ -66,13 +73,17 @@ alt Confirm
   RSC -> RA: Delete itinerary
   activate RA
   RA -> RA: Remove route attraction
+  activate RA
+  deactivate RA
   RSC <-- RA: Success notification
   deactivate RA
   RSV <-- RSC: Success notification
   deactivate RSC
   RSV -> RSV: Display success message
   activate RSV
+  deactivate RSV
   RSV -> RSV: Reload schedule
+  activate RSV
   deactivate RSV
 else Cancel
   RSV -> RSV: Close dialog

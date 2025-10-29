@@ -28,6 +28,8 @@ end
 FC -> FT: Check favorite status
 activate FT
 FT -> FT: Query favorite record
+activate FT
+deactivate FT
 FC <-- FT: Favorite status
 deactivate FT
 
@@ -35,23 +37,31 @@ alt Already favorited
   FC -> FT: Remove from favorites
   activate FT
   FT -> FT: Delete favorite record
+  activate FT
+  deactivate FT
   FC <-- FT: Success notification
   deactivate FT
   TV <-- FC: Removed notification
   TV -> TV: Update icon to empty
   activate TV
+  deactivate TV
   TV -> TV: Display removed message
+  activate TV
   deactivate TV
 else Not favorited
   FC -> FT: Add to favorites
   activate FT
   FT -> FT: Insert favorite record
+  activate FT
+  deactivate FT
   FC <-- FT: Success notification
   deactivate FT
   TV <-- FC: Added notification
   TV -> TV: Update icon to filled
   activate TV
+  deactivate TV
   TV -> TV: Display added message
+  activate TV
   deactivate TV
 end
 

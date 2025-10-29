@@ -18,7 +18,10 @@ activate RC
 RC -> R: Get route by ID
 activate R
 R -> R: Query route details
+activate R
+deactivate R
 RC <-- R: Route data
+deactivate R
 
 break Route not found
   RLV <-- RC: Error notification
@@ -31,6 +34,8 @@ deactivate R
 RC -> R: Query trips count and schedule
 activate R
 R -> R: Get statistics
+activate R
+deactivate R
 RC <-- R: Statistics data
 deactivate R
 

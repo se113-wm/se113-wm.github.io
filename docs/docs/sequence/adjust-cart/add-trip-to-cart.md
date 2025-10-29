@@ -28,6 +28,8 @@ end
 CC -> CA: Get or create cart
 activate CA
 CA -> CA: Query user cart
+activate CA
+deactivate CA
 CC <-- CA: Cart data
 deactivate CA
 
@@ -55,6 +57,8 @@ activate CC
 CC -> CA: Check available seats
 activate CA
 CA -> CA: Query trip availability
+activate CA
+deactivate CA
 
 break Insufficient seats
   CC <-- CA: Error notification
@@ -67,16 +71,22 @@ end
 CC <-- CA: Seats available
 CC -> CA: Check trip in cart
 CA -> CA: Query cart items
+activate CA
+deactivate CA
 
 alt Trip already in cart
   CC <-- CA: Trip exists
   CC -> CA: Update quantity
   CA -> CA: Update cart item
+  activate CA
+  deactivate CA
   CC <-- CA: Success notification
 else Trip not in cart
   CC <-- CA: Trip not exists
   CC -> CA: Add new item
   CA -> CA: Insert cart item
+  activate CA
+  deactivate CA
   CC <-- CA: Success notification
 end
 
@@ -85,8 +95,9 @@ TDV <-- CC: Success notification
 deactivate CC
 TDV -> TDV: Display success message
 activate TDV
-TDV -> TDV: Update cart badge
 deactivate TDV
+TDV -> TDV: Update cart badge
+activate TDV
 deactivate TDV
 
 @enduml

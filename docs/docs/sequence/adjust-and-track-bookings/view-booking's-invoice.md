@@ -18,6 +18,9 @@ activate BC
 BC -> B: Get invoice data
 activate B
 B -> B: Query invoice details
+activate B
+deactivate B
+
 
 alt Invoice not found
   BC <-- B: No invoice

@@ -18,7 +18,10 @@ activate RC
 RC -> R: Get route by ID
 activate R
 R -> R: Query route details
+activate R
+deactivate R
 RC <-- R: Route data
+deactivate R
 
 break Route not found
   RLV <-- RC: Error notification
@@ -55,14 +58,17 @@ activate RC
 RC -> R: Update route
 activate R
 R -> R: Update route data
+activate R
+deactivate R
 RC <-- R: Success notification
 deactivate R
 ERV <-- RC: Success notification
 deactivate RC
 ERV -> ERV: Display success message
 activate ERV
-ERV -> ERV: Redirect to list
 deactivate ERV
+ERV -> ERV: Redirect to list
+activate ERV
 deactivate ERV
 
 @enduml

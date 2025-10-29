@@ -17,6 +17,9 @@ activate BC
 BC -> B: Get customer bookings
 activate B
 B -> B: Query user bookings
+activate B
+deactivate B
+
 BC <-- B: Bookings list
 deactivate B
 BLV <-- BC: Bookings data
@@ -38,6 +41,9 @@ activate BC
 BC -> B: Get filtered bookings
 activate B
 B -> B: Query with criteria
+activate B
+deactivate B
+
 BC <-- B: Filtered results
 deactivate B
 BLV <-- BC: Filtered data

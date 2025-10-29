@@ -17,10 +17,12 @@ activate CC
 CC -> CA: Get cart with items
 activate CA
 CA -> CA: Query cart items
+activate CA
+deactivate CA
 CC <-- CA: Cart items list
 deactivate CA
-CC <-- CC: Cart data
-deactivate CC
+CC --> CV: Cart data
+
 
 opt Cart empty
   CV -> CV: Display empty cart message
@@ -38,6 +40,9 @@ activate CC
 CC -> CA: Get filtered items
 activate CA
 CA -> CA: Query with criteria
+activate CA
+deactivate CA
+
 CC <-- CA: Filtered results
 deactivate CA
 CV <-- CC: Filtered data

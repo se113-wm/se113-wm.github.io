@@ -17,6 +17,8 @@ activate CC
 CC -> CA: Get cart item
 activate CA
 CA -> CA: Query item with trip info
+activate CA
+deactivate CA
 CC <-- CA: Cart item data
 
 break Trip invalid
@@ -55,6 +57,8 @@ activate CC
 CC -> CA: Check available seats
 activate CA
 CA -> CA: Query trip availability
+activate CA
+deactivate CA
 
 break Insufficient seats
   CC <-- CA: Error notification
@@ -67,14 +71,17 @@ end
 CC <-- CA: Seats available
 CC -> CA: Update cart item
 CA -> CA: Update quantity
+activate CA
+deactivate CA
 CC <-- CA: Success notification
 deactivate CA
 CV <-- CC: Success notification
 deactivate CC
 CV -> CV: Display success message
 activate CV
-CV -> CV: Update cart totals
 deactivate CV
+CV -> CV: Update cart totals
+activate CV
 deactivate CV
 
 @enduml

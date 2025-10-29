@@ -18,6 +18,8 @@ activate AC
 AC -> ATR: Get attraction by ID
 activate ATR
 ATR -> ATR: Query attraction details
+activate ATR
+deactivate ATR
 AC <-- ATR: Attraction data
 
 break Attraction not found
@@ -29,6 +31,8 @@ end
 
 AC -> ATR: Get usage statistics
 ATR -> ATR: Query routes using attraction
+activate ATR
+deactivate ATR
 AC <-- ATR: Usage statistics
 deactivate ATR
 ALV <-- AC: Attraction details

@@ -17,6 +17,9 @@ activate AC
 AC -> ATR: Get all attractions
 activate ATR
 ATR -> ATR: Query attractions with category
+activate ATR
+deactivate ATR
+
 AC <-- ATR: Attractions list
 deactivate ATR
 ALV <-- AC: Attractions data
@@ -38,6 +41,8 @@ activate AC
 AC -> ATR: Get filtered attractions
 activate ATR
 ATR -> ATR: Query with filter criteria
+activate ATR
+deactivate ATR
 AC <-- ATR: Filtered results
 deactivate ATR
 ALV <-- AC: Filtered data

@@ -18,6 +18,9 @@ activate BC
 BC -> B: Check booking status
 activate B
 B -> B: Query booking details
+activate B
+deactivate B
+
 
 break Not editable
   BC <-- B: Error notification
@@ -30,6 +33,8 @@ end
 BC <-- B: Booking editable
 BC -> B: Get passenger list
 B -> B: Query travelers
+activate B
+deactivate B
 BC <-- B: Passengers data
 deactivate B
 BDV <-- BC: Passengers data
@@ -59,6 +64,8 @@ activate BC
 BC -> B: Update passengers
 activate B
 B -> B: Update travelers data
+activate B
+deactivate B
 BC <-- B: Success notification
 deactivate B
 EPV <-- BC: Success notification

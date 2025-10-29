@@ -17,6 +17,8 @@ activate RC
 RC -> R: Query routes
 activate R
 R -> R: Retrieve routes
+activate R
+deactivate R
 RC <-- R: Routes data
 deactivate R
 
@@ -45,6 +47,8 @@ loop User wants to filter
   RC -> R: Query with filters
   activate R
   R -> R: Apply filters
+  activate R
+  deactivate R
   RC <-- R: Filtered results
   deactivate R
 

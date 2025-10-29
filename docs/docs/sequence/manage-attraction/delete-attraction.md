@@ -17,6 +17,8 @@ activate AC
 AC -> ATR: Check attraction references
 activate ATR
 ATR -> ATR: Query references in routes
+activate ATR
+deactivate ATR
 
 alt Has references
   AC <-- ATR: Has references
@@ -34,13 +36,17 @@ alt Has references
     AC -> ATR: Update status to INACTIVE
     activate ATR
     ATR -> ATR: Update attraction status
+    activate ATR
+    deactivate ATR
     AC <-- ATR: Success notification
     deactivate ATR
     ALV <-- AC: Success notification
     deactivate AC
     ALV -> ALV: Display success message
     activate ALV
+    deactivate ALV
     ALV -> ALV: Reload list
+    activate ALV
     deactivate ALV
   else Cancel
     ALV -> ALV: Close dialog
@@ -64,17 +70,22 @@ else No references
     AC -> ATR: Soft delete attraction
     activate ATR
     ATR -> ATR: Update status to DELETED
+    activate ATR
+    deactivate ATR
     AC <-- ATR: Success notification
     deactivate ATR
     ALV <-- AC: Success notification
     deactivate AC
     ALV -> ALV: Display success message
     activate ALV
+    deactivate ALV
     ALV -> ALV: Reload list
+    activate ALV
     deactivate ALV
   else Cancel
     ALV -> ALV: Close dialog
     activate ALV
+    deactivate ALV
     deactivate ALV
   end
 end

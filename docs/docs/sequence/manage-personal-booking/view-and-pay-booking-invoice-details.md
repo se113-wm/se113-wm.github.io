@@ -18,6 +18,8 @@ activate BC
 BC -> I: Get booking and invoice
 activate I
 I -> I: Query booking with invoice
+activate I
+deactivate I
 
 break Booking not found
   BC <-- I: Error notification
@@ -41,6 +43,9 @@ activate BC
 BC -> I: Check payment status
 activate I
 I -> I: Validate invoice
+activate I
+deactivate I
+
 
 break Already paid
   BC <-- I: Error notification
@@ -69,6 +74,9 @@ activate BC
 BC -> I: Process payment
 activate I
 I -> I: Handle payment gateway
+activate I
+deactivate I
+
 
 alt Payment successful
   BC <-- I: Success notification

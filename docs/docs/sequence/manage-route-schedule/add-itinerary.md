@@ -17,6 +17,8 @@ activate RSC
 RSC -> RA: Check route status
 activate RA
 RA -> RA: Query route and attractions
+activate RA
+deactivate RA
 
 break Route not editable
   RSC <-- RA: Error notification
@@ -52,6 +54,8 @@ activate RSC
 RSC -> RA: Check duplicate
 activate RA
 RA -> RA: Query existing itinerary
+activate RA
+deactivate RA
 
 break Duplicate found
   RSC <-- RA: Error notification
@@ -64,14 +68,17 @@ end
 RSC <-- RA: No duplicate
 RSC -> RA: Add itinerary
 RA -> RA: Insert route attraction
+activate RA
+deactivate RA
 RSC <-- RA: Success notification
 deactivate RA
 RSV <-- RSC: Success notification
 deactivate RSC
 RSV -> RSV: Display success message
 activate RSV
-RSV -> RSV: Reload schedule
 deactivate RSV
+RSV -> RSV: Reload schedule
+activate RSV
 deactivate RSV
 
 @enduml

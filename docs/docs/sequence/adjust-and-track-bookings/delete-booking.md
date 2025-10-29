@@ -17,12 +17,13 @@ activate BC
 BC -> B: Check cancel conditions
 activate B
 B -> B: Validate status and deadline
+activate B
+deactivate B
 
 alt Cannot cancel
   BC <-- B: Error
   BDV <-- BC: Error notification
   deactivate BC
-  deactivate B
   BDV -> BDV: Display error message
   activate BDV
   deactivate BDV
@@ -41,12 +42,18 @@ else Can cancel
   BC -> B: Update booking status
   activate B
   B -> B: Set status to CANCELED
+  activate B
+  deactivate B
   BC <-- B: Status updated
   BC -> B: Update booked seats
   B -> B: Decrease trip booked_seats
+  activate B
+  deactivate B
   BC <-- B: Seats updated
   BC -> B: Update invoice status
   B -> B: Set payment_status to REFUNDED (if paid)
+  activate B
+  deactivate B
   BC <-- B: Invoice updated
   deactivate B
   BDV <-- BC: Success notification

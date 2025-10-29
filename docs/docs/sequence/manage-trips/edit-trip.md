@@ -18,7 +18,10 @@ activate TC
 TC -> T: Get trip by ID
 activate T
 T -> T: Query trip details and status
+activate T
+deactivate T
 TC <-- T: Trip data
+deactivate T
 
 break Trip not found or not editable
   TLV <-- TC: Error notification
@@ -55,13 +58,17 @@ activate TC
 TC -> T: Update trip
 activate T
 T -> T: Update trip data
+activate T
+deactivate T
 TC <-- T: Success notification
 deactivate T
 ETV <-- TC: Success notification
 deactivate TC
 ETV -> ETV: Display success message
 activate ETV
+deactivate ETV
 ETV -> ETV: Redirect to list
+activate ETV
 deactivate ETV
 deactivate ETV
 

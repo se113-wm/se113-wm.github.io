@@ -147,6 +147,36 @@ export default defineConfig({
 								],
 							},
 							{
+								text: "Adjust Customers",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Customer",
+										link: "/docs/sequence/adjust-customers/add-new-customer",
+									},
+									{
+										text: "Delete Customer",
+										link: "/docs/sequence/adjust-customers/delete-customer",
+									},
+									{
+										text: "Edit Customer",
+										link: "/docs/sequence/adjust-customers/edit-customer",
+									},
+									{
+										text: "View Customer Details",
+										link: "/docs/sequence/adjust-customers/view-customer-details",
+									},
+									{
+										text: "View and Filter Customers",
+										link: "/docs/sequence/adjust-customers/view-and-filter-customers",
+									},
+									{
+										text: "UCS-Adjust-Customers",
+										link: "/docs/sequence/adjust-customers/UCS-adjust-customers",
+									},
+								],
+							},
+							{
 								text: "Adjust Favorite Trips",
 								collapsed: true,
 								items: [
@@ -157,6 +187,36 @@ export default defineConfig({
 									{
 										text: "View and Filter Favorite Trips",
 										link: "/docs/sequence/adjust-favorite-trips/view-and-filter-favorite-trips",
+									},
+								],
+							},
+							{
+								text: "Adjust Staffs",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Staff",
+										link: "/docs/sequence/adjust-staffs/add-new-staff",
+									},
+									{
+										text: "Delete Staff",
+										link: "/docs/sequence/adjust-staffs/delete-staff",
+									},
+									{
+										text: "Edit Staff",
+										link: "/docs/sequence/adjust-staffs/edit-staff",
+									},
+									{
+										text: "View Staff Details",
+										link: "/docs/sequence/adjust-staffs/view-staff-details",
+									},
+									{
+										text: "View and Filter Staffs",
+										link: "/docs/sequence/adjust-staffs/view-and-filter-staffs",
+									},
+									{
+										text: "UCS-Adjust-Staffs",
+										link: "/docs/sequence/adjust-staffs/UCS-adjust-staffs",
 									},
 								],
 							},

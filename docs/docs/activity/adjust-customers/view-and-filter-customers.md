@@ -1,4 +1,4 @@
-# Activity View and Filter Bookings
+# Activity View and Filter Customers
 
 ```plantuml
 @startuml
@@ -8,20 +8,20 @@
 |St|
 start
 
-:(1) Select function View Bookings;
+:(1) Select function View Customers;
 
 |S|
-:(2) Query bookings with customer, trip, \n route, and invoice data;
+:(2) Query customers with statistics \n (total bookings, total spent);
 
-if (Check has bookings?) then (No)
-  :(2.1) Display no bookings notification;
+if (Check has customers?) then (No)
+  :(2.1) Display no customers notification;
   |St|
   :(2.2) Confirm end;
   stop
 else (Yes)
 endif
 
-:(3) Display bookings list with action buttons;
+:(3) Display customers list;
 
 repeat
   |St|
@@ -48,4 +48,4 @@ stop
 @enduml
 ```
 
-<!-- diagram id="activity-adjust-and-track-bookings-view-and-filter-bookings" -->
+<!-- diagram id="activity-adjust-customers-view-and-filter-customers" -->

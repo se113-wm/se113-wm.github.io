@@ -793,6 +793,66 @@ export default defineConfig({
 								],
 							},
 							{
+								text: "Adjust Customers",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Customer",
+										link: "/docs/activity/adjust-customers/add-new-customer",
+									},
+									{
+										text: "Delete Customer",
+										link: "/docs/activity/adjust-customers/delete-customer",
+									},
+									{
+										text: "Edit Customer",
+										link: "/docs/activity/adjust-customers/edit-customer",
+									},
+									{
+										text: "View Customer Details",
+										link: "/docs/activity/adjust-customers/view-customer-details",
+									},
+									{
+										text: "View and Filter Customers",
+										link: "/docs/activity/adjust-customers/view-and-filter-customers",
+									},
+									{
+										text: "UCS-Adjust-Customers",
+										link: "/docs/activity/adjust-customers/UCS-adjust-customers",
+									},
+								],
+							},
+							{
+								text: "Adjust Staffs",
+								collapsed: true,
+								items: [
+									{
+										text: "Add New Staff",
+										link: "/docs/activity/adjust-staffs/add-new-staff",
+									},
+									{
+										text: "Delete Staff",
+										link: "/docs/activity/adjust-staffs/delete-staff",
+									},
+									{
+										text: "Edit Staff",
+										link: "/docs/activity/adjust-staffs/edit-staff",
+									},
+									{
+										text: "View Staff Details",
+										link: "/docs/activity/adjust-staffs/view-staff-details",
+									},
+									{
+										text: "View and Filter Staffs",
+										link: "/docs/activity/adjust-staffs/view-and-filter-staffs",
+									},
+									{
+										text: "UCS-Adjust-Staffs",
+										link: "/docs/activity/adjust-staffs/UCS-adjust-staffs",
+									},
+								],
+							},
+							{
 								text: "Manage Trips",
 								collapsed: true,
 								items: [

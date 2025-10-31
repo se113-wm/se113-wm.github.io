@@ -892,31 +892,31 @@ export default defineConfig({
 								items: [
 									{
 										text: "Add New Booking",
-										link: "/docs/activity/manage-trips/add-new-booking",
+										link: "/docs/activity/adjust-and-track-bookings/add-new-booking",
 									},
 									{
 										text: "Delete Booking",
-										link: "/docs/activity/manage-trips/delete-booking",
+										link: "/docs/activity/adjust-and-track-bookings/delete-booking",
 									},
 									{
 										text: "Edit Pre-Departure Booking",
-										link: "/docs/activity/manage-trips/edit-pre-departure-booking",
+										link: "/docs/activity/adjust-and-track-bookings/edit-pre-departure-booking",
 									},
 									{
 										text: "View Booking Details",
-										link: "/docs/activity/manage-trips/view-booking-details",
+										link: "/docs/activity/adjust-and-track-bookings/view-booking-details",
 									},
 									{
 										text: "View and Filter Bookings",
-										link: "/docs/activity/manage-trips/view-and-filter-bookings",
+										link: "/docs/activity/adjust-and-track-bookings/view-and-filter-bookings",
 									},
 									{
 										text: "View Booking's Invoice",
-										link: "/docs/activity/manage-trips/view-booking's-invoice",
+										link: "/docs/activity/adjust-and-track-bookings/view-booking's-invoice",
 									},
 									{
 										text: "UCS-Adjust-and-Track-Bookings",
-										link: "/docs/activity/manage-trips/UCS-adjust-and-track-bookings",
+										link: "/docs/activity/adjust-and-track-bookings/UCS-adjust-and-track-bookings",
 									},
 								],
 							},

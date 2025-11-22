@@ -611,9 +611,9 @@ Customer edits their wedding reservation information when the booking is still i
 
 ### Mô tả ngắn gọn / Brief Description
 
-Khách hàng hủy phiếu đặt tiệc của mình.
+Khách hàng hủy phiếu đặt tiệc của mình. Khi hủy, khách hàng sẽ mất tiền đặt cọc (không được hoàn lại).
 
-Customer cancels their wedding reservation.
+Customer cancels their wedding reservation. Upon cancellation, customer forfeits the deposit (non-refundable).
 
 ### Tác nhân / Actors
 
@@ -629,7 +629,7 @@ Customer cancels their wedding reservation.
 **Thành công:**
 
 - Cập nhật trạng thái PHIEUDATTIEC thành "Đã hủy"
-- Nếu phiếu đặt đã duyệt, tính tiền phạt (nếu bật tính năng kiểm tra phạt trong THAMSO)
+- Khách hàng mất tiền đặt cọc (không được hoàn lại)
 - Cập nhật thông tin hủy (ngày hủy, lý do hủy)
 - Gửi email xác nhận hủy phiếu đặt cho khách hàng
 - Hiển thị thông báo hủy thành công
@@ -647,36 +647,27 @@ Customer cancels their wedding reservation.
 4. Khách hàng nhấn nút "Hủy phiếu đặt"
 5. Hệ thống hiển thị hộp thoại xác nhận:
    - Thông báo: "Bạn có chắc chắn muốn hủy phiếu đặt này?"
-   - Nếu phiếu đặt đã duyệt, hiển thị cảnh báo về tiền phạt (nếu có)
+   - Cảnh báo: "Lưu ý: Tiền đặt cọc sẽ không được hoàn lại"
+   - Hiển thị số tiền đặt cọc sẽ bị mất
    - Trường nhập lý do hủy (tùy chọn)
-6. Khách hàng xác nhận hủy
+6. Khách hàng đọc cảnh báo về mất tiền đặt cọc
 7. Khách hàng có thể nhập lý do hủy
 8. Khách hàng nhấn nút "Xác nhận hủy"
-9. Hệ thống kiểm tra tham số hệ thống:
-   - Lấy giá trị `KiemTraPhat` từ THAMSO
-   - Lấy giá trị `TiLePhat` từ THAMSO (nếu bật kiểm tra phạt)
-10. Hệ thống tính toán tiền phạt (nếu cần):
-    - Nếu phiếu đặt đã duyệt và `KiemTraPhat = 1`:
-      - `TienPhat = TongTienHoaDon × TiLePhat`
-      - `TienConLai = TienConLai + TienPhat`
-    - Nếu phiếu đặt chờ duyệt hoặc `KiemTraPhat = 0`:
-      - `TienPhat = 0`
-11. Hệ thống bắt đầu transaction:
-    - Cập nhật PHIEUDATTIEC:
-      - Trạng thái = "Đã hủy"
-      - NgayHuy = Ngày hiện tại
-      - LyDoHuy = Lý do khách hàng nhập
-      - TienPhat = Tiền phạt đã tính (nếu có)
-      - TienConLai = Cập nhật nếu có tiền phạt
-    - Commit transaction
-12. Hệ thống gửi email xác nhận hủy phiếu đặt cho khách hàng
+9. Hệ thống bắt đầu transaction:
+   - Cập nhật PHIEUDATTIEC:
+     - Trạng thái = "Đã hủy"
+     - NgayHuy = Ngày hiện tại
+     - LyDoHuy = Lý do khách hàng nhập (nếu có)
+     - TienConLai = 0 (khách hàng mất tiền đặt cọc)
+   - Commit transaction
+10. Hệ thống gửi email xác nhận hủy phiếu đặt cho khách hàng:
     - Thông tin phiếu đặt đã hủy
-    - Tiền phạt (nếu có)
-    - Số tiền sẽ được hoàn lại (nếu có)
-13. Hệ thống hiển thị thông báo:
-    - Nếu không có tiền phạt: "Hủy phiếu đặt thành công"
-    - Nếu có tiền phạt: "Hủy phiếu đặt thành công. Tiền phạt: [số tiền]"
-14. Use case kết thúc thành công
+    - Thông báo: Tiền đặt cọc [số tiền] sẽ không được hoàn lại
+    - Lý do hủy (nếu có)
+11. Hệ thống hiển thị thông báo:
+    - "Hủy phiếu đặt thành công"
+    - "Tiền đặt cọc [số tiền] sẽ không được hoàn lại"
+12. Use case kết thúc thành công
 
 ### Luồng thay thế / Alternative Flows
 
@@ -701,20 +692,20 @@ Customer cancels their wedding reservation.
 - 6a3. Quay về màn hình chi tiết phiếu đặt
 - 6a4. Use case kết thúc
 
-**11a. Lỗi khi cập nhật phiếu đặt**
+**9a. Lỗi khi cập nhật phiếu đặt**
 
-- 11a1. Hệ thống gặp lỗi khi lưu dữ liệu
-- 11a2. Rollback transaction
-- 11a3. Hiển thị thông báo lỗi "Không thể hủy phiếu đặt, vui lòng thử lại"
-- 11a4. Use case kết thúc thất bại
+- 9a1. Hệ thống gặp lỗi khi lưu dữ liệu
+- 9a2. Rollback transaction
+- 9a3. Hiển thị thông báo lỗi "Không thể hủy phiếu đặt, vui lòng thử lại"
+- 9a4. Use case kết thúc thất bại
 
-**12a. Lỗi gửi email**
+**10a. Lỗi gửi email**
 
-- 12a1. Hệ thống không thể gửi email xác nhận hủy
-- 12a2. Ghi log lỗi
-- 12a3. Tiếp tục hiển thị thông báo thành công (phiếu đặt vẫn được hủy)
-- 12a4. Thông báo "Phiếu đặt đã được hủy, tuy nhiên không thể gửi email xác nhận"
-- 12a5. Tiếp tục bước 13
+- 10a1. Hệ thống không thể gửi email xác nhận hủy
+- 10a2. Ghi log lỗi
+- 10a3. Tiếp tục hiển thị thông báo thành công (phiếu đặt vẫn được hủy)
+- 10a4. Thông báo "Phiếu đặt đã được hủy, tuy nhiên không thể gửi email xác nhận"
+- 10a5. Tiếp tục bước 11
 
 ### Luồng ngoại lệ / Exception Flows
 
@@ -734,27 +725,24 @@ Customer cancels their wedding reservation.
 
 ### Yêu cầu đặc biệt / Special Requirements
 
-- Hiển thị rõ ràng thông tin tiền phạt (nếu có) trước khi khách hàng xác nhận hủy
-- Tính toán tiền phạt chính xác theo tham số hệ thống
+- Hiển thị rõ ràng cảnh báo về việc mất tiền đặt cọc
+- Hiển thị số tiền đặt cọc sẽ bị mất
 - Lưu lại lý do hủy để admin/staff tham khảo
-- Xác nhận 2 lần trước khi hủy phiếu đặt (đặc biệt nếu có tiền phạt)
+- Xác nhận 2 lần trước khi hủy phiếu đặt
 
 ### Các yêu cầu phi chức năng / Non-functional Requirements
 
 - **Performance**: Xử lý hủy phiếu đặt < 2 giây
 - **Security**: Sử dụng transaction để đảm bảo tính toàn vẹn dữ liệu
-- **Usability**: Hiển thị cảnh báo rõ ràng về tiền phạt
-- **Auditability**: Ghi lại thông tin hủy (ngày hủy, lý do hủy, tiền phạt)
+- **Usability**: Hiển thị cảnh báo rõ ràng về mất tiền đặt cọc
+- **Auditability**: Ghi lại thông tin hủy (ngày hủy, lý do hủy)
 
 ### Quy tắc nghiệp vụ / Business Rules
 
 - **BR1**: Chỉ cho phép hủy phiếu đặt ở trạng thái "Chờ duyệt" hoặc "Đã duyệt"
 - **BR2**: Không cho phép hủy phiếu đặt đã qua ngày đại tiệc
-- **BR3**: Tính tiền phạt nếu:
-  - Phiếu đặt đã được duyệt
-  - Tham số `KiemTraPhat = 1` trong THAMSO
-  - `TienPhat = TongTienHoaDon × TiLePhat`
-- **BR4**: Nếu phiếu đặt chờ duyệt, không tính tiền phạt
+- **BR3**: Khi hủy phiếu đặt, khách hàng sẽ mất tiền đặt cọc (không được hoàn lại)
+- **BR4**: Tiền đặt cọc không được hoàn lại bất kể phiếu đặt ở trạng thái nào
 - **BR5**: Lưu lại lý do hủy và ngày hủy trong PHIEUDATTIEC
 
 ---

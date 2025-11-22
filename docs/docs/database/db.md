@@ -1,155 +1,141 @@
--- BẢNG LOAISANH
-CREATE TABLE LOAISANH (
-MaLoaiSanh INT IDENTITY(1,1) PRIMARY KEY,
-TenLoaiSanh NVARCHAR(40) UNIQUE NOT NULL,
-DonGiaBanToiThieu MONEY
-);
+#database
 
--- BẢNG SANH
-CREATE TABLE SANH (
-MaSanh INT IDENTITY(1,1) PRIMARY KEY,
-MaLoaiSanh INT,
-TenSanh NVARCHAR(40) UNIQUE NOT NULL,
-SoLuongBanToiDa INT,
-GhiChu NVARCHAR(100),
-FOREIGN KEY (MaLoaiSanh) REFERENCES LOAISANH(MaLoaiSanh)
-);
+```d2
+vars: {
+	d2-config: {
+		layout-engine: elk
+		theme-id: 3
+	}
+}
 
--- BẢNG CA
-CREATE TABLE CA (
-MaCa INT IDENTITY(1,1) PRIMARY KEY,
-TenCa NVARCHAR(40) UNIQUE NOT NULL,
-ThoiGianBatDauCa TIME,
-ThoiGianKetThucCa TIME
-);
+**.shape: sql_table
+explanation.shape: rectangle
 
--- BẢNG PHIEUDATTIEC
-CREATE TABLE PHIEUDATTIEC (
-MaPhieuDat INT IDENTITY(1,1) PRIMARY KEY,
-TenChuRe NVARCHAR(40),
-TenCoDau NVARCHAR(40),
-DienThoai VARCHAR(10),
-NgayDatTiec SMALLDATETIME,
-NgayDaiTiec SMALLDATETIME,
-MaCa INT,
-MaSanh INT,
-TienDatCoc MONEY,
-SoLuongBan INT,
-SoBanDuTru INT,
-NgayThanhToan SMALLDATETIME,
-DonGiaBanTiec MONEY,
-TongTienBan MONEY,
-TongTienDV MONEY,
-TongTienHoaDon MONEY,
-TienConLai MONEY,
-ChiPhiPhatSinh MONEY,
-TienPhat MONEY,
-FOREIGN KEY (MaCa) REFERENCES CA(MaCa),
-FOREIGN KEY (MaSanh) REFERENCES SANH(MaSanh)
-);
+User: {
+	id: int {constraint: PK}
+	username: varchar {constraint: UNQ}
+	password: varchar
+	is_lock: boolean
+	full_name: varchar
+	email: varchar {constraint: UNQ}
+	phone_number: varchar
+	address: varchar
+	birthday: date
+	gender: enum('M','F','O')
+	role: enum('CUSTOMER','STAFF','ADMIN')
+}
 
--- BẢNG MONAN
-CREATE TABLE MONAN (
-MaMonAn INT IDENTITY(1,1) PRIMARY KEY,
-TenMonAn NVARCHAR(40) UNIQUE NOT NULL,
-DonGia MONEY,
-GhiChu NVARCHAR(100)
-);
+Category: {
+	id: int {constraint: PK}
+	name: varchar
+	status: enum('ACTIVE','INACTIVE','DELETED')
+}
 
--- BẢNG THUCDON
-CREATE TABLE THUCDON (
-MaPhieuDat INT,
-MaMonAn INT,
-SoLuong INT,
-DonGia MONEY,
-GhiChu NVARCHAR(100),
-PRIMARY KEY (MaPhieuDat, MaMonAn),
-FOREIGN KEY (MaPhieuDat) REFERENCES PHIEUDATTIEC(MaPhieuDat),
-FOREIGN KEY (MaMonAn) REFERENCES MONAN(MaMonAn)
-);
+Attraction: {
+	id: int {constraint: PK}
+	name: varchar
+	description: text
+	location: varchar
+	category_id: int {constraint: FK}
+	status: enum('ACTIVE','INACTIVE','DELETED')
+}
 
--- BẢNG DICHVU
-CREATE TABLE DICHVU (
-MaDichVu INT IDENTITY(1,1) PRIMARY KEY,
-TenDichVu NVARCHAR(40) UNIQUE NOT NULL,
-DonGia MONEY,
-GhiChu NVARCHAR(100)
-);
+Route: {
+	id: int {constraint: PK}
+	name: varchar
+	start_location: varchar
+	end_location: varchar
+	duration_days: int
+	image: varchar
+	status: enum('OPEN','ONGOING','CLOSED')
+}
 
--- BẢNG CHITIETDV
-CREATE TABLE CHITIETDV (
-MaPhieuDat INT,
-MaDichVu INT,
-SoLuong INT,
-DonGia MONEY,
-ThanhTien MONEY,
-GhiChu NVARCHAR(100),
-PRIMARY KEY (MaPhieuDat, MaDichVu),
-FOREIGN KEY (MaPhieuDat) REFERENCES PHIEUDATTIEC(MaPhieuDat),
-FOREIGN KEY (MaDichVu) REFERENCES DICHVU(MaDichVu)
-);
+Route_Attraction: {
+	id: int {constraint: PK}
+	route_id: int {constraint: FK}
+	attraction_id: int {constraint: FK}
+	day: int
+	order_in_day: int
+	activity_description: text
+}
 
--- BẢNG BAO CAO DOANH THU
-CREATE TABLE BAOCAODS (
-Thang INT,
-Nam INT,
-TongDoanhThu MONEY,
-PRIMARY KEY (Thang, Nam)
-);
+Trip: {
+	id: int {constraint: PK}
+	route_id: int {constraint: FK}
+	departure_date: date
+	return_date: date
+	price: decimal
+	total_seats: int
+	booked_seats: int
+	pick_up_time: time
+	pick_up_location: varchar
+	status: enum('SCHEDULED','ONGOING','FINISHED','CANCELED')
+}
 
-CREATE TABLE CTBAOCAODS (
-Ngay INT,
-Thang INT,
-Nam INT,
-SoLuongTiec INT,
-DoanhThu MONEY,
-TiLe DECIMAL(7,2),
-PRIMARY KEY (Ngay, Thang, Nam),
-FOREIGN KEY (Thang, Nam) REFERENCES BAOCAODS(Thang, Nam)
-);
+Cart: {
+	id: int {constraint: PK}
+	user_id: int {constraint: FK}
+}
 
--- BẢNG THAM SỐ
-CREATE TABLE THAMSO (
-TenThamSo NVARCHAR(100) PRIMARY KEY,
-GiaTri DECIMAL(5,2)
-);
+Cart_Item: {
+	id: int {constraint: PK}
+	cart_id: int {constraint: FK}
+	trip_id: int {constraint: FK}
+	quantity: int
+	price: decimal
+}
 
-INSERT INTO THAMSO (TenThamSo, GiaTri) VALUES
-('KiemTraPhat', 1), -- BIT: 0 = tắt, 1 = bật (giá trị mặc định có thể là 0)
-('TiLePhat', 0.01), -- DECIMAL(5,2)
-('TiLeTienDatCocToiThieu', 0.15), -- DECIMAL(5,2)
-('TiLeSoBanDatTruocToiThieu', 0.85); -- DECIMAL(5,2)
+Favorite_Tour: {
+	user_id: int {constraint: [PK, FK]}
+	route_id: int {constraint: [PK, FK]}
+}
 
--- BẢNG PHÂN QUYỀN
-CREATE TABLE CHUCNANG (
-MaChucNang VARCHAR(10) PRIMARY KEY,
-TenChucNang NVARCHAR(100),
-TenManHinhDuocLoad NVARCHAR(100)
-);
+Tour_Booking: {
+	id: int {constraint: PK}
+	trip_id: int {constraint: FK}
+	user_id: int {constraint: FK}
+	seats_booked: int
+	total_price: decimal
+	status: enum('PENDING','CONFIRMED','CANCELED','COMPLETED')
+}
 
-CREATE TABLE NHOMNGUOIDUNG (
-MaNhom VARCHAR(10) PRIMARY KEY,
-TenNhom NVARCHAR(100) UNIQUE NOT NULL
-);
+Tour_Booking_Detail: {
+	id: int {constraint: PK}
+	booking_id: int {constraint: FK}
+	no_adults: int
+	no_children: int
+}
 
-CREATE TABLE PHANQUYEN (
-MaNhom VARCHAR(10),
-MaChucNang VARCHAR(10),
-PRIMARY KEY (MaNhom, MaChucNang),
-FOREIGN KEY (MaNhom) REFERENCES NHOMNGUOIDUNG(MaNhom),
-FOREIGN KEY (MaChucNang) REFERENCES CHUCNANG(MaChucNang)
-);
+Booking_Traveler: {
+	id: int {constraint: PK}
+	booking_id: int {constraint: FK}
+	full_name: varchar
+	gender: enum('M','F','O')
+	date_of_birth: date
+	identity_doc: varchar
+}
 
-CREATE TABLE NGUOIDUNG (
-MaNguoiDung INT PRIMARY KEY IDENTITY(1,1),
-TenDangNhap VARCHAR(50) UNIQUE NOT NULL,
-MatKhauHash VARCHAR(256) NOT NULL,
-HoTen NVARCHAR(100),
-Email VARCHAR(100),
-SoDienThoai
-DiaChi
-NgaySinh
-GioiTinh
-MaNhom VARCHAR(10),
-FOREIGN KEY (MaNhom) REFERENCES NHOMNGUOIDUNG(MaNhom)
-);
+Invoice: {
+	id: int {constraint: PK}
+	booking_id: int {constraint: FK}
+	total_amount: decimal
+	payment_status: enum('UNPAID','PAID','REFUNDED')
+	payment_method: varchar
+}
+
+Attraction.category_id -> Category.id
+Route_Attraction.route_id -> Route.id
+Route_Attraction.attraction_id -> Attraction.id
+Trip.route_id -> Route.id
+Cart.user_id -> User.id
+Cart_Item.cart_id -> Cart.id
+Cart_Item.trip_id -> Trip.id
+Favorite_Tour.user_id -> User.id
+Favorite_Tour.route_id -> Route.id
+Tour_Booking.trip_id -> Trip.id
+Tour_Booking.user_id -> User.id
+Tour_Booking_Detail.booking_id -> Tour_Booking.id
+Booking_Traveler.booking_id -> Tour_Booking.id
+Invoice.booking_id -> Tour_Booking.id
+
+```

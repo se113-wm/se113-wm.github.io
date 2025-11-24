@@ -1957,35 +1957,456 @@ This use case allows administrators to export monthly revenue reports to Excel f
 
 ### 2.2 List Description
 
-[To be completed with list descriptions]
+The Wedding Management System uses 15 main database tables to store and manage all business data:
+
+| STT |     Table Name      |                       Description                        |
+| :-: | :-----------------: | :------------------------------------------------------: |
+|  1  |        User         | Stores user account information with encrypted passwords |
+|  2  |  Permission_Group   |        Defines user role groups with permissions         |
+|  3  | Permission_Function |      Maps permissions between groups and functions       |
+|  4  |  System_Parameter   | System configuration parameters (penalty, deposit rates) |
+|  5  |      Hall_Type      |  Stores hall type information and minimum table pricing  |
+|  6  |        Hall         |        Stores hall information for wedding events        |
+|  7  |        Shift        |      Manages shift schedules (start time, end time)      |
+|  8  |        Dish         |                    Menu item catalog                     |
+|  9  |       Service       |                     Service catalog                      |
+| 10  |       Booking       |            Stores wedding booking information            |
+| 11  |      Menu_Item      |               Menu items for each booking                |
+| 12  |   Service_Detail    |             Service details for each booking             |
+| 13  |   Payment_History   |               Payment transaction records                |
+| 14  |    Refresh_Token    |                JWT refresh token storage                 |
+| 15  |   Token_Blacklist   |                Invalidated access tokens                 |
+
+For detailed table schemas including field definitions, data types, and constraints, refer to "DB Sheet" documentation.
 
 ### 2.3 View Description
 
-[To be completed with view descriptions]
+The Wedding Management System consists of main screens organized by functional modules:
+
+**Authentication Screens:**
+
+1. Login - User authentication with JWT token generation
+2. Register Account - Customer self-registration (Web only)
+3. Forgot Password - Password reset via email
+4. Change Password - User password update
+
+**User Management Screens:** 5. Manage Profile - Personal information management 6. User Management - Admin user account management 7. Permission Groups - Role and permission configuration
+
+**Master Data Screens:** 8. Hall Type Management - Input and manage hall types 9. Hall Management - Input and manage halls 10. Shift Management - Input and manage shifts 11. Dish Management - Input and manage menu items 12. Service Management - Input and manage services 13. System Parameters - Configure system regulations
+
+**Booking & Operations Screens:** 14. Check Hall Availability - Query available halls by date/shift 15. Submit Wedding Reservation - Create new booking with menu/services 16. My Bookings - Customer booking list and details 17. Manage All Bookings - Staff booking management 18. Booking Details - View and edit booking information
+
+**Payment & Invoice Screens:** 19. Invoice & Debt - View invoice and payment status 20. Pay Invoice - Process customer payments 21. Confirm Payment - Staff payment confirmation with penalty 22. Export Invoice PDF - Generate invoice documents
+
+**Reporting Screens:** 23. Revenue Report - Monthly revenue visualization 24. Export Report - Generate Excel reports
+
+For detailed screen designs including UI elements, validation rules, and event handling, refer to activity diagrams and view documentation.
 
 ## 3. Non-functional Requirements
 
 ### 3.1 User Access and Security
 
-[To be completed]
+| Function / Data                       | Customer |  Staff  | Administrator |
+| :------------------------------------ | -------- | :-----: | ------------- |
+| **Manage Booking**                    |          |         |               |
+| Create (Submit Wedding Reservation)   | X(\*)    |         |               |
+| Read (View My Booking Details)        | X(\*)    | X(\*\*) | X             |
+| Update (Edit My Booking Request)      | X(\*)    | X(\*\*) | X             |
+| Delete (Cancel My Booking)            | X(\*)    | X(\*\*) | X             |
+| **Manage Hall**                       |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  | X        |    X    | X             |
+| **Manage Hall Type**                  |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  | X        |    X    | X             |
+| **Manage Shift**                      |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  | X        |    X    | X             |
+| **Manage Dish**                       |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  | X        |    X    | X             |
+| **Manage Service**                    |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  | X        |    X    | X             |
+| **Manage System Parameters**          |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  |          |    X    | X             |
+| **Manage User**                       |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  |          |         | X             |
+| **Manage Permission Group**           |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  |          |         | X             |
+| **Manage Permissions**                |          |         |               |
+| Create, Update, Delete                |          |         | X             |
+| Read                                  |          |         | X             |
+| Check Hall Availability               | X        |    X    | X             |
+| Create Booking for Customer           |          |    X    | X             |
+| View/Pay Invoice                      | X(\*)    | X(\*\*) | X             |
+| Export Invoice to PDF                 | X(\*)    | X(\*\*) | X             |
+| Confirm Payment and Calculate Penalty |          |    X    | X             |
+| Manage Profile                        | X(\*)    |  X(\*)  | X(\*)         |
+| Change Password                       | X(\*)    |  X(\*)  | X(\*)         |
+
+X: User has full permission to perform the action.
+X(\*): User has permission to perform action on their own items/profile only.
+X(\*\*): User has permission to perform action on items assigned to them only.
+
+**Security Implementation:**
+
+The system implements role-based access control (RBAC) through:
+
+- **Permission_Group** - Defines user role groups (Admin, Staff, Customer)
+- **Permission_Function** - Maps permissions between groups and functions
+- **User** - Stores user accounts with encrypted passwords (BCrypt hash + salt)
+
+Access control is enforced at both presentation and business logic layers. Password encryption using BCrypt ensures secure storage. JWT tokens are used for authentication with refresh token rotation. Only administrators can assign permissions to prevent unauthorized privilege escalation.
 
 ### 3.2 Performance Requirements
 
-[To be completed]
+**Number of Users:**
+
+- Number of concurrent users: 20-50 users
+- Number of business users: 100-200 users (including customers)
+
+**Data Volume:**
+
+- Number of bookings: Estimated 500-1000 bookings per year
+- Data growth rate: ~100 bookings/month during peak season (wedding season)
+- Storage per booking: ~3-5 KB/booking
+- Storage per user: ~1-2 KB/user
+
+**Response Time:**
+
+- Login/Authentication: < 1 second
+- Hall availability check: < 0.5 second
+- Booking submission: < 2 seconds
+- Booking search/filter: < 1 second
+- Invoice generation: < 1 second
+- Payment processing: < 2 seconds
+- Report generation: < 5 seconds
+- Parameter update: Instant
+
+**Level of Availability:**
+24×7 availability required. System must be accessible at all times for booking management, particularly during peak wedding season (October to March). Maximum planned downtime: 2 hours per month for maintenance.
+
+**Usage Frequency:**
+
+- Daily: Booking creation, hall availability check, invoice generation, payment confirmation
+- Weekly: Booking updates, service/menu modifications, user management
+- Monthly: System reports, parameter adjustments
+- Ad-hoc: Permission configuration, data export
+
+**Scalability:**
+
+- System should support up to 200 concurrent users without performance degradation
+- Database should handle up to 10,000 bookings efficiently
+- Response times should remain consistent during peak season loads
 
 ### 3.3 Implementation Requirements
 
-[To be completed]
+**Technology Stack:**
+
+- Frontend: React.js or Angular (Web application)
+- Backend: Node.js with Express.js or ASP.NET Core
+- Database: PostgreSQL or Microsoft SQL Server
+- Authentication: JWT (JSON Web Token) with BCrypt password hashing
+- ORM: Prisma, TypeORM, or Entity Framework Core
+- Email Service: SendGrid or AWS SES
+- Payment Gateway: Stripe, PayPal, or local payment providers
+
+**Architecture:**
+
+- Pattern: RESTful API with 3-tier architecture
+- Client: Single Page Application (SPA)
+- Server: Stateless API server
+- Database: Relational database with proper indexing
+
+**Platform Requirements:**
+
+- Operating System: Cross-platform (Windows, macOS, Linux)
+- Browser Support: Chrome, Firefox, Safari, Edge (latest 2 versions)
+- Minimum Screen Resolution: 1366x768
+- Network: Stable internet connection required
+
+**Deployment:**
+
+- Cloud Hosting: AWS, Azure, or Google Cloud Platform
+- Container Support: Docker for consistent deployment
+- Reverse Proxy: Nginx or Apache
+- SSL/TLS: HTTPS required for all connections
+
+**Location:**
+Vietnam - Wedding venue management centers in major cities (Ho Chi Minh City, Hanoi, Da Nang)
+
+**Development Standards:**
+
+- Code Style: Follow language-specific conventions (ESLint, Prettier)
+- Version Control: Git with GitFlow workflow
+- Testing: Unit tests, Integration tests, E2E tests
+- Documentation: API documentation with Swagger/OpenAPI
+- CI/CD: Automated build, test, and deployment pipeline
+
+**Maintenance:**
+
+- Daily automated database backups
+- Weekly security updates
+- Monthly feature releases
+- Quarterly major version updates
+- Annual security audits
 
 ## 4. Other Requirements
 
 ### 4.1 Archive Function
 
-[To be completed]
+Enable Archival Function for following data:
+
+| Data Type       | Actor         | Condition                                                                           |
+| :-------------- | :------------ | :---------------------------------------------------------------------------------- |
+| Booking         | Administrator | Administrator can archive completed bookings older than 2 years by wedding date.    |
+| User Accounts   | Administrator | Administrator can archive inactive user accounts with no login activity for 1 year. |
+| Payment History | Administrator | Payment records for archived bookings are automatically archived with booking data. |
+
+**Archive Rules:**
+
+- Archived data must be exported to external storage before deletion from active database
+- Archived booking data must retain all related records (menu items, services, invoices, payments)
+- Archive process must log all archived items with timestamp and administrator details
+- Archived data must be restorable within 30 days of archival
+- System must maintain archive index for quick retrieval if needed
+- Archive operation requires administrator confirmation
+- Archived records are marked with archive flag before physical deletion
 
 ### 4.2 Security Audit Function
 
-[To be completed]
+Enable Security Audit Function for **Administrator** to track any modification on user permissions and critical system operations.
+
+**Audit Logging Requirements:**
+
+1. **Permission Changes**
+
+   - Log all changes to Permission_Function table
+   - Log all changes to Permission_Group assignments
+   - Record: User who made change, timestamp, old values, new values
+
+2. **User Account Management**
+
+   - Log user creation, modification, deletion, and status changes
+   - Log password reset operations
+   - Record: Administrator who performed action, affected user, timestamp
+
+3. **Critical Data Modifications**
+
+   - Log changes to System_Parameter table
+   - Log booking cancellations and modifications
+   - Log invoice adjustments and penalty calculations
+   - Log payment confirmations
+   - Record: User, timestamp, operation type, affected records
+
+4. **Authentication Events**
+   - Log successful and failed login attempts
+   - Log session timeout and logout events
+   - Log refresh token operations
+   - Record: Username, IP address, timestamp, result
+
+**Audit Report Features:**
+
+- Administrator can query audit logs by date range, user, operation type
+- Audit logs are tamper-proof and cannot be deleted by any user
+- Audit logs are retained for minimum 1 year
+- Critical security events trigger immediate notification to administrators
+- Export audit logs to CSV/Excel for external analysis
+- Real-time audit dashboard showing recent critical events
+
+### 4.3 WMS Sites
+
+The Wedding Management System is deployed as a web-based application with the following deployment structure:
+
+**Application Structure:**
+
+- **Frontend Application**: React.js / Angular SPA
+
+  - Deployed on CDN for optimal performance
+  - Static assets cached at edge locations
+  - Service worker for offline capabilities
+
+- **Backend API Server**: Node.js / ASP.NET Core
+
+  - RESTful API architecture
+  - Load balanced across multiple instances
+  - Auto-scaling based on traffic
+
+- **Database Server**: PostgreSQL / SQL Server
+  - Primary-replica configuration
+  - Automated backups every 6 hours
+  - Point-in-time recovery enabled
+
+**Deployment Sites:**
+
+1. **Main Office** (Ho Chi Minh City)
+
+   - Primary database server
+   - Administrator workstations
+   - Backup and disaster recovery center
+
+2. **Branch Offices** (Hanoi, Da Nang)
+   - Client applications connect to main database
+   - Local caching for improved performance
+   - VPN connection to main office
+
+**Network Configuration:**
+
+- All sites connect via HTTPS with TLS 1.3
+- Database connection uses encrypted connection string
+- Minimum bandwidth requirement: 10 Mbps
+- CDN edge locations for fast content delivery
+- WebSocket support for real-time updates
+
+### 4.4 WMS Lists
+
+The Wedding Management System uses the following 15 core database tables:
+
+**Master Data Tables:**
+
+1. **Hall_Type** - Hall Types (hall_type_id, name, minimum_table_price, description)
+2. **Hall** - Halls (hall_id, hall_type_id, name, max_tables, notes)
+3. **Shift** - Shifts (shift_id, name, start_time, end_time)
+4. **Dish** - Dishes (dish_id, name, price, notes)
+5. **Service** - Services (service_id, name, price, notes)
+
+**Transaction Tables:**
+
+6. **Booking** - Wedding Bookings (booking_id, groom_name, bride_name, phone, booking_date, wedding_date, shift_id, hall_id, deposit_amount, table_count, reserved_tables, payment_date, total_amount, remaining_amount, penalty_amount, damage_cost, status)
+7. **Menu_Item** - Menu Items (booking_id, dish_id, quantity, unit_price, serving_order, notes)
+8. **Service_Detail** - Service Details (booking_id, service_id, quantity, unit_price, total_price, notes)
+9. **Payment_History** - Payment Records (payment_id, booking_id, payment_date, amount, payment_method, notes)
+
+**Report Tables:**
+
+10. **Revenue_Report** - Monthly Revenue Reports (month, year, total_revenue)
+11. **Revenue_Detail** - Daily Revenue Details (date, month, year, booking_count, revenue, percentage)
+
+**System Configuration Tables:**
+
+12. **System_Parameter** - System Parameters (enable_penalty, penalty_rate, minimum_deposit_rate, minimum_reserved_table_rate)
+
+**Security Tables:**
+
+13. **Permission_Function** - System Functions (function_id, function_name, screen_to_load)
+14. **Permission_Group** - User Groups (group_id, group_name)
+15. **User** - Users (user_id, username, password_hash, full_name, email, phone, group_id, status, created_at, updated_at)
+
+Additional Security Tables:
+
+16. **Refresh_Token** - JWT Refresh Tokens (token_id, user_id, token, expires_at, created_at)
+17. **Token_Blacklist** - Invalidated Tokens (token, blacklisted_at, expires_at)
+
+For detailed table schemas with field definitions, data types, constraints and relationships, refer to "DB Sheet" documentation.
+
+### 4.5 Custom Pages
+
+The Wedding Management System implements the following custom pages with specialized functionality:
+
+| #   | Page Name                 | Description                                                                                                                                                                 |
+| :-- | :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Home Dashboard            | Custom dashboard with calendar view of upcoming weddings, recent bookings, and monthly revenue chart. Includes quick action button for new booking.                         |
+| 2   | Wedding Booking Form      | Multi-step form with dynamic validation for hall availability, menu selection with real-time pricing calculation, service selection, and deposit calculation.               |
+| 3   | Invoice Calculator        | Custom page with complex business logic for calculating table pricing, service charges, late payment penalties (1% per day), equipment damage costs, and remaining balance. |
+| 4   | Revenue Report Viewer     | Interactive report page with date range filter, revenue breakdown by day, visual chart representation, and export to Excel functionality.                                   |
+| 5   | Hall Availability Checker | Real-time hall availability checker with calendar interface showing booked and available slots by hall and shift.                                                           |
+| 6   | System Parameter Manager  | Custom configuration page for managing business rules: penalty rates, deposit percentages, reserved table ratios, and minimum table requirements.                           |
+
+All custom pages are built using modern web frameworks with responsive design and follow the system's design guidelines for consistency.
+
+### 4.6 Scheduled Agents
+
+The Wedding Management System implements the following scheduled background agents:
+
+| No. | Name                            | Description                                                                                                                                                          | Schedule Rule                                        | Agent Main Class                       |
+| :-- | :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------- | :------------------------------------- |
+| 1   | Daily Backup Agent              | Performs automated database backup of all wedding bookings, invoices, and system data. Creates backup files with timestamp and stores in configured backup location. | Daily at 02:00 AM                                    | BackupService.PerformDailyBackup()     |
+| 2   | Monthly Report Generator        | Automatically generates monthly revenue reports by aggregating booking data, calculating revenue by day, and computing percentages.                                  | 1st day of month at 01:00 AM                         | ReportService.GenerateMonthlyReport()  |
+| 3   | Payment Reminder Agent          | Scans for overdue payments and sends reminder emails to customers. Calculates late payment penalties based on configured penalty rate (1% per day).                  | Daily at 08:00 AM                                    | PaymentService.SendPaymentReminders()  |
+| 4   | Data Archive Agent              | Archives old booking records (older than 2 years) and monthly reports (older than 3 years) to external storage. Maintains archive index for retrieval.               | Monthly on last day at 03:00 AM                      | ArchiveService.ArchiveOldRecords()     |
+| 5   | Session Cleanup Agent           | Removes expired JWT refresh tokens from Refresh_Token table and cleans up blacklisted tokens from Token_Blacklist table.                                             | Every 6 hours                                        | AuthService.CleanupExpiredSessions()   |
+| 6   | Hall Availability Cache Refresh | Refreshes cached hall availability data to ensure real-time accuracy for booking system. Updates availability matrix based on confirmed bookings.                    | Every 15 minutes during business hours (08:00-20:00) | CacheService.RefreshHallAvailability() |
+
+All scheduled agents include error handling with logging and email notifications to administrators in case of failures.
+
+### 4.7 Technical Concern
+
+**Factors Affecting System Performance:**
+
+1. **Seasonal Data Growth Pattern**
+
+   - Peak wedding season (October-March) causes 3-4x increase in booking volume
+   - System must handle surge in concurrent users during peak hours
+   - Database query optimization required for hall availability checks
+   - Risk Level: Medium - Requires performance monitoring and optimization
+
+2. **Complex Booking Validation Rules**
+
+   - Multiple business rules must be validated during booking submission:
+     - Hall availability by date and shift
+     - Minimum table quantity (≥80% of hall capacity)
+     - Minimum deposit amount (≥20% of estimated cost)
+     - Reserved table limit calculation
+   - Each validation requires database queries
+   - Risk Level: Medium - May slow down booking submission process
+
+3. **Invoice Calculation Complexity**
+
+   - Real-time calculation of:
+     - Table pricing (base price + menu items)
+     - Service charges
+     - Late payment penalties (1% per day)
+     - Equipment damage costs
+   - Multiple table joins required (Booking, Menu_Item, Service_Detail, Dish, Service)
+   - Risk Level: Low - Single invoice calculation is fast, but batch processing may need optimization
+
+4. **Report Generation Performance**
+
+   - Monthly revenue reports aggregate data from multiple bookings
+   - Requires calculation of revenue by date and percentages
+   - Risk Level: Low - Monthly frequency allows acceptable 5-second processing time
+
+5. **Database Connection Management**
+
+   - Web application requires connection pooling
+   - Network latency may affect response time
+   - Risk Level: Medium - Implement connection pooling and retry logic
+
+6. **User Concurrency**
+
+   - Multiple staff members may access same booking simultaneously
+   - Risk of data conflicts during updates
+   - Risk Level: Medium - Implement optimistic concurrency control with row versioning
+
+7. **Image Storage**
+
+   - Hall, dish, and service images stored in system
+   - Large image files may slow down loading
+   - Risk Level: Low - Implement image caching, CDN, and optimization (WebP format, lazy loading)
+
+8. **Data Archival**
+   - Past booking data accumulates over years
+   - May slow down queries if not properly indexed
+   - Risk Level: Low - Implement data archiving strategy for old bookings
+
+**Mitigation Strategies:**
+
+- Implement database indexing on frequently queried fields (wedding_date, hall_id, shift_id, status)
+- Use stored procedures or prepared statements for complex business logic calculations
+- Implement caching for reference data (Hall_Type, Shift, Dish, Service) using Redis or in-memory cache
+- Use async/await patterns for database operations to prevent blocking
+- Implement connection pooling for database connections (pgBouncer for PostgreSQL)
+- Regular database maintenance: vacuum, analyze, and statistics updates
+- Monitor and optimize slow queries using database query analyzer
+- Implement pagination for large data lists (50 items per page)
+- Use CDN for static assets and image delivery
+- Implement rate limiting to prevent API abuse
+- Use database read replicas for reporting queries
+- Implement proper error handling and retry logic with exponential backoff
 
 ## 5. Appendixes
 
@@ -1993,178 +2414,175 @@ This use case allows administrators to export monthly revenue reports to Excel f
 
 The list below contains all the necessary terms to interpret the document, including acronyms and abbreviations.
 
-| Term  | Description                                                                                                                                                                  |
-| :---- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| _BR_  | **B**usiness **R**ule                                                                                                                                                        |
-| _DB_  | **D**ata**b**ase                                                                                                                                                             |
-| _MSG_ | **M**es**s**a**g**e                                                                                                                                                          |
-| _UC_  | **U**se **C**ase                                                                                                                                                             |
-| _N/A_ | **N**ot **A**vailable or **N**ot **A**pplicable, used to indicate when information in a certain section could not be provided because it does not apply to this application. |
-| _UI_  | **U**ser **I**nterface                                                                                                                                                       |
-| _SRS_ | **S**oftware **R**equirements **S**pecification                                                                                                                              |
-| _TBD_ | **T**o **b**e **d**etermined or **t**o **b**e **d**efined                                                                                                                    |
-| _WMS_ | **W**edding **M**anagement **S**ystem                                                                                                                                        |
-| _JWT_ | **J**SON **W**eb **T**oken                                                                                                                                                   |
+| Term  | Description                           |
+| :---- | :------------------------------------ |
+| _BR_  | **B**usiness **R**ule                 |
+| _CBR_ | **C**ommon **B**usiness **R**ule      |
+| _DB_  | **D**ata**b**ase                      |
+| _MSG_ | **M**es**s**a**g**e                   |
+| _UC_  | **U**se **C**ase                      |
+| _WMS_ | **W**edding **M**anagement **S**ystem |
+| _JWT_ | **J**SON **W**eb **T**oken            |
 
 ### 5.2 Messages
 
 This section describes the details of messages used in business rules e.g. error messages, confirmation messages, etc.
 
-| Message Code | Message Content | Button |
-| :----------- | :-------------- | :----- |
-| _MSG 1_ | "Username and password are required."                                                                 | OK     |
-| _MSG 2_ | "Invalid username or password."                                                                       | OK     |
-| _MSG 3_ | "Invalid username or password or account is not active."                                              | OK     |
-| _MSG 4_ | "Welcome, [User.username]!"                                                                           | -      |
-| _MSG 5_ | "You have been logged out successfully."                                                              | -      |
-| _MSG 6_ | "All fields are required."                                                                            | OK     |
-| _MSG 7_ | "Invalid email format."                                                                               | OK     |
-| _MSG 8_ | "Phone must be 10 digits."                                                                            | OK     |
-| _MSG 9_ | "Email already exists in system."                                                                     | OK     |
-| _MSG 10_ | "Failed to update profile. Please try again."                                                         | OK     |
-| _MSG 11_ | "Profile updated successfully."                                                                       | -      |
-| _MSG 12_ | "Password must be at least 8 characters with uppercase, lowercase, digit and special character."      | OK     |
-| _MSG 13_ | "New password and confirm password do not match."                                                     | OK     |
-| _MSG 14_ | "Current password is incorrect."                                                                      | OK     |
-| _MSG 15_ | "Failed to change password. Please try again."                                                        | OK     |
-| _MSG 16_ | "Password changed successfully. Please login with your new password."                                 | -      |
-| _MSG 17_ | "Username must be 4-50 alphanumeric characters."                                                      | OK     |
-| _MSG 18_ | "Password and confirm password do not match."                                                         | OK     |
-| _MSG 19_ | "You must agree to terms and conditions."                                                             | OK     |
-| _MSG 20_ | "Username already exists."                                                                            | OK     |
-| _MSG 21_ | "Email already exists."                                                                               | OK     |
-| _MSG 22_ | "Registration failed. Please try again."                                                              | OK     |
-| _MSG 23_ | "Registration successful! Please login with your account."                                            | -      |
-| _MSG 24_ | "Email is required."                                                                                  | OK     |
-| _MSG 25_ | "If your email exists in our system, you will receive a password reset link."                         | -      |
-| _MSG 26_ | "Invalid or expired reset link."                                                                      | OK     |
-| _MSG 27_ | "Failed to reset password. Please try again."                                                         | OK     |
-| _MSG 28_ | "All required fields must be filled."                                                                 | OK     |
-| _MSG 29_ | "CCCD must be 12 digits."                                                                             | OK     |
-| _MSG 30_ | "Failed to create user. Please try again."                                                            | OK     |
-| _MSG 31_ | "User created successfully."                                                                          | -      |
-| _MSG 32_ | "User not found."                                                                                     | OK     |
-| _MSG 33_ | "Failed to update user. Please try again."                                                            | OK     |
-| _MSG 34_ | "User updated successfully."                                                                          | -      |
-| _MSG 35_ | "Cannot delete user. User has [reference_count] associated bookings/invoices."                        | OK     |
-| _MSG 36_ | "Failed to delete user. Please try again."                                                            | OK     |
-| _MSG 37_ | "User deleted successfully."                                                                          | -      |
-| _MSG 38_ | "Group code and group name are required."                                                             | OK     |
-| _MSG 39_ | "Group code must be 3-20 uppercase alphanumeric characters with underscores."                         | OK     |
-| _MSG 40_ | "Group name must be 3-100 characters."                                                                | OK     |
-| _MSG 41_ | "Please select at least one function for this permission group."                                      | OK     |
-| _MSG 42_ | "Group code already exists."                                                                          | OK     |
-| _MSG 43_ | "Group name already exists."                                                                          | OK     |
-| _MSG 44_ | "Failed to create permission group. Please try again."                                                | OK     |
-| _MSG 45_ | "Permission group created successfully."                                                              | -      |
-| _MSG 46_ | "Group name is required."                                                                             | OK     |
-| _MSG 47_ | "Failed to update permission group. Please try again."                                                | OK     |
-| _MSG 48_ | "Permission group updated successfully."                                                              | -      |
-| _MSG 49_ | "Cannot delete permission group. [COUNT] user(s) are assigned to this group."                         | OK     |
-| _MSG 50_ | "Failed to delete permission group. Please try again."                                                | OK     |
-| _MSG 51_ | "Permission group deleted successfully."                                                              | -      |
-| _MSG 52_ | "Penalty rate must be between 0% and 100%."                                                           | OK     |
-| _MSG 53_ | "Minimum deposit rate must be greater than 0% and up to 100%."                                        | OK     |
-| _MSG 54_ | "Minimum table reservation rate must be greater than 0% and up to 100%."                              | OK     |
-| _MSG 55_ | "Failed to update system parameters. Please try again."                                               | OK     |
-| _MSG 56_ | "System parameters updated successfully. Changes will take effect immediately."                       | -      |
-| _MSG 57_ | "Hall name, hall type, and max tables are required."                                                  | OK     |
-| _MSG 58_ | "Hall name must be 3-100 characters."                                                                 | OK     |
-| _MSG 59_ | "Max tables must be a positive number."                                                               | OK     |
-| _MSG 60_ | "Hall name already exists."                                                                           | OK     |
-| _MSG 61_ | "Failed to create hall. Please try again."                                                            | OK     |
-| _MSG 62_ | "Hall created successfully."                                                                          | -      |
-| _MSG 63_ | "Failed to update hall. Please try again."                                                            | OK     |
-| _MSG 64_ | "Hall updated successfully."                                                                          | -      |
-| _MSG 65_ | "Cannot delete hall. Hall has [COUNT] associated booking(s)."                                         | OK     |
-| _MSG 66_ | "Failed to delete hall. Please try again."                                                            | OK     |
-| _MSG 67_ | "Hall deleted successfully."                                                                          | -      |
-| _MSG 68_ | "No data to export."                                                                                  | OK     |
-| _MSG 69_ | "Hall type name and minimum table price are required."                                                | OK     |
-| _MSG 70_ | "Hall type name must be 3-100 characters."                                                            | OK     |
-| _MSG 71_ | "Minimum table price must be a positive number."                                                      | OK     |
-| _MSG 72_ | "Hall type name already exists."                                                                      | OK     |
-| _MSG 73_ | "Failed to create hall type. Please try again."                                                       | OK     |
-| _MSG 74_ | "Hall type created successfully."                                                                     | -      |
-| _MSG 75_ | "Failed to update hall type. Please try again."                                                       | OK     |
-| _MSG 76_ | "Hall type updated successfully."                                                                     | -      |
-| _MSG 77_ | "Cannot delete hall type. [COUNT] hall(s) are using this type."                                       | OK     |
-| _MSG 78_ | "Failed to delete hall type. Please try again."                                                       | OK     |
-| _MSG 79_ | "Hall type deleted successfully."                                                                     | -      |
-| _MSG 80_ | "Dish name and price are required."                                                                   | OK     |
-| _MSG 81_ | "Dish name must be 3-100 characters."                                                                 | OK     |
-| _MSG 82_ | "Price must be a positive number."                                                                    | OK     |
-| _MSG 83_ | "Dish name already exists."                                                                           | OK     |
-| _MSG 84_ | "Failed to create dish. Please try again."                                                            | OK     |
-| _MSG 85_ | "Dish created successfully."                                                                          | -      |
-| _MSG 86_ | "Failed to update dish. Please try again."                                                            | OK     |
-| _MSG 87_ | "Dish updated successfully."                                                                          | -      |
-| _MSG 88_ | "Cannot delete dish. This dish is used in [COUNT] menu item(s)."                                      | OK     |
-| _MSG 89_ | "Failed to delete dish. Please try again."                                                            | OK     |
-| _MSG 90_ | "Dish deleted successfully."                                                                          | -      |
-| _MSG 91_ | "Service name and price are required."                                                                | OK     |
-| _MSG 92_ | "Service name must be 3-100 characters."                                                              | OK     |
-| _MSG 93_ | "Price must be a positive number."                                                                    | OK     |
-| _MSG 94_ | "Service name already exists."                                                                        | OK     |
-| _MSG 95_ | "Failed to create service. Please try again."                                                         | OK     |
-| _MSG 96_ | "Service created successfully."                                                                       | -      |
-| _MSG 97_ | "Failed to update service. Please try again."                                                         | OK     |
-| _MSG 98_ | "Service updated successfully."                                                                       | -      |
-| _MSG 99_ | "Cannot delete service. This service is used in [COUNT] booking(s)."                                  | OK     |
-| _MSG 100_ | "Failed to delete service. Please try again."                                                         | OK     |
-| _MSG 101_ | "Service deleted successfully."                                                                       | -      |
-| _MSG 102_ | "Shift name, start time, and end time are required."                                                  | OK     |
-| _MSG 103_ | "Shift name must be 3-100 characters."                                                                | OK     |
-| _MSG 104_ | "Start time must be before end time."                                                                 | OK     |
-| _MSG 105_ | "Shift name already exists."                                                                          | OK     |
-| _MSG 106_ | "Failed to create shift. Please try again."                                                           | OK     |
-| _MSG 107_ | "Shift created successfully."                                                                         | -      |
-| _MSG 108_ | "Failed to update shift. Please try again."                                                           | OK     |
-| _MSG 109_ | "Shift updated successfully."                                                                         | -      |
-| _MSG 110_ | "Cannot delete shift. This shift is used in [COUNT] booking(s)."                                      | OK     |
-| _MSG 111_ | "Failed to delete shift. Please try again."                                                           | OK     |
-| _MSG 112_ | "Shift deleted successfully."                                                                         | -      |
-| _MSG 113_ | "Date must be in future."                                                                             | OK     |
-| _MSG 114_ | "No available halls found. Try other dates or shifts."                                                | -      |
-| _MSG 115_ | "Wedding date must be in future."                                                                     | OK     |
-| _MSG 116_ | "Number of tables exceeds hall capacity of [max_tables] tables."                                      | OK     |
-| _MSG 117_ | "Hall is no longer available for selected date and shift."                                            | OK     |
-| _MSG 118_ | "Booking submitted successfully. Booking ID: [booking_id]. Please check your email for confirmation." | -      |
-| _MSG 119_ | "No bookings found. Create your first wedding booking!"                                               | -      |
-| _MSG 120_ | "Cannot load booking details. Please try again."                                                      | OK     |
-| _MSG 121_ | "Cannot edit this booking. Only pending bookings can be edited."                                      | OK     |
-| _MSG 122_ | "Booking updated successfully."                                                                       | -      |
-| _MSG 123_ | "Cannot cancel this booking. Booking is already [status] or date has passed."                         | OK     |
-| _MSG 124_ | "Booking cancelled successfully. Deposit [deposit_amount] VND is non-refundable as per policy."       | -      |
-| _MSG 125_ | "No bookings found. Try adjusting search criteria."                                                   | -      |
-| _MSG 126_ | "Booking does not exist."                                                                             | OK     |
-| _MSG 127_ | "No halls in system."                                                                                 | OK     |
-| _MSG 128_ | "Number of tables exceeds hall capacity."                                                             | OK     |
-| _MSG 129_ | "Hall is already booked for selected date and shift."                                                 | OK     |
-| _MSG 130_ | "Booking created successfully. Booking ID: [booking_id]."                                             | -      |
-| _MSG 131_ | "Cannot edit completed or cancelled bookings."                                                        | OK     |
-| _MSG 132_ | "Cannot delete booking. Database error occurred."                                                     | OK     |
-| _MSG 133_ | "Booking deleted successfully."                                                                       | -      |
-| _MSG 134_ | "You don't have any invoices yet."                                                                    | -      |
-| _MSG 135_ | "Cannot load invoice details. Please try again."                                                      | OK     |
-| _MSG 136_ | "Payment amount must be greater than 0."                                                              | OK     |
-| _MSG 137_ | "Payment amount cannot exceed outstanding balance of [remaining_amount] VND."                         | OK     |
-| _MSG 138_ | "Payment failed. Please try again or contact support."                                                | OK     |
-| _MSG 139_ | "Error occurred during payment processing. Please contact support."                                   | OK     |
-| _MSG 140_ | "Payment successful! Amount paid: [payment_amount] VND. Remaining balance: [new_remaining] VND."      | -      |
-| _MSG 141_ | "Cannot create PDF file. Please try again or contact support."                                        | OK     |
-| _MSG 142_ | "Cannot download file. Please check your connection or browser settings."                             | OK     |
-| _MSG 143_ | "Invoice PDF exported successfully."                                                                  | -      |
-| _MSG 144_ | "Error occurred during payment confirmation. Please try again."                                       | OK     |
-| _MSG 145_ | "Payment confirmation successful. Total processed: [remaining_amount + penalty_amount] VND."          | -      |
-| _MSG 146_ | "Cannot create PDF file. Please try again."                                                           | OK     |
-| _MSG 147_ | "Cannot download file. Please check your connection."                                                 | OK     |
-| _MSG 148_ | "Official invoice PDF exported successfully."                                                         | -      |
-| _MSG 149_ | "No report data for this month."                                                                      | -      |
-| _MSG 150_ | "Cannot load report data. Please try again."                                                          | OK     |
-| _MSG 151_ | "Cannot create Excel file. Please try again."                                                         | OK     |
-| _MSG 152_ | "Cannot download file. Please check your connection and disk space."                                  | OK     |
-| _MSG 153_ | "Export Excel successful. File saved to Downloads folder."                                            | -      |
+| Message Code | Message Content                                                                                       | Button |
+| :----------- | :---------------------------------------------------------------------------------------------------- | :----- |
+| _MSG 1_      | "Username and password are required."                                                                 | OK     |
+| _MSG 2_      | "Invalid username or password."                                                                       | OK     |
+| _MSG 3_      | "Invalid username or password or account is not active."                                              | OK     |
+| _MSG 4_      | "Welcome, [User.username]!"                                                                           | -      |
+| _MSG 5_      | "You have been logged out successfully."                                                              | -      |
+| _MSG 6_      | "All fields are required."                                                                            | OK     |
+| _MSG 7_      | "Invalid email format."                                                                               | OK     |
+| _MSG 8_      | "Phone must be 10 digits."                                                                            | OK     |
+| _MSG 9_      | "Email already exists in system."                                                                     | OK     |
+| _MSG 10_     | "Failed to update profile. Please try again."                                                         | OK     |
+| _MSG 11_     | "Profile updated successfully."                                                                       | -      |
+| _MSG 12_     | "Password must be at least 8 characters with uppercase, lowercase, digit and special character."      | OK     |
+| _MSG 13_     | "New password and confirm password do not match."                                                     | OK     |
+| _MSG 14_     | "Current password is incorrect."                                                                      | OK     |
+| _MSG 15_     | "Failed to change password. Please try again."                                                        | OK     |
+| _MSG 16_     | "Password changed successfully. Please login with your new password."                                 | -      |
+| _MSG 17_     | "Username must be 4-50 alphanumeric characters."                                                      | OK     |
+| _MSG 18_     | "Password and confirm password do not match."                                                         | OK     |
+| _MSG 19_     | "You must agree to terms and conditions."                                                             | OK     |
+| _MSG 20_     | "Username already exists."                                                                            | OK     |
+| _MSG 21_     | "Email already exists."                                                                               | OK     |
+| _MSG 22_     | "Registration failed. Please try again."                                                              | OK     |
+| _MSG 23_     | "Registration successful! Please login with your account."                                            | -      |
+| _MSG 24_     | "Email is required."                                                                                  | OK     |
+| _MSG 25_     | "If your email exists in our system, you will receive a password reset link."                         | -      |
+| _MSG 26_     | "Invalid or expired reset link."                                                                      | OK     |
+| _MSG 27_     | "Failed to reset password. Please try again."                                                         | OK     |
+| _MSG 28_     | "All required fields must be filled."                                                                 | OK     |
+| _MSG 29_     | "CCCD must be 12 digits."                                                                             | OK     |
+| _MSG 30_     | "Failed to create user. Please try again."                                                            | OK     |
+| _MSG 31_     | "User created successfully."                                                                          | -      |
+| _MSG 32_     | "User not found."                                                                                     | OK     |
+| _MSG 33_     | "Failed to update user. Please try again."                                                            | OK     |
+| _MSG 34_     | "User updated successfully."                                                                          | -      |
+| _MSG 35_     | "Cannot delete user. User has [reference_count] associated bookings/invoices."                        | OK     |
+| _MSG 36_     | "Failed to delete user. Please try again."                                                            | OK     |
+| _MSG 37_     | "User deleted successfully."                                                                          | -      |
+| _MSG 38_     | "Group code and group name are required."                                                             | OK     |
+| _MSG 39_     | "Group code must be 3-20 uppercase alphanumeric characters with underscores."                         | OK     |
+| _MSG 40_     | "Group name must be 3-100 characters."                                                                | OK     |
+| _MSG 41_     | "Please select at least one function for this permission group."                                      | OK     |
+| _MSG 42_     | "Group code already exists."                                                                          | OK     |
+| _MSG 43_     | "Group name already exists."                                                                          | OK     |
+| _MSG 44_     | "Failed to create permission group. Please try again."                                                | OK     |
+| _MSG 45_     | "Permission group created successfully."                                                              | -      |
+| _MSG 46_     | "Group name is required."                                                                             | OK     |
+| _MSG 47_     | "Failed to update permission group. Please try again."                                                | OK     |
+| _MSG 48_     | "Permission group updated successfully."                                                              | -      |
+| _MSG 49_     | "Cannot delete permission group. [COUNT] user(s) are assigned to this group."                         | OK     |
+| _MSG 50_     | "Failed to delete permission group. Please try again."                                                | OK     |
+| _MSG 51_     | "Permission group deleted successfully."                                                              | -      |
+| _MSG 52_     | "Penalty rate must be between 0% and 100%."                                                           | OK     |
+| _MSG 53_     | "Minimum deposit rate must be greater than 0% and up to 100%."                                        | OK     |
+| _MSG 54_     | "Minimum table reservation rate must be greater than 0% and up to 100%."                              | OK     |
+| _MSG 55_     | "Failed to update system parameters. Please try again."                                               | OK     |
+| _MSG 56_     | "System parameters updated successfully. Changes will take effect immediately."                       | -      |
+| _MSG 57_     | "Hall name, hall type, and max tables are required."                                                  | OK     |
+| _MSG 58_     | "Hall name must be 3-100 characters."                                                                 | OK     |
+| _MSG 59_     | "Max tables must be a positive number."                                                               | OK     |
+| _MSG 60_     | "Hall name already exists."                                                                           | OK     |
+| _MSG 61_     | "Failed to create hall. Please try again."                                                            | OK     |
+| _MSG 62_     | "Hall created successfully."                                                                          | -      |
+| _MSG 63_     | "Failed to update hall. Please try again."                                                            | OK     |
+| _MSG 64_     | "Hall updated successfully."                                                                          | -      |
+| _MSG 65_     | "Cannot delete hall. Hall has [COUNT] associated booking(s)."                                         | OK     |
+| _MSG 66_     | "Failed to delete hall. Please try again."                                                            | OK     |
+| _MSG 67_     | "Hall deleted successfully."                                                                          | -      |
+| _MSG 68_     | "No data to export."                                                                                  | OK     |
+| _MSG 69_     | "Hall type name and minimum table price are required."                                                | OK     |
+| _MSG 70_     | "Hall type name must be 3-100 characters."                                                            | OK     |
+| _MSG 71_     | "Minimum table price must be a positive number."                                                      | OK     |
+| _MSG 72_     | "Hall type name already exists."                                                                      | OK     |
+| _MSG 73_     | "Failed to create hall type. Please try again."                                                       | OK     |
+| _MSG 74_     | "Hall type created successfully."                                                                     | -      |
+| _MSG 75_     | "Failed to update hall type. Please try again."                                                       | OK     |
+| _MSG 76_     | "Hall type updated successfully."                                                                     | -      |
+| _MSG 77_     | "Cannot delete hall type. [COUNT] hall(s) are using this type."                                       | OK     |
+| _MSG 78_     | "Failed to delete hall type. Please try again."                                                       | OK     |
+| _MSG 79_     | "Hall type deleted successfully."                                                                     | -      |
+| _MSG 80_     | "Dish name and price are required."                                                                   | OK     |
+| _MSG 81_     | "Dish name must be 3-100 characters."                                                                 | OK     |
+| _MSG 82_     | "Price must be a positive number."                                                                    | OK     |
+| _MSG 83_     | "Dish name already exists."                                                                           | OK     |
+| _MSG 84_     | "Failed to create dish. Please try again."                                                            | OK     |
+| _MSG 85_     | "Dish created successfully."                                                                          | -      |
+| _MSG 86_     | "Failed to update dish. Please try again."                                                            | OK     |
+| _MSG 87_     | "Dish updated successfully."                                                                          | -      |
+| _MSG 88_     | "Cannot delete dish. This dish is used in [COUNT] menu item(s)."                                      | OK     |
+| _MSG 89_     | "Failed to delete dish. Please try again."                                                            | OK     |
+| _MSG 90_     | "Dish deleted successfully."                                                                          | -      |
+| _MSG 91_     | "Service name and price are required."                                                                | OK     |
+| _MSG 92_     | "Service name must be 3-100 characters."                                                              | OK     |
+| _MSG 93_     | "Price must be a positive number."                                                                    | OK     |
+| _MSG 94_     | "Service name already exists."                                                                        | OK     |
+| _MSG 95_     | "Failed to create service. Please try again."                                                         | OK     |
+| _MSG 96_     | "Service created successfully."                                                                       | -      |
+| _MSG 97_     | "Failed to update service. Please try again."                                                         | OK     |
+| _MSG 98_     | "Service updated successfully."                                                                       | -      |
+| _MSG 99_     | "Cannot delete service. This service is used in [COUNT] booking(s)."                                  | OK     |
+| _MSG 100_    | "Failed to delete service. Please try again."                                                         | OK     |
+| _MSG 101_    | "Service deleted successfully."                                                                       | -      |
+| _MSG 102_    | "Shift name, start time, and end time are required."                                                  | OK     |
+| _MSG 103_    | "Shift name must be 3-100 characters."                                                                | OK     |
+| _MSG 104_    | "Start time must be before end time."                                                                 | OK     |
+| _MSG 105_    | "Shift name already exists."                                                                          | OK     |
+| _MSG 106_    | "Failed to create shift. Please try again."                                                           | OK     |
+| _MSG 107_    | "Shift created successfully."                                                                         | -      |
+| _MSG 108_    | "Failed to update shift. Please try again."                                                           | OK     |
+| _MSG 109_    | "Shift updated successfully."                                                                         | -      |
+| _MSG 110_    | "Cannot delete shift. This shift is used in [COUNT] booking(s)."                                      | OK     |
+| _MSG 111_    | "Failed to delete shift. Please try again."                                                           | OK     |
+| _MSG 112_    | "Shift deleted successfully."                                                                         | -      |
+| _MSG 113_    | "Date must be in future."                                                                             | OK     |
+| _MSG 114_    | "No available halls found. Try other dates or shifts."                                                | -      |
+| _MSG 115_    | "Wedding date must be in future."                                                                     | OK     |
+| _MSG 116_    | "Number of tables exceeds hall capacity of [max_tables] tables."                                      | OK     |
+| _MSG 117_    | "Hall is no longer available for selected date and shift."                                            | OK     |
+| _MSG 118_    | "Booking submitted successfully. Booking ID: [booking_id]. Please check your email for confirmation." | -      |
+| _MSG 119_    | "No bookings found. Create your first wedding booking!"                                               | -      |
+| _MSG 120_    | "Cannot load booking details. Please try again."                                                      | OK     |
+| _MSG 121_    | "Cannot edit this booking. Only pending bookings can be edited."                                      | OK     |
+| _MSG 122_    | "Booking updated successfully."                                                                       | -      |
+| _MSG 123_    | "Cannot cancel this booking. Booking is already [status] or date has passed."                         | OK     |
+| _MSG 124_    | "Booking cancelled successfully. Deposit [deposit_amount] VND is non-refundable as per policy."       | -      |
+| _MSG 125_    | "No bookings found. Try adjusting search criteria."                                                   | -      |
+| _MSG 126_    | "Booking does not exist."                                                                             | OK     |
+| _MSG 127_    | "No halls in system."                                                                                 | OK     |
+| _MSG 128_    | "Number of tables exceeds hall capacity."                                                             | OK     |
+| _MSG 129_    | "Hall is already booked for selected date and shift."                                                 | OK     |
+| _MSG 130_    | "Booking created successfully. Booking ID: [booking_id]."                                             | -      |
+| _MSG 131_    | "Cannot edit completed or cancelled bookings."                                                        | OK     |
+| _MSG 132_    | "Cannot delete booking. Database error occurred."                                                     | OK     |
+| _MSG 133_    | "Booking deleted successfully."                                                                       | -      |
+| _MSG 134_    | "You don't have any invoices yet."                                                                    | -      |
+| _MSG 135_    | "Cannot load invoice details. Please try again."                                                      | OK     |
+| _MSG 136_    | "Payment amount must be greater than 0."                                                              | OK     |
+| _MSG 137_    | "Payment amount cannot exceed outstanding balance of [remaining_amount] VND."                         | OK     |
+| _MSG 138_    | "Payment failed. Please try again or contact support."                                                | OK     |
+| _MSG 139_    | "Error occurred during payment processing. Please contact support."                                   | OK     |
+| _MSG 140_    | "Payment successful! Amount paid: [payment_amount] VND. Remaining balance: [new_remaining] VND."      | -      |
+| _MSG 141_    | "Cannot create PDF file. Please try again or contact support."                                        | OK     |
+| _MSG 142_    | "Cannot download file. Please check your connection or browser settings."                             | OK     |
+| _MSG 143_    | "Invoice PDF exported successfully."                                                                  | -      |
+| _MSG 144_    | "Error occurred during payment confirmation. Please try again."                                       | OK     |
+| _MSG 145_    | "Payment confirmation successful. Total processed: [remaining_amount + penalty_amount] VND."          | -      |
+| _MSG 146_    | "Cannot create PDF file. Please try again."                                                           | OK     |
+| _MSG 147_    | "Cannot download file. Please check your connection."                                                 | OK     |
+| _MSG 148_    | "Official invoice PDF exported successfully."                                                         | -      |
+| _MSG 149_    | "No report data for this month."                                                                      | -      |
+| _MSG 150_    | "Cannot load report data. Please try again."                                                          | OK     |
+| _MSG 151_    | "Cannot create Excel file. Please try again."                                                         | OK     |
+| _MSG 152_    | "Cannot download file. Please check your connection and disk space."                                  | OK     |
+| _MSG 153_    | "Export Excel successful. File saved to Downloads folder."                                            | -      |
 
 ### 5.3 Issues List
 

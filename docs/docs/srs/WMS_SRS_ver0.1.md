@@ -2523,9 +2523,9 @@ This section describes the details of messages used in business rules e.g. error
 | Message Code | Message Content                                                                                       | Button |
 | :----------- | :---------------------------------------------------------------------------------------------------- | :----- |
 | _MSG 1_      | "Username and password are required."                                                                 | OK     |
-| _MSG 2_      | "Invalid TenDangNhap or password."                                                                    | OK     |
-| _MSG 3_      | "Invalid TenDangNhap or password or account is not active."                                           | OK     |
-| _MSG 4_      | "Welcome, [User.TenDangNhap]!"                                                                        | -      |
+| _MSG 2_      | "Invalid username or password."                                                                       | OK     |
+| _MSG 3_      | "Invalid username or password or account is not active."                                              | OK     |
+| _MSG 4_      | "Welcome, [User.Username]!"                                                                           | -      |
 | _MSG 5_      | "You have been logged out successfully."                                                              | -      |
 | _MSG 6_      | "All fields are required."                                                                            | OK     |
 | _MSG 7_      | "Invalid Email format."                                                                               | OK     |
@@ -2554,20 +2554,20 @@ This section describes the details of messages used in business rules e.g. error
 | _MSG 30_     | "Failed to create user. Please try again."                                                            | OK     |
 | _MSG 31_     | "User created successfully."                                                                          | -      |
 | _MSG 32_     | "User not found."                                                                                     | OK     |
-| _MSG 33_     | "Failed to UPDATE NGUOIDUNG. Please try again."                                                       | OK     |
+| _MSG 33_     | "Failed to update user. Please try again."                                                            | OK     |
 | _MSG 34_     | "User updated successfully."                                                                          | -      |
 | _MSG 35_     | "Cannot delete user. User has [reference_count] associated bookings/invoices."                        | OK     |
 | _MSG 36_     | "Failed to delete user. Please try again."                                                            | OK     |
 | _MSG 37_     | "User deleted successfully."                                                                          | -      |
-| _MSG 38_     | "Group code and group Ten are required."                                                              | OK     |
+| _MSG 38_     | "Group code and group name are required."                                                             | OK     |
 | _MSG 39_     | "Group code must be 3-20 uppercase alphanumeric characters with underscores."                         | OK     |
-| _MSG 40_     | "Group Ten must be 3-100 characters."                                                                 | OK     |
+| _MSG 40_     | "Group name must be 3-100 characters."                                                                | OK     |
 | _MSG 41_     | "Please select at least one function for this permission group."                                      | OK     |
 | _MSG 42_     | "Group code already exists."                                                                          | OK     |
-| _MSG 43_     | "Group Ten already exists."                                                                           | OK     |
+| _MSG 43_     | "Group name already exists."                                                                          | OK     |
 | _MSG 44_     | "Failed to create permission group. Please try again."                                                | OK     |
 | _MSG 45_     | "Permission group created successfully."                                                              | -      |
-| _MSG 46_     | "Group Ten is required."                                                                              | OK     |
+| _MSG 46_     | "Group name is required."                                                                             | OK     |
 | _MSG 47_     | "Failed to update permission group. Please try again."                                                | OK     |
 | _MSG 48_     | "Permission group updated successfully."                                                              | -      |
 | _MSG 49_     | "Cannot delete permission group. [COUNT] user(s) are assigned to this group."                         | OK     |
@@ -2578,79 +2578,79 @@ This section describes the details of messages used in business rules e.g. error
 | _MSG 54_     | "Minimum table reservation rate must be greater than 0% and up to 100%."                              | OK     |
 | _MSG 55_     | "Failed to update system parameters. Please try again."                                               | OK     |
 | _MSG 56_     | "System parameters updated successfully. Changes will take effect immediately."                       | -      |
-| _MSG 57_     | "Hall Ten, hall type, and max tables are required."                                                   | OK     |
-| _MSG 58_     | "Hall Ten must be 3-100 characters."                                                                  | OK     |
+| _MSG 57_     | "Hall name, hall type, and max tables are required."                                                  | OK     |
+| _MSG 58_     | "Hall name must be 3-100 characters."                                                                 | OK     |
 | _MSG 59_     | "Max tables must be a positive number."                                                               | OK     |
-| _MSG 60_     | "Hall Ten already exists."                                                                            | OK     |
+| _MSG 60_     | "Hall name already exists."                                                                           | OK     |
 | _MSG 61_     | "Failed to create hall. Please try again."                                                            | OK     |
 | _MSG 62_     | "Hall created successfully."                                                                          | -      |
-| _MSG 63_     | "Failed to UPDATE SANH. Please try again."                                                            | OK     |
+| _MSG 63_     | "Failed to update hall. Please try again."                                                            | OK     |
 | _MSG 64_     | "Hall updated successfully."                                                                          | -      |
 | _MSG 65_     | "Cannot delete hall. Hall has [COUNT] associated booking(s)."                                         | OK     |
 | _MSG 66_     | "Failed to delete hall. Please try again."                                                            | OK     |
 | _MSG 67_     | "Hall deleted successfully."                                                                          | -      |
 | _MSG 68_     | "No data to export."                                                                                  | OK     |
-| _MSG 69_     | "Hall type Ten and minimum table DonGia are required."                                                | OK     |
-| _MSG 70_     | "Hall type Ten must be 3-100 characters."                                                             | OK     |
-| _MSG 71_     | "Minimum table DonGia must be a positive number."                                                     | OK     |
-| _MSG 72_     | "Hall type Ten already exists."                                                                       | OK     |
+| _MSG 69_     | "Hall type name and minimum table price are required."                                                | OK     |
+| _MSG 70_     | "Hall type name must be 3-100 characters."                                                            | OK     |
+| _MSG 71_     | "Minimum table price must be a positive number."                                                      | OK     |
+| _MSG 72_     | "Hall type name already exists."                                                                      | OK     |
 | _MSG 73_     | "Failed to create hall type. Please try again."                                                       | OK     |
 | _MSG 74_     | "Hall type created successfully."                                                                     | -      |
-| _MSG 75_     | "Failed to UPDATE SANH type. Please try again."                                                       | OK     |
+| _MSG 75_     | "Failed to update hall type. Please try again."                                                       | OK     |
 | _MSG 76_     | "Hall type updated successfully."                                                                     | -      |
 | _MSG 77_     | "Cannot delete hall type. [COUNT] hall(s) are using this type."                                       | OK     |
 | _MSG 78_     | "Failed to delete hall type. Please try again."                                                       | OK     |
 | _MSG 79_     | "Hall type deleted successfully."                                                                     | -      |
-| _MSG 80_     | "Dish Ten and DonGia are required."                                                                   | OK     |
-| _MSG 81_     | "Dish Ten must be 3-100 characters."                                                                  | OK     |
+| _MSG 80_     | "Dish name and price are required."                                                                   | OK     |
+| _MSG 81_     | "Dish name must be 3-100 characters."                                                                 | OK     |
 | _MSG 82_     | "Price must be a positive number."                                                                    | OK     |
-| _MSG 83_     | "Dish Ten already exists."                                                                            | OK     |
+| _MSG 83_     | "Dish name already exists."                                                                           | OK     |
 | _MSG 84_     | "Failed to create dish. Please try again."                                                            | OK     |
 | _MSG 85_     | "Dish created successfully."                                                                          | -      |
-| _MSG 86_     | "Failed to UPDATE MONAN. Please try again."                                                           | OK     |
+| _MSG 86_     | "Failed to update dish. Please try again."                                                            | OK     |
 | _MSG 87_     | "Dish updated successfully."                                                                          | -      |
 | _MSG 88_     | "Cannot delete dish. This dish is used in [COUNT] menu item(s)."                                      | OK     |
 | _MSG 89_     | "Failed to delete dish. Please try again."                                                            | OK     |
 | _MSG 90_     | "Dish deleted successfully."                                                                          | -      |
-| _MSG 91_     | "Service Ten and DonGia are required."                                                                | OK     |
-| _MSG 92_     | "Service Ten must be 3-100 characters."                                                               | OK     |
+| _MSG 91_     | "Service name and price are required."                                                                | OK     |
+| _MSG 92_     | "Service name must be 3-100 characters."                                                              | OK     |
 | _MSG 93_     | "Price must be a positive number."                                                                    | OK     |
-| _MSG 94_     | "Service Ten already exists."                                                                         | OK     |
+| _MSG 94_     | "Service name already exists."                                                                        | OK     |
 | _MSG 95_     | "Failed to create service. Please try again."                                                         | OK     |
 | _MSG 96_     | "Service created successfully."                                                                       | -      |
-| _MSG 97_     | "Failed to UPDATE DICHVU. Please try again."                                                          | OK     |
+| _MSG 97_     | "Failed to update service. Please try again."                                                         | OK     |
 | _MSG 98_     | "Service updated successfully."                                                                       | -      |
 | _MSG 99_     | "Cannot delete service. This service is used in [COUNT] booking(s)."                                  | OK     |
 | _MSG 100_    | "Failed to delete service. Please try again."                                                         | OK     |
 | _MSG 101_    | "Service deleted successfully."                                                                       | -      |
-| _MSG 102_    | "Shift Ten, start time, and end time are required."                                                   | OK     |
-| _MSG 103_    | "Shift Ten must be 3-100 characters."                                                                 | OK     |
+| _MSG 102_    | "Shift name, start time, and end time are required."                                                  | OK     |
+| _MSG 103_    | "Shift name must be 3-100 characters."                                                                | OK     |
 | _MSG 104_    | "Start time must be before end time."                                                                 | OK     |
-| _MSG 105_    | "Shift Ten already exists."                                                                           | OK     |
+| _MSG 105_    | "Shift name already exists."                                                                          | OK     |
 | _MSG 106_    | "Failed to create shift. Please try again."                                                           | OK     |
 | _MSG 107_    | "Shift created successfully."                                                                         | -      |
-| _MSG 108_    | "Failed to UPDATE CA. Please try again."                                                              | OK     |
+| _MSG 108_    | "Failed to update shift. Please try again."                                                           | OK     |
 | _MSG 109_    | "Shift updated successfully."                                                                         | -      |
 | _MSG 110_    | "Cannot delete shift. This shift is used in [COUNT] booking(s)."                                      | OK     |
 | _MSG 111_    | "Failed to delete shift. Please try again."                                                           | OK     |
 | _MSG 112_    | "Shift deleted successfully."                                                                         | -      |
 | _MSG 113_    | "Date must be in future."                                                                             | OK     |
 | _MSG 114_    | "No available halls found. Try other dates or shifts."                                                | -      |
-| _MSG 115_    | "Wedding Ngay must be in future."                                                                     | OK     |
+| _MSG 115_    | "Wedding date must be in future."                                                                     | OK     |
 | _MSG 116_    | "Number of tables exceeds hall capacity of [max_tables] tables."                                      | OK     |
-| _MSG 117_    | "Hall is no longer available for selected Ngay and shift."                                            | OK     |
+| _MSG 117_    | "Hall is no longer available for selected date and shift."                                            | OK     |
 | _MSG 118_    | "Booking submitted successfully. Booking ID: [MaPhieuDat]. Please check your Email for confirmation." | -      |
 | _MSG 119_    | "No bookings found. Create your first wedding booking!"                                               | -      |
 | _MSG 120_    | "Cannot load booking details. Please try again."                                                      | OK     |
 | _MSG 121_    | "Cannot edit this booking. Only pending bookings can be edited."                                      | OK     |
 | _MSG 122_    | "Booking updated successfully."                                                                       | -      |
-| _MSG 123_    | "Cannot cancel this booking. Booking is already [status] or Ngay has passed."                         | OK     |
+| _MSG 123_    | "Cannot cancel this booking. Booking is already [status] or date has passed."                         | OK     |
 | _MSG 124_    | "Booking cancelled successfully. Deposit [deposit_amount] VND is non-refundable as per policy."       | -      |
 | _MSG 125_    | "No bookings found. Try adjusting search criteria."                                                   | -      |
 | _MSG 126_    | "Booking does not exist."                                                                             | OK     |
 | _MSG 127_    | "No halls in system."                                                                                 | OK     |
 | _MSG 128_    | "Number of tables exceeds hall capacity."                                                             | OK     |
-| _MSG 129_    | "Hall is already booked for selected Ngay and shift."                                                 | OK     |
+| _MSG 129_    | "Hall is already booked for selected date and shift."                                                 | OK     |
 | _MSG 130_    | "Booking created successfully. Booking ID: [MaPhieuDat]."                                             | -      |
 | _MSG 131_    | "Cannot edit completed or cancelled bookings."                                                        | OK     |
 | _MSG 132_    | "Cannot delete booking. Database error occurred."                                                     | OK     |
@@ -2666,11 +2666,11 @@ This section describes the details of messages used in business rules e.g. error
 | _MSG 142_    | "Cannot download file. Please check your connection or browser settings."                             | OK     |
 | _MSG 143_    | "Invoice PDF exported successfully."                                                                  | -      |
 | _MSG 144_    | "Error occurred during payment confirmation. Please try again."                                       | OK     |
-| _MSG 145_    | "Payment confirmation successful. Total processed: [remaining_amount + TienPhat] VND."                | -      |
+| _MSG 145_    | "Payment confirmation successful. Total processed: [remaining_amount + penalty_fee] VND."             | -      |
 | _MSG 146_    | "Cannot create PDF file. Please try again."                                                           | OK     |
 | _MSG 147_    | "Cannot download file. Please check your connection."                                                 | OK     |
 | _MSG 148_    | "Official invoice PDF exported successfully."                                                         | -      |
-| _MSG 149_    | "No report data for this Thang."                                                                      | -      |
+| _MSG 149_    | "No report data for this month."                                                                      | -      |
 | _MSG 150_    | "Cannot load report data. Please try again."                                                          | OK     |
 | _MSG 151_    | "Cannot create Excel file. Please try again."                                                         | OK     |
 | _MSG 152_    | "Cannot download file. Please check your connection and disk space."                                  | OK     |

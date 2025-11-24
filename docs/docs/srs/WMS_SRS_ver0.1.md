@@ -2010,221 +2010,162 @@ The list below contains all the necessary terms to interpret the document, inclu
 
 This section describes the details of messages used in business rules e.g. error messages, confirmation messages, etc.
 
-| Message Code | Message Content                                                                                       | Button |
-| :----------- | :---------------------------------------------------------------------------------------------------- | :----- |
-| _MSG 1_      | "Username and password are required."                                                                 | OK     |
-| _MSG 2_      | "Invalid username or password."                                                                       | OK     |
-| _MSG 3_      | "Invalid username or password or account is not active."                                              | OK     |
-| _MSG 4_      | "Welcome, [User.username]!"                                                                           | -      |
-| _MSG 5_      | "You have been logged out successfully."                                                              | -      |
-| _MSG 6_      | "All fields are required."                                                                            | OK     |
-| _MSG 7_      | "Invalid email format."                                                                               | OK     |
-| _MSG 8_      | "Phone must be 10 digits."                                                                            | OK     |
-| _MSG 9_      | "Email already exists in system."                                                                     | OK     |
-| _MSG 10_     | "Failed to update profile. Please try again."                                                         | OK     |
-| _MSG 11_     | "Profile updated successfully."                                                                       | -      |
-| _MSG 12_     | "All fields are required."                                                                            | OK     |
-| _MSG 13_     | "Password must be at least 8 characters with uppercase, lowercase, digit and special character."      | OK     |
-| _MSG 14_     | "New password and confirm password do not match."                                                     | OK     |
-| _MSG 15_     | "Current password is incorrect."                                                                      | OK     |
-| _MSG 16_     | "Failed to change password. Please try again."                                                        | OK     |
-| _MSG 17_     | "Password changed successfully. Please login with your new password."                                 | -      |
-| _MSG 18_     | "All fields are required."                                                                            | OK     |
-| _MSG 19_     | "Username must be 4-50 alphanumeric characters."                                                      | OK     |
-| _MSG 20_     | "Invalid email format."                                                                               | OK     |
-| _MSG 21_     | "Phone must be 10 digits."                                                                            | OK     |
-| _MSG 22_     | "Password must be at least 8 characters with uppercase, lowercase, digit and special character."      | OK     |
-| _MSG 23_     | "Password and confirm password do not match."                                                         | OK     |
-| _MSG 24_     | "You must agree to terms and conditions."                                                             | OK     |
-| _MSG 25_     | "Username already exists."                                                                            | OK     |
-| _MSG 26_     | "Email already exists."                                                                               | OK     |
-| _MSG 27_     | "Registration failed. Please try again."                                                              | OK     |
-| _MSG 28_     | "Registration successful! Please login with your account."                                            | -      |
-| _MSG 29_     | "Email is required."                                                                                  | OK     |
-| _MSG 30_     | "Invalid email format."                                                                               | OK     |
-| _MSG 31_     | "If your email exists in our system, you will receive a password reset link."                         | -      |
-| _MSG 32_     | "Invalid or expired reset link."                                                                      | OK     |
-| _MSG 33_     | "All fields are required."                                                                            | OK     |
-| _MSG 34_     | "Password must be at least 8 characters with uppercase, lowercase, digit and special character."      | OK     |
-| _MSG 35_     | "Password and confirm password do not match."                                                         | OK     |
-| _MSG 36_     | "Failed to reset password. Please try again."                                                         | OK     |
-| _MSG 37_     | "Password reset successfully! Please login with your new password."                                   | -      |
-| _MSG 38_     | "All required fields must be filled."                                                                 | OK     |
-| _MSG 39_     | "Invalid email format."                                                                               | OK     |
-| _MSG 40_     | "Phone must be 10 digits."                                                                            | OK     |
-| _MSG 41_     | "Username must be 4-50 alphanumeric characters."                                                      | OK     |
-| _MSG 42_     | "Password must be at least 8 characters."                                                             | OK     |
-| _MSG 43_     | "CCCD must be 12 digits."                                                                             | OK     |
-| _MSG 44_     | "Username already exists."                                                                            | OK     |
-| _MSG 45_     | "Email already exists."                                                                               | OK     |
-| _MSG 46_     | "Failed to create user. Please try again."                                                            | OK     |
-| _MSG 47_     | "User created successfully."                                                                          | -      |
-| _MSG 48_     | "User not found."                                                                                     | OK     |
-| _MSG 49_     | "All required fields must be filled."                                                                 | OK     |
-| _MSG 50_     | "Invalid email format."                                                                               | OK     |
-| _MSG 51_     | "Phone must be 10 digits."                                                                            | OK     |
-| _MSG 52_     | "CCCD must be 12 digits."                                                                             | OK     |
-| _MSG 53_     | "Email already exists."                                                                               | OK     |
-| _MSG 54_     | "Failed to update user. Please try again."                                                            | OK     |
-| _MSG 55_     | "User updated successfully."                                                                          | -      |
-| _MSG 56_     | "Cannot delete user. User has [reference_count] associated bookings/invoices."                        | OK     |
-| _MSG 57_     | "Failed to delete user. Please try again."                                                            | OK     |
-| _MSG 58_     | "User deleted successfully."                                                                          | -      |
-| _MSG 59_     | "Group code and group name are required."                                                             | OK     |
-| _MSG 60_     | "Group code must be 3-20 uppercase alphanumeric characters with underscores."                         | OK     |
-| _MSG 61_     | "Group name must be 3-100 characters."                                                                | OK     |
-| _MSG 62_     | "Please select at least one function for this permission group."                                      | OK     |
-| _MSG 63_     | "Group code already exists."                                                                          | OK     |
-| _MSG 64_     | "Group name already exists."                                                                          | OK     |
-| _MSG 65_     | "Failed to create permission group. Please try again."                                                | OK     |
-| _MSG 66_     | "Permission group created successfully."                                                              | -      |
-| _MSG 67_     | "Group name is required."                                                                             | OK     |
-| _MSG 68_     | "Group name must be 3-100 characters."                                                                | OK     |
-| _MSG 69_     | "Please select at least one function for this permission group."                                      | OK     |
-| _MSG 70_     | "Group name already exists."                                                                          | OK     |
-| _MSG 71_     | "Failed to update permission group. Please try again."                                                | OK     |
-| _MSG 72_     | "Permission group updated successfully."                                                              | -      |
-| _MSG 73_     | "Cannot delete permission group. [COUNT] user(s) are assigned to this group."                         | OK     |
-| _MSG 74_     | "Failed to delete permission group. Please try again."                                                | OK     |
-| _MSG 75_     | "Permission group deleted successfully."                                                              | -      |
-| _MSG 76_     | "Penalty rate must be between 0% and 100%."                                                           | OK     |
-| _MSG 77_     | "Minimum deposit rate must be greater than 0% and up to 100%."                                        | OK     |
-| _MSG 78_     | "Minimum table reservation rate must be greater than 0% and up to 100%."                              | OK     |
-| _MSG 79_     | "Failed to update system parameters. Please try again."                                               | OK     |
-| _MSG 80_     | "System parameters updated successfully. Changes will take effect immediately."                       | -      |
-| _MSG 81_     | "Hall name, hall type, and max tables are required."                                                  | OK     |
-| _MSG 82_     | "Hall name must be 3-100 characters."                                                                 | OK     |
-| _MSG 83_     | "Max tables must be a positive number."                                                               | OK     |
-| _MSG 84_     | "Hall name already exists."                                                                           | OK     |
-| _MSG 85_     | "Failed to create hall. Please try again."                                                            | OK     |
-| _MSG 86_     | "Hall created successfully."                                                                          | -      |
-| _MSG 87_     | "Hall name, hall type, and max tables are required."                                                  | OK     |
-| _MSG 88_     | "Hall name must be 3-100 characters."                                                                 | OK     |
-| _MSG 89_     | "Max tables must be a positive number."                                                               | OK     |
-| _MSG 90_     | "Hall name already exists."                                                                           | OK     |
-| _MSG 91_     | "Failed to update hall. Please try again."                                                            | OK     |
-| _MSG 92_     | "Hall updated successfully."                                                                          | -      |
-| _MSG 93_     | "Cannot delete hall. Hall has [COUNT] associated booking(s)."                                         | OK     |
-| _MSG 94_     | "Failed to delete hall. Please try again."                                                            | OK     |
-| _MSG 95_     | "Hall deleted successfully."                                                                          | -      |
-| _MSG 96_     | "No data to export."                                                                                  | OK     |
-| _MSG 97_     | "Hall type name and minimum table price are required."                                                | OK     |
-| _MSG 98_     | "Hall type name must be 3-100 characters."                                                            | OK     |
-| _MSG 99_     | "Minimum table price must be a positive number."                                                      | OK     |
-| _MSG 100_    | "Hall type name already exists."                                                                      | OK     |
-| _MSG 101_    | "Failed to create hall type. Please try again."                                                       | OK     |
-| _MSG 102_    | "Hall type created successfully."                                                                     | -      |
-| _MSG 103_    | "Hall type name and minimum table price are required."                                                | OK     |
-| _MSG 104_    | "Hall type name must be 3-100 characters."                                                            | OK     |
-| _MSG 105_    | "Minimum table price must be a positive number."                                                      | OK     |
-| _MSG 106_    | "Hall type name already exists."                                                                      | OK     |
-| _MSG 107_    | "Failed to update hall type. Please try again."                                                       | OK     |
-| _MSG 108_    | "Hall type updated successfully."                                                                     | -      |
-| _MSG 109_    | "Cannot delete hall type. [COUNT] hall(s) are using this type."                                       | OK     |
-| _MSG 110_    | "Failed to delete hall type. Please try again."                                                       | OK     |
-| _MSG 111_    | "Hall type deleted successfully."                                                                     | -      |
-| _MSG 112_    | "No data to export."                                                                                  | OK     |
-| _MSG 113_    | "Dish name and price are required."                                                                   | OK     |
-| _MSG 114_    | "Dish name must be 3-100 characters."                                                                 | OK     |
-| _MSG 115_    | "Price must be a positive number."                                                                    | OK     |
-| _MSG 116_    | "Dish name already exists."                                                                           | OK     |
-| _MSG 117_    | "Failed to create dish. Please try again."                                                            | OK     |
-| _MSG 118_    | "Dish created successfully."                                                                          | -      |
-| _MSG 119_    | "Dish name and price are required."                                                                   | OK     |
-| _MSG 120_    | "Dish name must be 3-100 characters."                                                                 | OK     |
-| _MSG 121_    | "Price must be a positive number."                                                                    | OK     |
-| _MSG 122_    | "Dish name already exists."                                                                           | OK     |
-| _MSG 123_    | "Failed to update dish. Please try again."                                                            | OK     |
-| _MSG 124_    | "Dish updated successfully."                                                                          | -      |
-| _MSG 125_    | "Cannot delete dish. This dish is used in [COUNT] menu item(s)."                                      | OK     |
-| _MSG 126_    | "Failed to delete dish. Please try again."                                                            | OK     |
-| _MSG 127_    | "Dish deleted successfully."                                                                          | -      |
-| _MSG 128_    | "No data to export."                                                                                  | OK     |
-| _MSG 129_    | "Service name and price are required."                                                                | OK     |
-| _MSG 130_    | "Service name must be 3-100 characters."                                                              | OK     |
-| _MSG 131_    | "Price must be a positive number."                                                                    | OK     |
-| _MSG 132_    | "Service name already exists."                                                                        | OK     |
-| _MSG 133_    | "Failed to create service. Please try again."                                                         | OK     |
-| _MSG 134_    | "Service created successfully."                                                                       | -      |
-| _MSG 135_    | "Service name and price are required."                                                                | OK     |
-| _MSG 136_    | "Service name must be 3-100 characters."                                                              | OK     |
-| _MSG 137_    | "Price must be a positive number."                                                                    | OK     |
-| _MSG 138_    | "Service name already exists."                                                                        | OK     |
-| _MSG 139_    | "Failed to update service. Please try again."                                                         | OK     |
-| _MSG 140_    | "Service updated successfully."                                                                       | -      |
-| _MSG 141_    | "Cannot delete service. This service is used in [COUNT] booking(s)."                                  | OK     |
-| _MSG 142_    | "Failed to delete service. Please try again."                                                         | OK     |
-| _MSG 143_    | "Service deleted successfully."                                                                       | -      |
-| _MSG 144_    | "No data to export."                                                                                  | OK     |
-| _MSG 145_    | "Shift name, start time, and end time are required."                                                  | OK     |
-| _MSG 146_    | "Shift name must be 3-100 characters."                                                                | OK     |
-| _MSG 147_    | "Start time must be before end time."                                                                 | OK     |
-| _MSG 148_    | "Shift name already exists."                                                                          | OK     |
-| _MSG 149_    | "Failed to create shift. Please try again."                                                           | OK     |
-| _MSG 150_    | "Shift created successfully."                                                                         | -      |
-| _MSG 151_    | "Shift name, start time, and end time are required."                                                  | OK     |
-| _MSG 152_    | "Shift name must be 3-100 characters."                                                                | OK     |
-| _MSG 153_    | "Start time must be before end time."                                                                 | OK     |
-| _MSG 154_    | "Shift name already exists."                                                                          | OK     |
-| _MSG 155_    | "Failed to update shift. Please try again."                                                           | OK     |
-| _MSG 156_    | "Shift updated successfully."                                                                         | -      |
-| _MSG 157_    | "Cannot delete shift. This shift is used in [COUNT] booking(s)."                                      | OK     |
-| _MSG 158_    | "Failed to delete shift. Please try again."                                                           | OK     |
-| _MSG 159_    | "Shift deleted successfully."                                                                         | -      |
-| _MSG 160_    | "No data to export."                                                                                  | OK     |
-| _MSG 161_    | "Date must be in future."                                                                             | OK     |
-| _MSG 162_    | "No available halls found. Try other dates or shifts."                                                | -      |
-| _MSG 163_    | "All required fields must be filled."                                                                 | OK     |
-| _MSG 164_    | "Phone must be 10 digits."                                                                            | OK     |
-| _MSG 165_    | "Wedding date must be in future."                                                                     | OK     |
-| _MSG 166_    | "Number of tables exceeds hall capacity of [max_tables] tables."                                      | OK     |
-| _MSG 167_    | "Hall is no longer available for selected date and shift."                                            | OK     |
-| _MSG 168_    | "Booking submitted successfully. Booking ID: [booking_id]. Please check your email for confirmation." | -      |
-| _MSG 169_    | "No bookings found. Create your first wedding booking!"                                               | -      |
-| _MSG 170_    | "Cannot load booking details. Please try again."                                                      | OK     |
-| _MSG 171_    | "Cannot edit this booking. Only pending bookings can be edited."                                      | OK     |
-| _MSG 172_    | "Hall is no longer available for selected date and shift."                                            | OK     |
-| _MSG 173_    | "Booking updated successfully."                                                                       | -      |
-| _MSG 174_    | "Cannot cancel this booking. Booking is already [status] or date has passed."                         | OK     |
-| _MSG 175_    | "Booking cancelled successfully. Deposit [deposit_amount] VND is non-refundable as per policy."       | -      |
-| _MSG 176_    | "No bookings found. Try adjusting search criteria."                                                   | -      |
-| _MSG 177_    | "Booking does not exist."                                                                             | OK     |
-| _MSG 178_    | "Cannot load booking details. Please try again."                                                      | OK     |
-| _MSG 179_    | "No halls in system."                                                                                 | OK     |
-| _MSG 180_    | "All required fields must be filled."                                                                 | OK     |
-| _MSG 181_    | "Invalid email format."                                                                               | OK     |
-| _MSG 182_    | "Phone must be 10 digits."                                                                            | OK     |
-| _MSG 183_    | "Wedding date must be in future."                                                                     | OK     |
-| _MSG 184_    | "Number of tables exceeds hall capacity."                                                             | OK     |
-| _MSG 185_    | "Hall is already booked for selected date and shift."                                                 | OK     |
-| _MSG 186_    | "Booking created successfully. Booking ID: [booking_id]."                                             | -      |
-| _MSG 187_    | "Cannot edit completed or cancelled bookings."                                                        | OK     |
-| _MSG 188_    | "Hall is already booked for selected date and shift."                                                 | OK     |
-| _MSG 189_    | "Booking updated successfully."                                                                       | -      |
-| _MSG 190_    | "Cannot delete booking. Database error occurred."                                                     | OK     |
-| _MSG 191_    | "Booking deleted successfully."                                                                       | -      |
-| _MSG 192_    | "You don't have any invoices yet."                                                                    | -      |
-| _MSG 193_    | "Cannot load invoice details. Please try again."                                                      | OK     |
-| _MSG 194_    | "Payment amount must be greater than 0."                                                              | OK     |
-| _MSG 195_    | "Payment amount cannot exceed outstanding balance of [remaining_amount] VND."                         | OK     |
-| _MSG 196_    | "Payment failed. Please try again or contact support."                                                | OK     |
-| _MSG 197_    | "Error occurred during payment processing. Please contact support."                                   | OK     |
-| _MSG 198_    | "Payment successful! Amount paid: [payment_amount] VND. Remaining balance: [new_remaining] VND."      | -      |
-| _MSG 199_    | "Cannot create PDF file. Please try again or contact support."                                        | OK     |
-| _MSG 200_    | "Cannot download file. Please check your connection or browser settings."                             | OK     |
-| _MSG 201_    | "Invoice PDF exported successfully."                                                                  | -      |
-| _MSG 202_    | "Cannot load invoice details. Please try again."                                                      | OK     |
-| _MSG 203_    | "Error occurred during payment confirmation. Please try again."                                       | OK     |
-| _MSG 204_    | "Payment confirmation successful. Total processed: [remaining_amount + penalty_amount] VND."          | -      |
-| _MSG 205_    | "Cannot create PDF file. Please try again."                                                           | OK     |
-| _MSG 206_    | "Cannot download file. Please check your connection."                                                 | OK     |
-| _MSG 207_    | "Official invoice PDF exported successfully."                                                         | -      |
-| _MSG 208_    | "No report data for this month."                                                                      | -      |
-| _MSG 209_    | "Cannot load report data. Please try again."                                                          | OK     |
-| _MSG 210_    | "No data to export."                                                                                  | -      |
-| _MSG 211_    | "Cannot create Excel file. Please try again."                                                         | OK     |
-| _MSG 212_    | "Cannot download file. Please check your connection and disk space."                                  | OK     |
-| _MSG 213_    | "Export Excel successful. File saved to Downloads folder."                                            | -      |
+| Message Code | Message Content | Button                                                                                                |
+| :----------- | :-------------- | :---------------------------------------------------------------------------------------------------- | ------ |
+| No.          | Message Code    | Message Content                                                                                       | Button |
+| 1            | _MSG 1_         | "Username and password are required."                                                                 | OK     |
+| 2            | _MSG 2_         | "Invalid username or password."                                                                       | OK     |
+| 3            | _MSG 3_         | "Invalid username or password or account is not active."                                              | OK     |
+| 4            | _MSG 4_         | "Welcome, [User.username]!"                                                                           | -      |
+| 5            | _MSG 5_         | "You have been logged out successfully."                                                              | -      |
+| 6            | _MSG 6_         | "All fields are required."                                                                            | OK     |
+| 7            | _MSG 7_         | "Invalid email format."                                                                               | OK     |
+| 8            | _MSG 8_         | "Phone must be 10 digits."                                                                            | OK     |
+| 9            | _MSG 9_         | "Email already exists in system."                                                                     | OK     |
+| 10           | _MSG 10_        | "Failed to update profile. Please try again."                                                         | OK     |
+| 11           | _MSG 11_        | "Profile updated successfully."                                                                       | -      |
+| 12           | _MSG 13_        | "Password must be at least 8 characters with uppercase, lowercase, digit and special character."      | OK     |
+| 13           | _MSG 14_        | "New password and confirm password do not match."                                                     | OK     |
+| 14           | _MSG 15_        | "Current password is incorrect."                                                                      | OK     |
+| 15           | _MSG 16_        | "Failed to change password. Please try again."                                                        | OK     |
+| 16           | _MSG 17_        | "Password changed successfully. Please login with your new password."                                 | -      |
+| 17           | _MSG 19_        | "Username must be 4-50 alphanumeric characters."                                                      | OK     |
+| 18           | _MSG 23_        | "Password and confirm password do not match."                                                         | OK     |
+| 19           | _MSG 24_        | "You must agree to terms and conditions."                                                             | OK     |
+| 20           | _MSG 25_        | "Username already exists."                                                                            | OK     |
+| 21           | _MSG 26_        | "Email already exists."                                                                               | OK     |
+| 22           | _MSG 27_        | "Registration failed. Please try again."                                                              | OK     |
+| 23           | _MSG 28_        | "Registration successful! Please login with your account."                                            | -      |
+| 24           | _MSG 29_        | "Email is required."                                                                                  | OK     |
+| 25           | _MSG 31_        | "If your email exists in our system, you will receive a password reset link."                         | -      |
+| 26           | _MSG 32_        | "Invalid or expired reset link."                                                                      | OK     |
+| 27           | _MSG 36_        | "Failed to reset password. Please try again."                                                         | OK     |
+| 28           | _MSG 38_        | "All required fields must be filled."                                                                 | OK     |
+| 29           | _MSG 43_        | "CCCD must be 12 digits."                                                                             | OK     |
+| 30           | _MSG 46_        | "Failed to create user. Please try again."                                                            | OK     |
+| 31           | _MSG 47_        | "User created successfully."                                                                          | -      |
+| 32           | _MSG 48_        | "User not found."                                                                                     | OK     |
+| 33           | _MSG 54_        | "Failed to update user. Please try again."                                                            | OK     |
+| 34           | _MSG 55_        | "User updated successfully."                                                                          | -      |
+| 35           | _MSG 56_        | "Cannot delete user. User has [reference_count] associated bookings/invoices."                        | OK     |
+| 36           | _MSG 57_        | "Failed to delete user. Please try again."                                                            | OK     |
+| 37           | _MSG 58_        | "User deleted successfully."                                                                          | -      |
+| 38           | _MSG 59_        | "Group code and group name are required."                                                             | OK     |
+| 39           | _MSG 60_        | "Group code must be 3-20 uppercase alphanumeric characters with underscores."                         | OK     |
+| 40           | _MSG 61_        | "Group name must be 3-100 characters."                                                                | OK     |
+| 41           | _MSG 62_        | "Please select at least one function for this permission group."                                      | OK     |
+| 42           | _MSG 63_        | "Group code already exists."                                                                          | OK     |
+| 43           | _MSG 64_        | "Group name already exists."                                                                          | OK     |
+| 44           | _MSG 65_        | "Failed to create permission group. Please try again."                                                | OK     |
+| 45           | _MSG 66_        | "Permission group created successfully."                                                              | -      |
+| 46           | _MSG 67_        | "Group name is required."                                                                             | OK     |
+| 47           | _MSG 71_        | "Failed to update permission group. Please try again."                                                | OK     |
+| 48           | _MSG 72_        | "Permission group updated successfully."                                                              | -      |
+| 49           | _MSG 73_        | "Cannot delete permission group. [COUNT] user(s) are assigned to this group."                         | OK     |
+| 50           | _MSG 74_        | "Failed to delete permission group. Please try again."                                                | OK     |
+| 51           | _MSG 75_        | "Permission group deleted successfully."                                                              | -      |
+| 52           | _MSG 76_        | "Penalty rate must be between 0% and 100%."                                                           | OK     |
+| 53           | _MSG 77_        | "Minimum deposit rate must be greater than 0% and up to 100%."                                        | OK     |
+| 54           | _MSG 78_        | "Minimum table reservation rate must be greater than 0% and up to 100%."                              | OK     |
+| 55           | _MSG 79_        | "Failed to update system parameters. Please try again."                                               | OK     |
+| 56           | _MSG 80_        | "System parameters updated successfully. Changes will take effect immediately."                       | -      |
+| 57           | _MSG 81_        | "Hall name, hall type, and max tables are required."                                                  | OK     |
+| 58           | _MSG 82_        | "Hall name must be 3-100 characters."                                                                 | OK     |
+| 59           | _MSG 83_        | "Max tables must be a positive number."                                                               | OK     |
+| 60           | _MSG 84_        | "Hall name already exists."                                                                           | OK     |
+| 61           | _MSG 85_        | "Failed to create hall. Please try again."                                                            | OK     |
+| 62           | _MSG 86_        | "Hall created successfully."                                                                          | -      |
+| 63           | _MSG 91_        | "Failed to update hall. Please try again."                                                            | OK     |
+| 64           | _MSG 92_        | "Hall updated successfully."                                                                          | -      |
+| 65           | _MSG 93_        | "Cannot delete hall. Hall has [COUNT] associated booking(s)."                                         | OK     |
+| 66           | _MSG 94_        | "Failed to delete hall. Please try again."                                                            | OK     |
+| 67           | _MSG 95_        | "Hall deleted successfully."                                                                          | -      |
+| 68           | _MSG 96_        | "No data to export."                                                                                  | OK     |
+| 69           | _MSG 97_        | "Hall type name and minimum table price are required."                                                | OK     |
+| 70           | _MSG 98_        | "Hall type name must be 3-100 characters."                                                            | OK     |
+| 71           | _MSG 99_        | "Minimum table price must be a positive number."                                                      | OK     |
+| 72           | _MSG 100_       | "Hall type name already exists."                                                                      | OK     |
+| 73           | _MSG 101_       | "Failed to create hall type. Please try again."                                                       | OK     |
+| 74           | _MSG 102_       | "Hall type created successfully."                                                                     | -      |
+| 75           | _MSG 107_       | "Failed to update hall type. Please try again."                                                       | OK     |
+| 76           | _MSG 108_       | "Hall type updated successfully."                                                                     | -      |
+| 77           | _MSG 109_       | "Cannot delete hall type. [COUNT] hall(s) are using this type."                                       | OK     |
+| 78           | _MSG 110_       | "Failed to delete hall type. Please try again."                                                       | OK     |
+| 79           | _MSG 111_       | "Hall type deleted successfully."                                                                     | -      |
+| 80           | _MSG 113_       | "Dish name and price are required."                                                                   | OK     |
+| 81           | _MSG 114_       | "Dish name must be 3-100 characters."                                                                 | OK     |
+| 82           | _MSG 115_       | "Price must be a positive number."                                                                    | OK     |
+| 83           | _MSG 116_       | "Dish name already exists."                                                                           | OK     |
+| 84           | _MSG 117_       | "Failed to create dish. Please try again."                                                            | OK     |
+| 85           | _MSG 118_       | "Dish created successfully."                                                                          | -      |
+| 86           | _MSG 123_       | "Failed to update dish. Please try again."                                                            | OK     |
+| 87           | _MSG 124_       | "Dish updated successfully."                                                                          | -      |
+| 88           | _MSG 125_       | "Cannot delete dish. This dish is used in [COUNT] menu item(s)."                                      | OK     |
+| 89           | _MSG 126_       | "Failed to delete dish. Please try again."                                                            | OK     |
+| 90           | _MSG 127_       | "Dish deleted successfully."                                                                          | -      |
+| 91           | _MSG 129_       | "Service name and price are required."                                                                | OK     |
+| 92           | _MSG 130_       | "Service name must be 3-100 characters."                                                              | OK     |
+| 93           | _MSG 131_       | "Price must be a positive number."                                                                    | OK     |
+| 94           | _MSG 132_       | "Service name already exists."                                                                        | OK     |
+| 95           | _MSG 133_       | "Failed to create service. Please try again."                                                         | OK     |
+| 96           | _MSG 134_       | "Service created successfully."                                                                       | -      |
+| 97           | _MSG 139_       | "Failed to update service. Please try again."                                                         | OK     |
+| 98           | _MSG 140_       | "Service updated successfully."                                                                       | -      |
+| 99           | _MSG 141_       | "Cannot delete service. This service is used in [COUNT] booking(s)."                                  | OK     |
+| 100          | _MSG 142_       | "Failed to delete service. Please try again."                                                         | OK     |
+| 101          | _MSG 143_       | "Service deleted successfully."                                                                       | -      |
+| 102          | _MSG 145_       | "Shift name, start time, and end time are required."                                                  | OK     |
+| 103          | _MSG 146_       | "Shift name must be 3-100 characters."                                                                | OK     |
+| 104          | _MSG 147_       | "Start time must be before end time."                                                                 | OK     |
+| 105          | _MSG 148_       | "Shift name already exists."                                                                          | OK     |
+| 106          | _MSG 149_       | "Failed to create shift. Please try again."                                                           | OK     |
+| 107          | _MSG 150_       | "Shift created successfully."                                                                         | -      |
+| 108          | _MSG 155_       | "Failed to update shift. Please try again."                                                           | OK     |
+| 109          | _MSG 156_       | "Shift updated successfully."                                                                         | -      |
+| 110          | _MSG 157_       | "Cannot delete shift. This shift is used in [COUNT] booking(s)."                                      | OK     |
+| 111          | _MSG 158_       | "Failed to delete shift. Please try again."                                                           | OK     |
+| 112          | _MSG 159_       | "Shift deleted successfully."                                                                         | -      |
+| 113          | _MSG 161_       | "Date must be in future."                                                                             | OK     |
+| 114          | _MSG 162_       | "No available halls found. Try other dates or shifts."                                                | -      |
+| 115          | _MSG 165_       | "Wedding date must be in future."                                                                     | OK     |
+| 116          | _MSG 166_       | "Number of tables exceeds hall capacity of [max_tables] tables."                                      | OK     |
+| 117          | _MSG 167_       | "Hall is no longer available for selected date and shift."                                            | OK     |
+| 118          | _MSG 168_       | "Booking submitted successfully. Booking ID: [booking_id]. Please check your email for confirmation." | -      |
+| 119          | _MSG 169_       | "No bookings found. Create your first wedding booking!"                                               | -      |
+| 120          | _MSG 170_       | "Cannot load booking details. Please try again."                                                      | OK     |
+| 121          | _MSG 171_       | "Cannot edit this booking. Only pending bookings can be edited."                                      | OK     |
+| 122          | _MSG 173_       | "Booking updated successfully."                                                                       | -      |
+| 123          | _MSG 174_       | "Cannot cancel this booking. Booking is already [status] or date has passed."                         | OK     |
+| 124          | _MSG 175_       | "Booking cancelled successfully. Deposit [deposit_amount] VND is non-refundable as per policy."       | -      |
+| 125          | _MSG 176_       | "No bookings found. Try adjusting search criteria."                                                   | -      |
+| 126          | _MSG 177_       | "Booking does not exist."                                                                             | OK     |
+| 127          | _MSG 179_       | "No halls in system."                                                                                 | OK     |
+| 128          | _MSG 184_       | "Number of tables exceeds hall capacity."                                                             | OK     |
+| 129          | _MSG 185_       | "Hall is already booked for selected date and shift."                                                 | OK     |
+| 130          | _MSG 186_       | "Booking created successfully. Booking ID: [booking_id]."                                             | -      |
+| 131          | _MSG 187_       | "Cannot edit completed or cancelled bookings."                                                        | OK     |
+| 132          | _MSG 190_       | "Cannot delete booking. Database error occurred."                                                     | OK     |
+| 133          | _MSG 191_       | "Booking deleted successfully."                                                                       | -      |
+| 134          | _MSG 192_       | "You don't have any invoices yet."                                                                    | -      |
+| 135          | _MSG 193_       | "Cannot load invoice details. Please try again."                                                      | OK     |
+| 136          | _MSG 194_       | "Payment amount must be greater than 0."                                                              | OK     |
+| 137          | _MSG 195_       | "Payment amount cannot exceed outstanding balance of [remaining_amount] VND."                         | OK     |
+| 138          | _MSG 196_       | "Payment failed. Please try again or contact support."                                                | OK     |
+| 139          | _MSG 197_       | "Error occurred during payment processing. Please contact support."                                   | OK     |
+| 140          | _MSG 198_       | "Payment successful! Amount paid: [payment_amount] VND. Remaining balance: [new_remaining] VND."      | -      |
+| 141          | _MSG 199_       | "Cannot create PDF file. Please try again or contact support."                                        | OK     |
+| 142          | _MSG 200_       | "Cannot download file. Please check your connection or browser settings."                             | OK     |
+| 143          | _MSG 201_       | "Invoice PDF exported successfully."                                                                  | -      |
+| 144          | _MSG 203_       | "Error occurred during payment confirmation. Please try again."                                       | OK     |
+| 145          | _MSG 204_       | "Payment confirmation successful. Total processed: [remaining_amount + penalty_amount] VND."          | -      |
+| 146          | _MSG 205_       | "Cannot create PDF file. Please try again."                                                           | OK     |
+| 147          | _MSG 206_       | "Cannot download file. Please check your connection."                                                 | OK     |
+| 148          | _MSG 207_       | "Official invoice PDF exported successfully."                                                         | -      |
+| 149          | _MSG 208_       | "No report data for this month."                                                                      | -      |
+| 150          | _MSG 209_       | "Cannot load report data. Please try again."                                                          | OK     |
+| 151          | _MSG 211_       | "Cannot create Excel file. Please try again."                                                         | OK     |
+| 152          | _MSG 212_       | "Cannot download file. Please check your connection and disk space."                                  | OK     |
+| 153          | _MSG 213_       | "Export Excel successful. File saved to Downloads folder."                                            | -      |
 
 ### 5.3 Issues List
 

@@ -1,0 +1,9 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_03-04,Verify 401 error when attempting profile edit without valid JWT,"- User's JWT token has expired or been deleted
+- User attempts to access profile page",1,"Delete or invalidate JWT token from local storage","Token is removed/corrupted"","System detects missing or invalid JWT and returns 401 Unauthorized. User is redirected to login page.",,,
+,,,2,"Navigate to Manage Profile page URL","Browser attempts to load page",,,,
+,,,3,"Verify unauthorized access","- HTTP 401 Unauthorized response
+- User is redirected to login page
+- Error message: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại'
+- No profile data is displayed
+- No profile update is possible",,,,

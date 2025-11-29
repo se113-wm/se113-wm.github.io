@@ -1,0 +1,12 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_03-01,Verify successful profile update with valid data persists changes,"- User is logged in (staff01)
+- Current profile data exists in NGUOIDUNG table",1,"Navigate to Manage Profile page","Profile form is displayed with current user information pre-filled","User successfully updates personal information (name, email, phone, address, etc.). Changes are saved to database and reflected immediately in UI.",,,
+,,,2,"Edit HoTen field: Nguyễn Văn B","New name is displayed in field",,,,
+,,,3,"Edit Email field: staffb@weddingms.com","New email is displayed in field",,,,
+,,,4,"Edit SoDienThoai field: 0912345678","New phone is displayed in field",,,,
+,,,5,"Click Lưu thay đổi button","Loading indicator appears briefly",,,,
+,,,6,"Verify update success","- Success message: 'Cập nhật thông tin thành công'
+- Changes are saved to NGUOIDUNG table
+- Profile page refreshes with new data
+- Header displays updated HoTen
+- User remains logged in",,,,

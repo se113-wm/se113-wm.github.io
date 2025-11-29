@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_02-03,Verify logout without refresh token still clears access token,"- User is logged in
+- Access token exists in local storage
+- Refresh token is missing or deleted from local storage",1,"Click Đăng xuất button in navigation menu","Confirmation dialog appears"","System still processes logout successfully. Access token is blacklisted, local storage is cleared, and user is redirected to login page despite missing refresh token.",,,
+,,,2,"Click Xác nhận button","Loading indicator appears",,,,
+,,,3,"Verify logout with missing refresh token","- Access token is added to blacklist
+- No error is thrown for missing refresh token
+- Local storage is cleared
+- User is redirected to login page
+- Server logs warning about missing refresh token but continues logout",,,,

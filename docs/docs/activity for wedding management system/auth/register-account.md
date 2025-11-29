@@ -26,7 +26,7 @@ repeat while (Check data valid?) is (No) not (Yes)
 
 |Sys|
 :(6) Hash password using BCrypt;
-:(7) Insert new user into NGUOIDUNG \n with MaNhom = 'CUSTOMER';
+:(7) Insert new user into AppUser \n with GroupId = 'CUSTOMER';
 
 if (Registration successful?) then (Yes)
 	|Sys|

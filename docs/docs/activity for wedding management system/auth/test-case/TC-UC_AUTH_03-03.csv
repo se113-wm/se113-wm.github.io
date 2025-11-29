@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_03-03,Verify rejection when using email already taken by another user,"- User is logged in as staff01
+- Another user (staff02) has email: staff02@weddingms.com
+- Database has unique constraint on Email field",1,"Navigate to Manage Profile page","Profile form is displayed with current data","System detects duplicate email and shows error message. Update is rejected and original email is retained.",,,
+,,,2,"Change Email field to: staff02@weddingms.com (already used by another user)","Duplicate email is entered",,,,
+,,,3,"Click Lưu thay đổi button","Loading indicator appears, then error response",,,,
+,,,4,"Verify duplicate email rejection","- Error message: 'Email đã được sử dụng bởi người dùng khác'
+- No database update occurs
+- User remains on profile page
+- Original email is retained
+- Form shows validation error",,,,

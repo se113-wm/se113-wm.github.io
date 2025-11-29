@@ -37,7 +37,7 @@ Staff or Admin views invoice information and debt from booking details screen.
 ### Luồng sự kiện chính / Main Flow
 
 1. Nhân viên/Admin nhấn nút "Xem hóa đơn" từ màn hình chi tiết phiếu đặt (UC 49)
-2. Hệ thống truy vấn chi tiết hóa đơn từ PHIEUDATTIEC, THUCDON, CHITIETDV, SANH, CA, NGUOIDUNG
+2. Hệ thống truy vấn chi tiết hóa đơn từ `Booking`, `Menu`, `ServiceDetail`, `Hall`, `Shift`, `AppUser`
 3. Hệ thống hiển thị thông tin chi tiết hóa đơn
 4. Nhân viên/Admin xem thông tin hóa đơn và công nợ
 5. Use case kết thúc
@@ -86,12 +86,11 @@ Staff or Admin views invoice information and debt from booking details screen.
 
 ### Quy tắc nghiệp vụ / Business Rules
 
-- **BR1**: Chỉ phiếu đặt đã được duyệt mới có hóa đơn
-- **BR2**: 1 phiếu đặt tương ứng với 1 hóa đơn duy nhất
-- **BR3**: Công nợ = TongTienHoaDon - TienDatCoc - TienDaThanhToan
-- **BR4**: Hiển thị cảnh báo nếu quá hạn thanh toán (NgayDaiTiec - 3 ngày)
-- **BR5**: Hiển thị tiền phạt nếu áp dụng (theo THAMSO: KiemTraPhat, TiLePhat)
-- **BR6**: Truy cập từ UC 49 bằng nút "Xem hóa đơn"
+**BR2**: Số tiền thanh toán = `RemainingAmount` (thanh toán toàn bộ)
+**BR3**: Tiền phạt chỉ áp dụng nếu `Parameter` (`EnablePenalty`) = 1
+**BR4**: Công thức tính tiền phạt: `PenaltyAmount` = `RemainingAmount` \* `PenaltyRate`
+**BR5**: Điều kiện áp dụng phạt: Current date > `WeddingDate` - 3 days
+**BR6**: Sau khi xác nhận, cập nhật: `RemainingAmount` = 0, `PaymentDate` = ngày hiện tại
 
 ---
 
@@ -112,17 +111,17 @@ Staff/Admin confirms payment completed by customer through online payment gatewa
 
 1. Nhân viên/Admin đã đăng nhập vào hệ thống
 2. Phiếu đặt đã được duyệt và có hóa đơn
-3. Hóa đơn chưa được thanh toán đầy đủ (TienConLai > 0)
+3. Hóa đơn chưa được thanh toán đầy đủ (`RemainingAmount` > 0)
 4. Khách hàng đã thanh toán qua cổng thanh toán trực tuyến (VNPay, Momo, ZaloPay)
 
 ### Hậu điều kiện / Postconditions
 
 **Thành công:**
 
-- Cập nhật thông tin thanh toán trong PHIEUDATTIEC
-- Cập nhật TienConLai = 0
-- Tính và cập nhật TienPhat (nếu thanh toán trễ)
-- Cập nhật NgayThanhToan = ngày hiện tại
+- Cập nhật thông tin thanh toán trong `Booking`
+- Cập nhật `RemainingAmount` = 0
+- Tính và cập nhật `PenaltyAmount` (nếu thanh toán trễ)
+- Cập nhật `PaymentDate` = ngày hiện tại
 - Gửi email xác nhận thanh toán cho khách hàng
 - Hiển thị thông báo thành công
 
@@ -134,16 +133,16 @@ Staff/Admin confirms payment completed by customer through online payment gatewa
 ### Luồng sự kiện chính / Main Flow
 
 1. Nhân viên/Admin xem chi tiết hóa đơn (UC 54)
-2. Hệ thống hiển thị nút "Xác nhận thanh toán" (nếu TienConLai > 0)
+2. Hệ thống hiển thị nút "Xác nhận thanh toán" (nếu `RemainingAmount` > 0)
 3. Nhân viên/Admin nhấn nút "Xác nhận thanh toán"
 4. Hệ thống lấy thông tin thanh toán từ giao dịch của khách hàng (phương thức và số tiền đầy đủ)
-5. Hệ thống kiểm tra hạn thanh toán (NgayHienTai vs NgayDaiTiec - 3 ngày)
-6. Hệ thống tự động tính tiền phạt (nếu quá hạn và THAMSO.KiemTraPhat = 1)
+5. Hệ thống kiểm tra hạn thanh toán (Current date vs `WeddingDate` - 3 days)
+6. Hệ thống tự động tính tiền phạt (nếu quá hạn và `Parameter` (`EnablePenalty`) = 1)
 7. Hệ thống hiển thị thông tin xác nhận: Số tiền thanh toán, Phương thức, Tiền phạt (nếu có), Tổng cộng
 8. Nhân viên/Admin xem lại thông tin
 9. Nhân viên/Admin nhập ghi chú (tùy chọn)
 10. Nhân viên/Admin nhấn "Xác nhận"
-11. Hệ thống cập nhật PHIEUDATTIEC (TienConLai = 0, TienPhat, NgayThanhToan)
+11. Hệ thống cập nhật `Booking` (`RemainingAmount` = 0, `PenaltyAmount`, `PaymentDate`)
 12. Hệ thống gửi email xác nhận thanh toán cho khách hàng
 13. Hệ thống gửi email xác nhận cho khách hàng
 14. Hệ thống hiển thị thông báo "Xác nhận thanh toán thành công"
@@ -155,15 +154,15 @@ Staff/Admin confirms payment completed by customer through online payment gatewa
 
 **6a. Không áp dụng tiền phạt**
 
-- 6a1. THAMSO.KiemTraPhat = 0 hoặc chưa quá hạn
-- 6a2. TienPhat = 0
+- 6a1. `Parameter` (`EnablePenalty`) = 0 hoặc chưa quá hạn
+- 6a2. `PenaltyAmount` = 0
 - 6a3. Tiếp tục bước 7
 
 **6b. Áp dụng tiền phạt**
 
-- 6b1. NgayHienTai > NgayDaiTiec - 3 ngày AND THAMSO.KiemTraPhat = 1
-- 6b2. Lấy TiLePhat từ THAMSO
-- 6b3. TienPhat = TienConLai \* TiLePhat
+- 6b1. Current date > `WeddingDate` - 3 days AND `Parameter` (`EnablePenalty`) = 1
+- 6b2. Lấy `PenaltyRate` từ `Parameter`
+- 6b3. `PenaltyAmount` = `RemainingAmount` \* `PenaltyRate`
 - 6b4. Tiếp tục bước 7
 
 **11a. Lỗi khi cập nhật**
@@ -193,7 +192,7 @@ Staff/Admin confirms payment completed by customer through online payment gatewa
 
 - Tự động lấy thông tin thanh toán từ giao dịch của khách hàng
 - Tự động lấy thông tin thanh toán từ giao dịch của khách hàng
-- Tự động tính tiền phạt dựa trên tham số hệ thống
+- Tự động tính tiền phạt dựa trên tham số hệ thống (`Parameter`: `EnablePenalty`, `PenaltyRate`)
 - Hiển thị rõ ràng tiền phạt (nếu có) trước khi xác nhận
 - Cho phép nhân viên nhập ghi chú cho lần xác nhận
 
@@ -207,11 +206,11 @@ Staff/Admin confirms payment completed by customer through online payment gatewa
 ### Quy tắc nghiệp vụ / Business Rules
 
 - **BR1**: Khách hàng thanh toán đầy đủ 1 lần qua cổng thanh toán trực tuyến
-- **BR2**: Số tiền thanh toán = TienConLai (thanh toán toàn bộ)
-- **BR3**: Tiền phạt chỉ áp dụng nếu THAMSO.KiemTraPhat = 1
-- **BR4**: Công thức tính tiền phạt: TienPhat = TienConLai \* THAMSO.TiLePhat
-- **BR5**: Điều kiện áp dụng phạt: NgayHienTai > NgayDaiTiec - 3 ngày
-- **BR6**: Sau khi xác nhận, cập nhật: TienConLai = 0, NgayThanhToan = ngày hiện tại
+- **BR2**: Số tiền thanh toán = `RemainingAmount` (thanh toán toàn bộ)
+- **BR3**: Tiền phạt chỉ áp dụng nếu `Parameter` (`EnablePenalty`) = 1
+- **BR4**: Công thức tính tiền phạt: `PenaltyAmount` = `RemainingAmount` \* `PenaltyRate`
+- **BR5**: Điều kiện áp dụng phạt: Current date > `WeddingDate` - 3 days
+- **BR6**: Sau khi xác nhận, cập nhật: `RemainingAmount` = 0, `PaymentDate` = ngày hiện tại
 - **BR7**: Phương thức thanh toán tự động lấy từ giao dịch customer (VNPay, Momo, ZaloPay)
 - **BR8**: Gửi email xác nhận ngay sau khi xác nhận thanh toán thành công
 
@@ -255,7 +254,7 @@ Staff/Admin exports any wedding booking invoice to PDF file for storage, printin
 1. Nhân viên/Admin xem chi tiết hóa đơn (UC 54)
 2. Hệ thống hiển thị nút "Xuất PDF"
 3. Nhân viên/Admin nhấn nút "Xuất PDF"
-4. Hệ thống truy vấn đầy đủ thông tin hóa đơn từ PHIEUDATTIEC, THUCDON, CHITIETDV, SANH, CA, NGUOIDUNG
+4. Hệ thống truy vấn đầy đủ thông tin hóa đơn từ `Booking`, `Menu`, `ServiceDetail`, `Hall`, `Shift`, `AppUser`
 5. Hệ thống tạo file PDF với nội dung hóa đơn đầy đủ
 6. Hệ thống tải file PDF về máy
 7. Hệ thống ghi log hành động (ai, khi nào, phiếu đặt nào)
@@ -311,7 +310,7 @@ Staff/Admin exports any wedding booking invoice to PDF file for storage, printin
   - Ngày xuất hóa đơn
   - Chữ ký (nếu cần in)
 - Định dạng PDF chuẩn, dễ in
-- Tên file: `HoaDon_[MaPhieuDat]_[TenKhachHang]_[NgayXuat].pdf`
+- Tên file: `HoaDon_[BookingId]_[TenKhachHang]_[NgayXuat].pdf`
 - Cho phép gửi PDF qua email trực tiếp
 
 ### Các yêu cầu phi chức năng / Non-functional Requirements
@@ -341,17 +340,17 @@ Nhóm chức năng **Quản lý Hóa đơn (Staff/Admin)** bao gồm 3 use case 
 
 ### Bảng CRUD tương ứng
 
-| Use Case | PHIEUDATTIEC | THUCDON | CHITIETDV | SANH | CA  | NGUOIDUNG | THAMSO |
-| -------- | ------------ | ------- | --------- | ---- | --- | --------- | ------ |
-| UC 54    | R            | R       | R         | R    | R   | R         | R      |
-| UC 55    | U            | -       | -         | -    | -   | R         | R      |
-| UC 56    | R            | R       | R         | R    | R   | R         | -      |
+| Use Case | `Booking` | `Menu` | `ServiceDetail` | `Hall` | `Shift` | `AppUser` | `Parameter` |
+| -------- | --------- | ------ | --------------- | ------ | ------- | --------- | ----------- |
+| UC 54    | R         | R      | R               | R      | R       | R         | R           |
+| UC 55    | U         | -      | -               | -      | -       | R         | R           |
+| UC 56    | R         | R      | R               | R      | R       | R         | -           |
 
 ### Lưu ý quan trọng
 
 - Tất cả use case trong nhóm này dành cho **Nhân viên/Admin**
 - Nhân viên/Admin có thể xem và quản lý **hóa đơn của tất cả khách hàng**
-- **Tự động tính tiền phạt** dựa trên tham số hệ thống (THAMSO: KiemTraPhat, TiLePhat)
+- **Tự động tính tiền phạt** dựa trên tham số hệ thống (`Parameter`: `EnablePenalty`, `PenaltyRate`)
 - **UC 54** có thể được truy cập từ **UC 49** (Xem chi tiết phiếu đặt bất kỳ) → Tích hợp xem hóa đơn ngay trong màn hình chi tiết phiếu đặt
 - Sử dụng **transaction** để đảm bảo tính toàn vẹn dữ liệu thanh toán
 - **Gửi email** xác nhận sau mỗi giao dịch thanh toán
@@ -381,7 +380,7 @@ Nhóm chức năng **Quản lý Hóa đơn (Staff/Admin)** bao gồm 3 use case 
 3. Khách hàng thanh toán trực tiếp tại quầy (tiền mặt/chuyển khoản)
 4. Nhân viên xem danh sách hóa đơn (UC 54) → Tìm hóa đơn của khách
 5. Nhân viên xác nhận thanh toán (UC 55) → Nhập số tiền, hệ thống tự động tính phạt (nếu trễ)
-6. Hệ thống cập nhật TienConLai, TienPhat
+6. Hệ thống cập nhật `RemainingAmount`, `PenaltyAmount`
 7. Hệ thống gửi email xác nhận cho khách hàng
 8. Nhân viên xuất PDF (UC 56) → In biên lai hoặc gửi email cho khách
 

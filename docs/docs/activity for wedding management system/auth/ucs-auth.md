@@ -1,21 +1,21 @@
 # ĐẶC TẢ CÁC USE CASE - AUTHENTICATION (XÁC THỰC & TÀI KHOẢN)
 
-Tài liệu này mô tả các use case thuộc nhóm xác thực và quản lý tài khoản trong Hệ thống Quản lý Tiệc Cưới.
+```sql
+SELECT UserId, Username, PasswordHash, FullName, Email, PhoneNumber, GroupId
+FROM AppUser
+WHERE Username = @Username;
 
-Gồm 6 use case chính:
+-- Query user permissions
+SELECT p.PermissionId, p.PermissionName, p.LoadedScreenName
+FROM GroupPermission gp
+JOIN Permission p ON gp.PermissionId = p.PermissionId
+WHERE gp.GroupId = @GroupId;
 
-1. Login (Đăng nhập)
-2. Logout (Đăng xuất)
-3. Manage Profile (Quản lý thông tin cá nhân)
-4. Change Password (Đổi mật khẩu)
-5. Register Account (Đăng ký tài khoản - Web)
-6. Forgot Password (Quên mật khẩu - Web)
-
----
-
-## UC_AUTH_01: Login (Đăng nhập)
-
-### Mô tả ngắn gọn / Brief Description
+-- Get group name
+SELECT GroupName
+FROM UserGroup
+WHERE GroupId = @GroupId;
+```
 
 Người dùng đăng nhập vào hệ thống bằng tên đăng nhập và mật khẩu để sử dụng các chức năng theo vai trò được phân quyền.
 
@@ -29,7 +29,7 @@ User logs into the system using username and password to access role-based featu
 
 ### Tiền điều kiện / Preconditions
 
-- Người dùng đã có tài khoản trong hệ thống (bảng NGUOIDUNG)
+- Người dùng đã có tài khoản trong hệ thống (bảng AppUser)
 - Tài khoản chưa bị khóa
 - Người dùng chưa đăng nhập
 
@@ -49,26 +49,26 @@ User logs into the system using username and password to access role-based featu
 
 ### Luồng sự kiện chính / Main Flow
 
-| Bước | User                          | Hệ thống                                                                                                                                                                              |
-| ---- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Truy cập trang đăng nhập      |                                                                                                                                                                                       |
-| 2    |                               | Hiển thị form đăng nhập với các trường: <br>- Tên đăng nhập (username) <br>- Mật khẩu (password) <br>- Nút "Đăng nhập" <br>- Link "Quên mật khẩu?" <br>- Link "Đăng ký" (chỉ Web)     |
-| 3    | Nhập tên đăng nhập            |                                                                                                                                                                                       |
-| 4    | Nhập mật khẩu                 |                                                                                                                                                                                       |
-| 5    | Click nút "Đăng nhập"         |                                                                                                                                                                                       |
-| 6    |                               | Kiểm tra dữ liệu: <br>- Tên đăng nhập không để trống <br>- Mật khẩu không để trống                                                                                                    |
-| 7    |                               | Tạo UsernamePasswordAuthenticationToken với username và password                                                                                                                      |
-| 8    |                               | Gọi AuthenticationManager.authenticate() để xác thực                                                                                                                                  |
-| 9    |                               | Truy vấn database: <br>`SELECT MaNguoiDung, TenDangNhap, MatKhauHash, HoTen, Email, MaNhom` <br>`FROM NGUOIDUNG` <br>`WHERE TenDangNhap = @TenDangNhap`                               |
-| 10   |                               | So sánh mật khẩu đã hash với MatKhauHash trong database (BCrypt)                                                                                                                      |
-| 11   |                               | Truy vấn quyền của người dùng: <br>`SELECT c.MaChucNang, c.TenChucNang` <br>`FROM PHANQUYEN pq` <br>`JOIN CHUCNANG c ON pq.MaChucNang = c.MaChucNang` <br>`WHERE pq.MaNhom = @MaNhom` |
-| 12   |                               | Tạo JWT access token (thời hạn 1 giờ) chứa: username, roles, permissions                                                                                                              |
-| 13   |                               | Tạo JWT refresh token (thời hạn 7 ngày)                                                                                                                                               |
-| 14   |                               | Lưu refresh token vào database/cache với key là username                                                                                                                              |
-| 15   |                               | Trả về response: <br>`{ "status": "success", "message": "Login successful", "data": { "accessToken": "...", "refreshToken": "..." } }`                                                |
-| 16   | Lưu tokens vào local storage  |                                                                                                                                                                                       |
-| 17   |                               | Chuyển hướng đến trang chủ theo vai trò                                                                                                                                               |
-| 18   | Xác nhận đăng nhập thành công |                                                                                                                                                                                       |
+| Bước | User                          | Hệ thống                                                                                                                                                                                                                     |
+| ---- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Truy cập trang đăng nhập      |                                                                                                                                                                                                                              |
+| 2    |                               | Hiển thị form đăng nhập với các trường: <br>- Tên đăng nhập (username) <br>- Mật khẩu (password) <br>- Nút "Đăng nhập" <br>- Link "Quên mật khẩu?" <br>- Link "Đăng ký" (chỉ Web)                                            |
+| 3    | Nhập tên đăng nhập            |                                                                                                                                                                                                                              |
+| 4    | Nhập mật khẩu                 |                                                                                                                                                                                                                              |
+| 5    | Click nút "Đăng nhập"         |                                                                                                                                                                                                                              |
+| 6    |                               | Kiểm tra dữ liệu: <br>- Tên đăng nhập không để trống <br>- Mật khẩu không để trống                                                                                                                                           |
+| 7    |                               | Tạo UsernamePasswordAuthenticationToken với username và password                                                                                                                                                             |
+| 8    |                               | Gọi AuthenticationManager.authenticate() để xác thực                                                                                                                                                                         |
+| 9    |                               | Truy vấn database: <br>`SELECT UserId, Username, PasswordHash, FullName, Email, GroupId` <br>`FROM AppUser` <br>`WHERE Username = @Username`                                                                                 |
+| 10   |                               | So sánh mật khẩu đã hash với PasswordHash trong database (BCrypt)                                                                                                                                                            |
+| 11   |                               | Truy vấn quyền của người dùng: <br>`SELECT p.PermissionId, p.PermissionName, p.LoadedScreenName` <br>`FROM GroupPermission gp` <br>`JOIN Permission p ON gp.PermissionId = p.PermissionId` <br>`WHERE gp.GroupId = @GroupId` |
+| 12   |                               | Tạo JWT access token (thời hạn 1 giờ) chứa: username, roles, permissions                                                                                                                                                     |
+| 13   |                               | Tạo JWT refresh token (thời hạn 7 ngày)                                                                                                                                                                                      |
+| 14   |                               | Lưu refresh token vào database/cache với key là username                                                                                                                                                                     |
+| 15   |                               | Trả về response: <br>`{ "status": "success", "message": "Login successful", "data": { "accessToken": "...", "refreshToken": "..." } }`                                                                                       |
+| 16   | Lưu tokens vào local storage  |                                                                                                                                                                                                                              |
+| 17   |                               | Chuyển hướng đến trang chủ theo vai trò                                                                                                                                                                                      |
+| 18   | Xác nhận đăng nhập thành công |                                                                                                                                                                                                                              |
 
 ### Luồng sự kiện phụ / Alternative Flows
 
@@ -135,20 +135,20 @@ User logs into the system using username and password to access role-based featu
 
 ```sql
 -- Query user by username
-SELECT MaNguoiDung, TenDangNhap, MatKhauHash, HoTen, Email, SoDienThoai, MaNhom
-FROM NGUOIDUNG
-WHERE TenDangNhap = @TenDangNhap;
+SELECT UserId, Username, PasswordHash, FullName, Email, PhoneNumber, GroupId
+FROM AppUser
+WHERE Username = @Username;
 
 -- Query user permissions
-SELECT c.MaChucNang, c.TenChucNang, c.TenManHinhDuocLoad
-FROM PHANQUYEN pq
-JOIN CHUCNANG c ON pq.MaChucNang = c.MaChucNang
-WHERE pq.MaNhom = @MaNhom;
+SELECT p.PermissionId, p.PermissionName, p.LoadedScreenName
+FROM GroupPermission gp
+JOIN Permission p ON gp.PermissionId = p.PermissionId
+WHERE gp.GroupId = @GroupId;
 
 -- Get group name
-SELECT TenNhom
-FROM NHOMNGUOIDUNG
-WHERE MaNhom = @MaNhom;
+SELECT GroupName
+FROM UserGroup
+WHERE GroupId = @GroupId;
 ```
 
 ---
@@ -259,7 +259,7 @@ User views and edits personal information such as name, email, phone number, add
 
 **Thành công:**
 
-- Cập nhật thông tin trong bảng NGUOIDUNG
+- Cập nhật thông tin trong bảng AppUser
 - Hiển thị thông báo thành công
 - Reload thông tin mới
 
@@ -269,19 +269,19 @@ User views and edits personal information such as name, email, phone number, add
 
 ### Luồng sự kiện chính / Main Flow
 
-| Bước | User                      | Hệ thống                                                                                                                                                                                                                      |
-| ---- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn "Thông tin cá nhân"  |                                                                                                                                                                                                                               |
-| 2    |                           | Lấy MaNguoiDung từ JWT token                                                                                                                                                                                                  |
-| 3    |                           | Truy vấn thông tin: <br>`SELECT HoTen, Email, SoDienThoai, DiaChi, NgaySinh, GioiTinh` <br>`FROM NGUOIDUNG` <br>`WHERE MaNguoiDung = @MaNguoiDung`                                                                            |
-| 4    |                           | Hiển thị form với thông tin hiện tại: <br>- Họ tên <br>- Email <br>- Số điện thoại <br>- Địa chỉ <br>- Ngày sinh <br>- Giới tính (Nam/Nữ/Khác)                                                                                |
-| 5    | Xem thông tin             |                                                                                                                                                                                                                               |
-| 6    | Chỉnh sửa thông tin       |                                                                                                                                                                                                                               |
-| 7    | Click "Lưu thay đổi"      |                                                                                                                                                                                                                               |
-| 8    |                           | Kiểm tra dữ liệu: <br>- Họ tên không để trống, độ dài ≤ 100 ký tự <br>- Email hợp lệ và không trùng với người khác <br>- Số điện thoại 10 chữ số <br>- Ngày sinh hợp lệ (tuổi ≥ 18)                                           |
-| 9    |                           | Cập nhật database: <br>`UPDATE NGUOIDUNG` <br>`SET HoTen = @HoTen, Email = @Email, SoDienThoai = @SoDienThoai,` <br>`    DiaChi = @DiaChi, NgaySinh = @NgaySinh, GioiTinh = @GioiTinh` <br>`WHERE MaNguoiDung = @MaNguoiDung` |
-| 10   |                           | Hiển thị thông báo "Cập nhật thông tin thành công" và reload form với dữ liệu mới                                                                                                                                             |
-| 11   | Xem thông tin đã cập nhật |                                                                                                                                                                                                                               |
+| Bước | User                      | Hệ thống                                                                                                                                                                                                                |
+| ---- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Chọn "Thông tin cá nhân"  |                                                                                                                                                                                                                         |
+| 2    |                           | Lấy MaNguoiDung từ JWT token                                                                                                                                                                                            |
+| 3    |                           | Truy vấn thông tin: <br>`SELECT FullName, Email, PhoneNumber, Address, BirthDate, Gender` <br>`FROM AppUser` <br>`WHERE UserId = @UserId`                                                                               |
+| 4    |                           | Hiển thị form với thông tin hiện tại: <br>- Họ tên <br>- Email <br>- Số điện thoại <br>- Địa chỉ <br>- Ngày sinh <br>- Giới tính (Nam/Nữ/Khác)                                                                          |
+| 5    | Xem thông tin             |                                                                                                                                                                                                                         |
+| 6    | Chỉnh sửa thông tin       |                                                                                                                                                                                                                         |
+| 7    | Click "Lưu thay đổi"      |                                                                                                                                                                                                                         |
+| 8    |                           | Kiểm tra dữ liệu: <br>- Họ tên không để trống, độ dài ≤ 100 ký tự <br>- Email hợp lệ và không trùng với người khác <br>- Số điện thoại 10 chữ số <br>- Ngày sinh hợp lệ (tuổi ≥ 18)                                     |
+| 9    |                           | Cập nhật database: <br>`UPDATE AppUser` <br>`SET FullName = @FullName, Email = @Email, PhoneNumber = @PhoneNumber,` <br>`    Address = @Address, BirthDate = @BirthDate, Gender = @Gender` <br>`WHERE UserId = @UserId` |
+| 10   |                           | Hiển thị thông báo "Cập nhật thông tin thành công" và reload form với dữ liệu mới                                                                                                                                       |
+| 11   | Xem thông tin đã cập nhật |                                                                                                                                                                                                                         |
 
 ### Luồng sự kiện phụ / Alternative Flows
 
@@ -326,7 +326,7 @@ User changes password by entering old password and new password.
 
 **Thành công:**
 
-- Cập nhật MatKhauHash trong NGUOIDUNG
+- Cập nhật PasswordHash trong AppUser
 - Xóa tất cả refresh tokens cũ (force logout khỏi thiết bị khác)
 - Yêu cầu đăng nhập lại
 
@@ -341,11 +341,11 @@ User changes password by entering old password and new password.
 | 5    | Nhập lại mật khẩu mới |                                                                                                                               |
 | 6    | Click "Đổi mật khẩu"  |                                                                                                                               |
 | 7    |                       | Kiểm tra: <br>- Mật khẩu cũ không trống <br>- Mật khẩu mới không trống, ≥ 8 ký tự <br>- Mật khẩu mới == Nhập lại mật khẩu mới |
-| 8    |                       | Lấy MaNguoiDung từ JWT                                                                                                        |
-| 9    |                       | Truy vấn: <br>`SELECT MatKhauHash FROM NGUOIDUNG WHERE MaNguoiDung = @MaNguoiDung`                                            |
+| 8    |                       | Lấy UserId từ JWT                                                                                                             |
+| 9    |                       | Truy vấn: <br>`SELECT PasswordHash FROM AppUser WHERE UserId = @UserId`                                                       |
 | 10   |                       | Verify mật khẩu cũ với MatKhauHash (BCrypt.checkpw)                                                                           |
 | 11   |                       | Hash mật khẩu mới: `newHash = BCrypt.hashpw(newPassword, BCrypt.gensalt())`                                                   |
-| 12   |                       | Cập nhật: <br>`UPDATE NGUOIDUNG SET MatKhauHash = @NewHash WHERE MaNguoiDung = @MaNguoiDung`                                  |
+| 12   |                       | Cập nhật: <br>`UPDATE AppUser SET PasswordHash = @NewHash WHERE UserId = @UserId`                                             |
 | 13   |                       | Xóa tất cả refresh tokens: <br>`DELETE FROM REFRESH_TOKENS WHERE username = @Username`                                        |
 | 14   |                       | Hiển thị: "Đổi mật khẩu thành công. Vui lòng đăng nhập lại"                                                                   |
 | 15   |                       | Chuyển về trang đăng nhập                                                                                                     |
@@ -393,7 +393,7 @@ Customer creates a new account on web to use the wedding booking system.
 
 **Thành công:**
 
-- Tạo bản ghi mới trong NGUOIDUNG với MaNhom = 'CUSTOMER'
+- Tạo bản ghi mới trong AppUser với GroupId = 'CUSTOMER'
 - Gửi email xác nhận đăng ký
 - Chuyển về trang đăng nhập
 
@@ -406,9 +406,9 @@ Customer creates a new account on web to use the wedding booking system.
 | 3    | Nhập thông tin đăng ký          |                                                                                                                                                                                                        |
 | 4    | Click "Đăng ký"                 |                                                                                                                                                                                                        |
 | 5    |                                 | Kiểm tra: <br>- Tất cả trường bắt buộc không trống <br>- Tên đăng nhập: 6-50 ký tự, không khoảng trắng <br>- Mật khẩu ≥ 8 ký tự <br>- Mật khẩu == Nhập lại mật khẩu <br>- Email hợp lệ <br>- SĐT 10 số |
-| 6    |                                 | Kiểm tra trùng: <br>`SELECT COUNT(*) FROM NGUOIDUNG` <br>`WHERE TenDangNhap = @TenDangNhap OR Email = @Email`                                                                                          |
+| 6    |                                 | Kiểm tra trùng: <br>`SELECT COUNT(*) FROM AppUser` <br>`WHERE Username = @Username OR Email = @Email`                                                                                                  |
 | 7    |                                 | Hash mật khẩu: `hash = BCrypt.hashpw(password, BCrypt.gensalt())`                                                                                                                                      |
-| 8    |                                 | Insert: <br>`INSERT INTO NGUOIDUNG` <br>`(TenDangNhap, MatKhauHash, HoTen, Email, SoDienThoai, MaNhom)` <br>`VALUES (@TenDangNhap, @Hash, @HoTen, @Email, @SoDienThoai, 'CUSTOMER')`                   |
+| 8    |                                 | Insert: <br>`INSERT INTO AppUser` <br>`(Username, PasswordHash, FullName, Email, PhoneNumber, GroupId)` <br>`VALUES (@Username, @Hash, @FullName, @Email, @PhoneNumber, 'CUSTOMER')`                   |
 | 9    |                                 | Gửi email chào mừng                                                                                                                                                                                    |
 | 10   |                                 | Hiển thị: "Đăng ký thành công! Vui lòng đăng nhập"                                                                                                                                                     |
 | 11   |                                 | Chuyển về trang đăng nhập                                                                                                                                                                              |
@@ -466,7 +466,7 @@ User who forgot password will be redirected to web to request password reset via
 | 4    | Nhập email đã đăng ký            |                                                                                                                                                                         |
 | 5    | Click "Gửi yêu cầu"              |                                                                                                                                                                         |
 | 6    |                                  | Kiểm tra email hợp lệ                                                                                                                                                   |
-| 7    |                                  | Truy vấn: <br>`SELECT MaNguoiDung, TenDangNhap, HoTen FROM NGUOIDUNG WHERE Email = @Email`                                                                              |
+| 7    |                                  | Truy vấn: <br>`SELECT UserId, Username, FullName FROM AppUser WHERE Email = @Email`                                                                                     |
 | 8    |                                  | Tạo reset token: `token = UUID.randomUUID().toString()`                                                                                                                 |
 | 9    |                                  | Lưu token vào database/cache với TTL 1 giờ: <br>`INSERT INTO PASSWORD_RESET_TOKENS` <br>`(token, email, expiry)` <br>`VALUES (@Token, @Email, NOW() + INTERVAL 1 HOUR)` |
 | 10   |                                  | Tạo reset link: `https://weddingms.com/reset-password?token={token}`                                                                                                    |
@@ -475,20 +475,20 @@ User who forgot password will be redirected to web to request password reset via
 
 ### Luồng sự kiện chính / Main Flow - Reset Password
 
-| Bước | User                     | Hệ thống                                                                                                                                                       |
-| ---- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 13   | Click link trong email   |                                                                                                                                                                |
-| 14   |                          | Mở trang reset password với token trong URL                                                                                                                    |
-| 15   |                          | Validate token: <br>`SELECT email, expiry FROM PASSWORD_RESET_TOKENS` <br>`WHERE token = @Token AND expiry > NOW()`                                            |
-| 16   |                          | Hiển thị form: <br>- Mật khẩu mới <br>- Nhập lại mật khẩu mới                                                                                                  |
-| 17   | Nhập mật khẩu mới        |                                                                                                                                                                |
-| 18   | Click "Đặt lại mật khẩu" |                                                                                                                                                                |
-| 19   |                          | Kiểm tra: <br>- Mật khẩu mới ≥ 8 ký tự <br>- Mật khẩu == Nhập lại mật khẩu                                                                                     |
-| 20   |                          | Hash password: `hash = BCrypt.hashpw(newPassword, BCrypt.gensalt())`                                                                                           |
-| 21   |                          | Transaction: <br>- `UPDATE NGUOIDUNG SET MatKhauHash = @Hash WHERE Email = @Email` <br>- `DELETE FROM PASSWORD_RESET_TOKENS WHERE token = @Token` <br>- Commit |
-| 22   |                          | Xóa tất cả refresh tokens: <br>`DELETE FROM REFRESH_TOKENS WHERE email = @Email`                                                                               |
-| 23   |                          | Hiển thị: "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập"                                                                                            |
-| 24   |                          | Chuyển về trang đăng nhập                                                                                                                                      |
+| Bước | User                     | Hệ thống                                                                                                                                                      |
+| ---- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 13   | Click link trong email   |                                                                                                                                                               |
+| 14   |                          | Mở trang reset password với token trong URL                                                                                                                   |
+| 15   |                          | Validate token: <br>`SELECT email, expiry FROM PASSWORD_RESET_TOKENS` <br>`WHERE token = @Token AND expiry > NOW()`                                           |
+| 16   |                          | Hiển thị form: <br>- Mật khẩu mới <br>- Nhập lại mật khẩu mới                                                                                                 |
+| 17   | Nhập mật khẩu mới        |                                                                                                                                                               |
+| 18   | Click "Đặt lại mật khẩu" |                                                                                                                                                               |
+| 19   |                          | Kiểm tra: <br>- Mật khẩu mới ≥ 8 ký tự <br>- Mật khẩu == Nhập lại mật khẩu                                                                                    |
+| 20   |                          | Hash password: `hash = BCrypt.hashpw(newPassword, BCrypt.gensalt())`                                                                                          |
+| 21   |                          | Transaction: <br>- `UPDATE AppUser SET PasswordHash = @Hash WHERE Email = @Email` <br>- `DELETE FROM PASSWORD_RESET_TOKENS WHERE token = @Token` <br>- Commit |
+| 22   |                          | Xóa tất cả refresh tokens: <br>`DELETE FROM REFRESH_TOKENS WHERE email = @Email`                                                                              |
+| 23   |                          | Hiển thị: "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập"                                                                                           |
+| 24   |                          | Chuyển về trang đăng nhập                                                                                                                                     |
 
 ### Luồng sự kiện phụ / Alternative Flows
 
@@ -561,8 +561,8 @@ WHERE token = @Token
 -- Reset password
 BEGIN TRANSACTION;
 
-UPDATE NGUOIDUNG
-SET MatKhauHash = @NewHash
+UPDATE AppUser
+SET PasswordHash = @NewHash
 WHERE Email = @Email;
 
 UPDATE PASSWORD_RESET_TOKENS

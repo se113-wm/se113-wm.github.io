@@ -1,0 +1,9 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_02-05,Verify client clears tokens even when blacklist storage fails,"- User is logged in
+- Simulate blacklist/cache service failure (Redis down)",1,"Click Đăng xuất button in navigation menu","Confirmation dialog appears","Client-side logout succeeds even if server blacklist operation fails. Local storage is cleared and user is redirected to login page.",,,
+,,,2,"Click Xác nhận button","Loading indicator appears, server may show error",,,,
+,,,3,"Verify client-side logout despite server failure","- Local storage is cleared on client side
+- User is redirected to login page
+- Warning message may be shown: 'Đã đăng xuất (một số thao tác trên server có thể thất bại)'
+- Client does not block logout even if server returns error
+- User cannot access protected pages from this client",,,,

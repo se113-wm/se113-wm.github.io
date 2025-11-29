@@ -44,7 +44,7 @@ repeat
 repeat while (Check all valid and available?) is (No) not (Yes)
 
 |Sys|
-:(12) Begin transaction: Update PHIEUDATTIEC, \n delete and recreate THUCDON, CHITIETDV;
+:(12) Begin transaction: Update `Booking`, \n delete and recreate `Menu`, `ServiceDetail`;
 :(13) Commit transaction;
 :(14) Send update notification email to customer;
 :(15) Display "Booking updated successfully" message;

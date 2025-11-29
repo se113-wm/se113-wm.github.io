@@ -25,7 +25,7 @@ repeat
 repeat while (Check valid?) is (No) not (Yes)
 
 |Sys|
-:(6) Hash new password and \n update NGUOIDUNG table;
+	:(6) Hash new password and \n update AppUser table;
 
 if (Update successful?) then (Yes)
 	|Sys|

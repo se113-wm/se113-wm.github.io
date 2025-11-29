@@ -37,7 +37,7 @@ Nhân viên/Admin xem danh sách ca tổ chức trong hệ thống và có thể
 | Bước | Staff/Admin                           | Hệ thống                                                                                                                                                                      |
 | ---- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1    | Chọn chức năng "Quản lý ca tổ chức"   |                                                                                                                                                                               |
-| 2    |                                       | Truy vấn danh sách ca: <br>`SELECT MaCa, TenCa, ThoiGianBatDauCa, ThoiGianKetThucCa` <br>`FROM CA` <br>`ORDER BY ThoiGianBatDauCa`                                            |
+| 2    |                                       | Truy vấn danh sách ca: <br>`SELECT ShiftId, ShiftName, StartTime, EndTime` <br>`FROM Shift` <br>`ORDER BY StartTime`                                                          |
 | 3    |                                       | Hiển thị danh sách với các cột: Mã ca, Tên ca, Thời gian bắt đầu, Thời gian kết thúc, Hành động (Xem chi tiết, Chỉnh sửa, Xóa)                                                |
 | 4    | (Tùy chọn) Nhập tiêu chí tìm kiếm/lọc |                                                                                                                                                                               |
 | 5    | Click "Tìm kiếm" hoặc "Áp dụng lọc"   |                                                                                                                                                                               |
@@ -81,19 +81,19 @@ Nhân viên/Admin tạo ca tổ chức mới trong hệ thống với thông tin
 
 ### Luồng sự kiện chính
 
-| Bước | Staff/Admin                | Hệ thống                                                                                                                                                       |
-| ---- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn "Thêm ca tổ chức mới" |                                                                                                                                                                |
-| 2    |                            | Hiển thị form thêm ca với các trường: Tên ca (bắt buộc), Thời gian bắt đầu (bắt buộc), Thời gian kết thúc (bắt buộc)                                           |
-| 3    | Nhập thông tin ca tổ chức  |                                                                                                                                                                |
-| 4    | Click nút "Lưu"            |                                                                                                                                                                |
-| 5    |                            | Kiểm tra dữ liệu hợp lệ: <br>- Tên ca không rỗng <br>- Thời gian bắt đầu < Thời gian kết thúc <br>- Thời gian không trùng với ca khác                          |
-| 6    |                            | Kiểm tra tên ca chưa tồn tại: <br>`SELECT COUNT(*) FROM CA WHERE TenCa = @TenCa`                                                                               |
-| 7    |                            | **Nếu dữ liệu không hợp lệ hoặc tên bị trùng:** Hiển thị thông báo lỗi cụ thể (tên rỗng, thời gian không hợp lệ, hoặc tên đã tồn tại), quay lại bước 3         |
-| 8    |                            | **Nếu hợp lệ:** Thêm ca vào DB: <br>`INSERT INTO CA (TenCa, ThoiGianBatDauCa, ThoiGianKetThucCa)` <br>`VALUES (@TenCa, @ThoiGianBatDauCa, @ThoiGianKetThucCa)` |
-| 9    |                            | Thông báo thành công, chuyển về danh sách ca                                                                                                                   |
-| 10   | Xem ca mới trong danh sách |                                                                                                                                                                |
-| 11   | Xác nhận kết thúc          |                                                                                                                                                                |
+| Bước | Staff/Admin                | Hệ thống                                                                                                                                               |
+| ---- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Chọn "Thêm ca tổ chức mới" |                                                                                                                                                        |
+| 2    |                            | Hiển thị form thêm ca với các trường: Tên ca (bắt buộc), Thời gian bắt đầu (bắt buộc), Thời gian kết thúc (bắt buộc)                                   |
+| 3    | Nhập thông tin ca tổ chức  |                                                                                                                                                        |
+| 4    | Click nút "Lưu"            |                                                                                                                                                        |
+| 5    |                            | Kiểm tra dữ liệu hợp lệ: <br>- Tên ca không rỗng <br>- Thời gian bắt đầu < Thời gian kết thúc <br>- Thời gian không trùng với ca khác                  |
+| 6    |                            | Kiểm tra tên ca chưa tồn tại: <br>`SELECT COUNT(*) FROM Shift WHERE ShiftName = @ShiftName`                                                            |
+| 7    |                            | **Nếu dữ liệu không hợp lệ hoặc tên bị trùng:** Hiển thị thông báo lỗi cụ thể (tên rỗng, thời gian không hợp lệ, hoặc tên đã tồn tại), quay lại bước 3 |
+| 8    |                            | **Nếu hợp lệ:** Thêm ca vào DB: <br>`INSERT INTO Shift (ShiftName, StartTime, EndTime)` <br>`VALUES (@ShiftName, @StartTime, @EndTime)`                |
+| 9    |                            | Thông báo thành công, chuyển về danh sách ca                                                                                                           |
+| 10   | Xem ca mới trong danh sách |                                                                                                                                                        |
+| 11   | Xác nhận kết thúc          |                                                                                                                                                        |
 
 ### Luồng sự kiện phụ
 
@@ -101,8 +101,8 @@ Nhân viên/Admin tạo ca tổ chức mới trong hệ thống với thông tin
 
 ### Ràng buộc nghiệp vụ/SQL gợi ý
 
-- `TenCa` phải UNIQUE (đã có constraint trong DB)
-- `ThoiGianBatDauCa` phải < `ThoiGianKetThucCa`
+- `ShiftName` phải UNIQUE (đã có constraint trong DB)
+- `StartTime` phải < `EndTime`
 - Có thể thêm validation: không cho các ca có khung giờ trùng lặp (overlapping)
 - Ví dụ ca: Ca sáng (08:00-12:00), Ca trưa (12:00-17:00), Ca tối (17:00-22:00)
 
@@ -130,20 +130,20 @@ Nhân viên/Admin chỉnh sửa thông tin ca tổ chức đã tồn tại (tên
 
 ### Luồng sự kiện chính
 
-| Bước | Staff/Admin                  | Hệ thống                                                                                                                                                                                                                  |
-| ---- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn "Chỉnh sửa ca tổ chức"  |                                                                                                                                                                                                                           |
-| 2    |                              | Hiển thị danh sách ca                                                                                                                                                                                                     |
-| 3    | Chọn ca cần sửa              |                                                                                                                                                                                                                           |
-| 4    |                              | Truy vấn thông tin ca: <br>`SELECT MaCa, TenCa, ThoiGianBatDauCa, ThoiGianKetThucCa` <br>`FROM CA` <br>`WHERE MaCa = @MaCa`                                                                                               |
-| 5    |                              | Hiển thị form chỉnh sửa với dữ liệu hiện tại                                                                                                                                                                              |
-| 6    | Chỉnh sửa thông tin ca       |                                                                                                                                                                                                                           |
-| 7    | Click nút "Lưu"              |                                                                                                                                                                                                                           |
-| 8    |                              | Kiểm tra dữ liệu hợp lệ: <br>- Tên ca không rỗng <br>- Thời gian bắt đầu < Thời gian kết thúc <br>- Nếu tên thay đổi, kiểm tra tên mới chưa tồn tại: <br>`SELECT COUNT(*) FROM CA WHERE TenCa = @TenCa AND MaCa <> @MaCa` |
-| 9    |                              | **Nếu dữ liệu không hợp lệ hoặc tên bị trùng:** Hiển thị thông báo lỗi, quay lại bước 6                                                                                                                                   |
-| 10   |                              | **Nếu hợp lệ:** Cập nhật ca: <br>`UPDATE CA` <br>`SET TenCa = @TenCa, ThoiGianBatDauCa = @ThoiGianBatDauCa, ThoiGianKetThucCa = @ThoiGianKetThucCa` <br>`WHERE MaCa = @MaCa`                                              |
-| 11   |                              | Thông báo thành công, reload danh sách ca                                                                                                                                                                                 |
-| 12   | Xem thông tin ca đã cập nhật |                                                                                                                                                                                                                           |
+| Bước | Staff/Admin                  | Hệ thống                                                                                                                                                                                                                                   |
+| ---- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Chọn "Chỉnh sửa ca tổ chức"  |                                                                                                                                                                                                                                            |
+| 2    |                              | Hiển thị danh sách ca                                                                                                                                                                                                                      |
+| 3    | Chọn ca cần sửa              |                                                                                                                                                                                                                                            |
+| 4    |                              | Truy vấn thông tin ca: <br>`SELECT ShiftId, ShiftName, StartTime, EndTime` <br>`FROM Shift` <br>`WHERE ShiftId = @ShiftId`                                                                                                                 |
+| 5    |                              | Hiển thị form chỉnh sửa với dữ liệu hiện tại                                                                                                                                                                                               |
+| 6    | Chỉnh sửa thông tin ca       |                                                                                                                                                                                                                                            |
+| 7    | Click nút "Lưu"              |                                                                                                                                                                                                                                            |
+| 8    |                              | Kiểm tra dữ liệu hợp lệ: <br>- Tên ca không rỗng <br>- Thời gian bắt đầu < Thời gian kết thúc <br>- Nếu tên thay đổi, kiểm tra tên mới chưa tồn tại: <br>`SELECT COUNT(*) FROM Shift WHERE ShiftName = @ShiftName AND ShiftId <> @ShiftId` |
+| 9    |                              | **Nếu dữ liệu không hợp lệ hoặc tên bị trùng:** Hiển thị thông báo lỗi, quay lại bước 6                                                                                                                                                    |
+| 10   |                              | **Nếu hợp lệ:** Cập nhật ca: <br>`UPDATE Shift` <br>`SET ShiftName = @ShiftName, StartTime = @StartTime, EndTime = @EndTime` <br>`WHERE ShiftId = @ShiftId`                                                                                |
+| 11   |                              | Thông báo thành công, reload danh sách ca                                                                                                                                                                                                  |
+| 12   | Xem thông tin ca đã cập nhật |                                                                                                                                                                                                                                            |
 
 ### Luồng sự kiện phụ
 
@@ -152,7 +152,7 @@ Nhân viên/Admin chỉnh sửa thông tin ca tổ chức đã tồn tại (tên
 ### Ràng buộc nghiệp vụ/SQL gợi ý
 
 - Nếu thay đổi khung giờ ca, có thể cảnh báo: "Thay đổi này có thể ảnh hưởng đến [số lượng] phiếu đặt tiệc hiện có."
-- Không cho phép thay đổi `MaCa` (khóa chính)
+- Không cho phép thay đổi `ShiftId` (khóa chính)
 - Kiểm tra không có phiếu đặt tiệc nào đang sử dụng ca này trong tương lai (NgayDaiTiec > GETDATE())
 
 ---
@@ -186,12 +186,12 @@ Nhân viên/Admin xóa ca tổ chức khỏi hệ thống. Hệ thống kiểm t
 | 2    |                             | Hiển thị danh sách ca                                                                                                                             |
 | 3    | Chọn ca cần xóa             |                                                                                                                                                   |
 | 4    | Click nút "Xóa"             |                                                                                                                                                   |
-| 5    |                             | Kiểm tra ca có đang được sử dụng không: <br>`SELECT COUNT(*) AS SoLuongThamChieu` <br>`FROM PHIEUDATTIEC` <br>`WHERE MaCa = @MaCa`                |
+| 5    |                             | Kiểm tra ca có đang được sử dụng không: <br>`SELECT COUNT(*) AS ReferenceCount` <br>`FROM Booking` <br>`WHERE ShiftId = @ShiftId`                 |
 | 6    |                             | **Nếu SoLuongThamChieu > 0:** Hiển thị thông báo: "Không thể xóa ca này vì đang được sử dụng trong [SoLuongThamChieu] phiếu đặt tiệc." → Kết thúc |
 | 7    |                             | **Nếu SoLuongThamChieu = 0:** Hiển thị dialog xác nhận: "Bạn có chắc muốn xóa ca [TenCa]?"                                                        |
 | 8    | Click "Xác nhận" hoặc "Hủy" |                                                                                                                                                   |
 | 9    |                             | **Nếu click "Hủy":** Đóng dialog xác nhận → Kết thúc                                                                                              |
-| 10   |                             | **Nếu click "Xác nhận":** Xóa ca: <br>`DELETE FROM CA WHERE MaCa = @MaCa`                                                                         |
+| 10   |                             | **Nếu click "Xác nhận":** Xóa ca: <br>`DELETE FROM Shift WHERE ShiftId = @ShiftId`                                                                |
 | 11   |                             | Thông báo xóa thành công, reload danh sách ca                                                                                                     |
 | 12   | Xem danh sách đã cập nhật   |                                                                                                                                                   |
 
@@ -202,7 +202,7 @@ Không có luồng phụ đặc biệt.
 ### Ràng buộc nghiệp vụ/SQL gợi ý
 
 - **KHÔNG sử dụng xóa mềm** (soft delete) cho ca tổ chức
-- Chỉ kiểm tra tham chiếu từ bảng `PHIEUDATTIEC`
+- Chỉ kiểm tra tham chiếu từ bảng `Booking`
 - Xóa vật lý (hard delete) nếu không có tham chiếu
 
 ---
@@ -229,19 +229,19 @@ Nhân viên/Admin xuất danh sách ca tổ chức (có thể đã lọc) ra fil
 
 ### Luồng sự kiện chính
 
-| Bước | Staff/Admin                         | Hệ thống                                                                                                                                                                                                                                                     |
-| ---- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1    | Chọn chức năng "Quản lý ca tổ chức" |                                                                                                                                                                                                                                                              |
-| 2    |                                     | Hiển thị danh sách ca                                                                                                                                                                                                                                        |
-| 3    | (Tùy chọn) Áp dụng bộ lọc           |                                                                                                                                                                                                                                                              |
-| 4    |                                     | Hiển thị danh sách ca đã lọc                                                                                                                                                                                                                                 |
-| 5    | Click nút "Xuất Excel"              |                                                                                                                                                                                                                                                              |
-| 6    |                                     | Truy vấn dữ liệu ca với bộ lọc hiện tại: <br>`SELECT c.MaCa, c.TenCa, c.ThoiGianBatDauCa, c.ThoiGianKetThucCa,` <br>`(SELECT COUNT(*) FROM PHIEUDATTIEC p WHERE p.MaCa = c.MaCa) AS SoLuongSuDung` <br>`FROM CA c` <br>`WHERE ... ORDER BY ThoiGianBatDauCa` |
-| 7    |                                     | **Nếu không có dữ liệu:** Hiển thị thông báo "Không có dữ liệu để xuất" → Kết thúc                                                                                                                                                                           |
-| 8    |                                     | **Nếu có dữ liệu:** Tạo file Excel với các cột: STT, Mã ca, Tên ca, Thời gian bắt đầu, Thời gian kết thúc, Độ dài ca (giờ), Số lượng sử dụng                                                                                                                 |
-| 9    |                                     | Đặt tên file theo format: `DanhSachCa_YYYYMMDD_HHmmss.xlsx`                                                                                                                                                                                                  |
-| 10   |                                     | Gửi file đến trình duyệt để tải xuống                                                                                                                                                                                                                        |
-| 11   | Tải và mở file Excel                |                                                                                                                                                                                                                                                              |
+| Bước | Staff/Admin                         | Hệ thống                                                                                                                                                                                                                                     |
+| ---- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Chọn chức năng "Quản lý ca tổ chức" |                                                                                                                                                                                                                                              |
+| 2    |                                     | Hiển thị danh sách ca                                                                                                                                                                                                                        |
+| 3    | (Tùy chọn) Áp dụng bộ lọc           |                                                                                                                                                                                                                                              |
+| 4    |                                     | Hiển thị danh sách ca đã lọc                                                                                                                                                                                                                 |
+| 5    | Click nút "Xuất Excel"              |                                                                                                                                                                                                                                              |
+| 6    |                                     | Truy vấn dữ liệu ca với bộ lọc hiện tại: <br>`SELECT c.ShiftId, c.ShiftName, c.StartTime, c.EndTime,` <br>`(SELECT COUNT(*) FROM Booking p WHERE p.ShiftId = c.ShiftId) AS UsageCount` <br>`FROM Shift c` <br>`WHERE ... ORDER BY StartTime` |
+| 7    |                                     | **Nếu không có dữ liệu:** Hiển thị thông báo "Không có dữ liệu để xuất" → Kết thúc                                                                                                                                                           |
+| 8    |                                     | **Nếu có dữ liệu:** Tạo file Excel với các cột: STT, Mã ca, Tên ca, Thời gian bắt đầu, Thời gian kết thúc, Độ dài ca (giờ), Số lượng sử dụng                                                                                                 |
+| 9    |                                     | Đặt tên file theo format: `DanhSachCa_YYYYMMDD_HHmmss.xlsx`                                                                                                                                                                                  |
+| 10   |                                     | Gửi file đến trình duyệt để tải xuống                                                                                                                                                                                                        |
+| 11   | Tải và mở file Excel                |                                                                                                                                                                                                                                              |
 
 ### Luồng sự kiện phụ
 
@@ -253,19 +253,19 @@ Không có luồng phụ đặc biệt.
 - Format thời gian theo định dạng `HH:mm` (ví dụ: 08:00, 17:30)
 - Có thể thêm header với tiêu đề "DANH SÁCH CA TỔ CHỨC", ngày xuất, người xuất
 - Tính tổng số ca ở cuối file
-- Tính cột "Độ dài ca": `DATEDIFF(HOUR, ThoiGianBatDauCa, ThoiGianKetThucCa)` hoặc format `HH:mm` (số giờ:phút)
+- Tính cột "Độ dài ca": `DATEDIFF(HOUR, StartTime, EndTime)` hoặc format `HH:mm` (số giờ:phút)
 
 ---
 
 ## Ghi chú chung
 
-- **Bảng liên quan:** `CA`, `PHIEUDATTIEC`
+- **Bảng liên quan:** `Shift`, `Booking`
 - **Quyền truy cập:** Staff và Admin đều có đầy đủ quyền quản lý ca tổ chức
 - **Validation chung:**
   - Tên ca: không rỗng, độ dài ≤ 40 ký tự, duy nhất
   - Thời gian bắt đầu: phải < Thời gian kết thúc
   - Thời gian: kiểu TIME, validation format hợp lệ (HH:mm)
-- **Xóa ca:** Chỉ kiểm tra tham chiếu từ `PHIEUDATTIEC`, không có xóa mềm
+- **Xóa ca:** Chỉ kiểm tra tham chiếu từ `Booking`, không có xóa mềm
 - **Thống kê:** Hiển thị số lượng phiếu đặt đang sử dụng ca để hỗ trợ quyết định chỉnh sửa/xóa
 - **Lưu ý nghiệp vụ:**
   - Thường có 3 ca trong ngày: Ca sáng, Ca trưa, Ca tối

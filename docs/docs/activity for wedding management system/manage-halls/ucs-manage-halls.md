@@ -1,287 +1,287 @@
-# ĐẶC TẢ CÁC USE CASE - MANAGE HALLS
+# USE CASE SPECIFICATION - MANAGE HALLS
 
-Tài liệu này mô tả các use case thuộc nhóm quản lý sảnh (Halls) dành cho Nhân viên và Quản trị viên trong Hệ thống Quản lý Tiệc Cưới.
+This document describes the use cases for managing halls, intended for Staff and Administrators in the Wedding Management System.
 
-Gồm 5 use case chính:
+It includes 5 main use cases:
 
-1. View Hall Details (Xem danh sách & chi tiết Sảnh)
-2. Add New Hall (Thêm Sảnh mới)
-3. Edit Hall (Sửa thông tin Sảnh)
-4. Delete Hall (Xóa Sảnh)
-5. Export Halls to Excel (Xuất danh sách Sảnh ra Excel)
-
----
-
-## UC_MH_01: View Hall Details (Xem danh sách & chi tiết Sảnh)
-
-### Mô tả
-
-Nhân viên/Admin xem danh sách sảnh trong hệ thống và có thể lọc, tìm kiếm theo loại sảnh, sức chứa, cũng như xem chi tiết thông tin của từng sảnh.
-
-### Tác nhân chính
-
-- Staff (Nhân viên)
-- Admin
-
-### Điều kiện tiên quyết
-
-- Người dùng đã đăng nhập với vai trò Staff hoặc Admin
-
-### Điều kiện hậu
-
-- Hiển thị danh sách sảnh theo tiêu chí lọc (nếu có)
-- Hiển thị chi tiết thông tin sảnh được chọn (nếu có)
-
-### Luồng sự kiện chính
-
-| Bước | Staff/Admin                           | Hệ thống                                                                                                                                                                                                                       |
-| ---- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1    | Chọn chức năng "Quản lý sảnh"         |                                                                                                                                                                                                                                |
-| 2    |                                       | Truy vấn danh sách sảnh: <br>`SELECT s.MaSanh, s.TenSanh, s.SoLuongBanToiDa, s.GhiChu, l.TenLoaiSanh, l.DonGiaBanToiThieu` <br>`FROM SANH s` <br>`LEFT JOIN LOAISANH l ON s.MaLoaiSanh = l.MaLoaiSanh` <br>`ORDER BY s.MaSanh` |
-| 3    |                                       | Hiển thị danh sách với các cột: Mã sảnh, Tên sảnh, Loại sảnh, Số lượng bàn tối đa, Đơn giá bàn tối thiểu, Ghi chú, Hành động (Xem chi tiết, Chỉnh sửa, Xóa)                                                                    |
-| 4    | (Tùy chọn) Nhập tiêu chí tìm kiếm/lọc |                                                                                                                                                                                                                                |
-| 5    | Click "Tìm kiếm" hoặc "Áp dụng lọc"   |                                                                                                                                                                                                                                |
-| 6    |                                       | Truy vấn với WHERE tương ứng: <br>- Theo loại sảnh (MaLoaiSanh) <br>- Theo tên sảnh (TenSanh LIKE N'%keyword%') <br>- Theo sức chứa (SoLuongBanToiDa >= @Min AND SoLuongBanToiDa <= @Max) <br>`... WHERE ... ORDER BY ...`     |
-| 7    |                                       | Hiển thị kết quả theo tiêu chí tìm kiếm/lọc                                                                                                                                                                                    |
-| 8    | Chọn sảnh muốn xem chi tiết           |                                                                                                                                                                                                                                |
-| 9    |                                       | Truy vấn thông tin chi tiết: <br>`SELECT s.*, l.TenLoaiSanh, l.DonGiaBanToiThieu` <br>`FROM SANH s` <br>`LEFT JOIN LOAISANH l ON s.MaLoaiSanh = l.MaLoaiSanh` <br>`WHERE s.MaSanh = @MaSanh`                                   |
-| 10   |                                       | Hiển thị dialog chi tiết với: Mã sảnh, Tên sảnh, Loại sảnh, Số lượng bàn tối đa, Đơn giá bàn tối thiểu, Ghi chú, Hành động (Chỉnh sửa, Xóa)                                                                                    |
-| 11   | Xem thông tin chi tiết                |                                                                                                                                                                                                                                |
-
-### Luồng sự kiện phụ
-
-Không có luồng phụ đặc biệt.
-
-### Ràng buộc nghiệp vụ/SQL gợi ý
-
-- Thêm index trên `SANH.MaLoaiSanh`, `SANH.TenSanh` để tăng tốc tìm kiếm
-- Hiển thị số lượng phiếu đặt tiệc đang sử dụng sảnh (nếu cần): `SELECT COUNT(*) FROM PHIEUDATTIEC WHERE MaSanh = @MaSanh`
+1.  View Hall Details
+2.  Add New Hall
+3.  Edit Hall
+4.  Delete Hall
+5.  Export Halls to Excel
 
 ---
 
-## UC_MH_02: Add New Hall (Thêm Sảnh mới)
+## UC_MH_01: View Hall Details
 
-### Mô tả
+### Description
 
-Nhân viên/Admin tạo sảnh mới trong hệ thống với thông tin đầy đủ.
+Staff/Admin views the list of halls in the system and can filter, search by hall type, capacity, and view detailed information for each hall.
 
-### Tác nhân chính
+### Primary Actors
 
-- Staff (Nhân viên)
-- Admin
+-   Staff
+-   Admin
 
-### Điều kiện tiên quyết
+### Preconditions
 
-- Người dùng đã đăng nhập với vai trò Staff hoặc Admin
-- Loại sảnh (LOAISANH) đã tồn tại trong hệ thống
+-   The user is logged in with the role of Staff or Admin.
 
-### Điều kiện hậu
+### Postconditions
 
-- Tạo bản ghi SANH mới với thông tin đầy đủ
+-   Displays the list of halls according to the filter criteria (if any).
+-   Displays the detailed information of the selected hall (if any).
 
-### Luồng sự kiện chính
+### Main Flow
 
-| Bước | Staff/Admin                  | Hệ thống                                                                                                                                                                                |
-| ---- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn "Thêm sảnh mới"         |                                                                                                                                                                                         |
-| 2    |                              | Truy vấn danh sách loại sảnh: <br>`SELECT MaLoaiSanh, TenLoaiSanh, DonGiaBanToiThieu` <br>`FROM LOAISANH` <br>`ORDER BY TenLoaiSanh`                                                    |
-| 3    |                              | Hiển thị form thêm sảnh với: Trường nhập (Tên sảnh, Loại sảnh - dropdown, Số lượng bàn tối đa, Ghi chú)                                                                                 |
-| 4    | Nhập thông tin sảnh          |                                                                                                                                                                                         |
-| 5    | Click "Lưu"                  |                                                                                                                                                                                         |
-| 6    |                              | Kiểm tra dữ liệu: <br>- Tên sảnh không để trống, độ dài ≤ 40 ký tự <br>- Loại sảnh đã được chọn <br>- Số lượng bàn tối đa > 0 và là số nguyên <br>- Ghi chú (nếu có) độ dài ≤ 100 ký tự |
-| 7    |                              | Kiểm tra trùng lặp tên sảnh: <br>`SELECT COUNT(*) FROM SANH` <br>`WHERE TenSanh = @TenSanh`                                                                                             |
-| 8    |                              | Thực hiện thêm: <br>`INSERT INTO SANH (MaLoaiSanh, TenSanh, SoLuongBanToiDa, GhiChu)` <br>`VALUES (@MaLoaiSanh, @TenSanh, @SoLuongBanToiDa, @GhiChu)`                                   |
-| 9    |                              | Hiển thị thông báo "Thêm sảnh thành công" và chuyển về danh sách sảnh                                                                                                                   |
-| 10   | Xem sảnh mới trong danh sách |                                                                                                                                                                                         |
+| Step | Staff/Admin                                        | System                                                                                                                                                                                                                         |
+| :--- | :--------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Selects the "Manage Halls" feature.                |                                                                                                                                                                                                                                |
+| 2    |                                                      | Queries the list of halls: <br>`SELECT h.HallId, h.HallName, h.MaxTableCount, h.Note, ht.HallTypeName, ht.MinTablePrice` <br>`FROM Hall h` <br>`LEFT JOIN HallType ht ON h.HallTypeId = ht.HallTypeId` <br>`ORDER BY h.HallId` |
+| 3    |                                                      | Displays the list with columns: Hall ID, Hall Name, Hall Type, Max Table Count, Min Table Price, Note, Actions (View Details, Edit, Delete).                                                                                    |
+| 4    | (Optional) Enters search/filter criteria.          |                                                                                                                                                                                                                                |
+| 5    | Clicks "Search" or "Apply Filter".                   |                                                                                                                                                                                                                                |
+| 6    |                                                      | Queries with the corresponding WHERE clause: <br>- By hall type (HallTypeId) <br>- By hall name (HallName LIKE N'%keyword%') <br>- By capacity (MaxTableCount >= @Min AND MaxTableCount <= @Max) <br>`... WHERE ... ORDER BY ...` |
+| 7    |                                                      | Displays the results according to the search/filter criteria.                                                                                                                                                                  |
+| 8    | Selects a hall to view details.                      |                                                                                                                                                                                                                                |
+| 9    |                                                      | Queries for detailed information: <br>`SELECT h.*, ht.HallTypeName, ht.MinTablePrice` <br>`FROM Hall h` <br>`LEFT JOIN HallType ht ON h.HallTypeId = ht.HallTypeId` <br>`WHERE h.HallId = @HallId`                  |
+| 10   |                                                      | Displays a details dialog with: Hall ID, Hall Name, Hall Type, Max Table Count, Min Table Price, Note, Actions (Edit, Delete).                                                                                                  |
+| 11   | Views the detailed information.                      |                                                                                                                                                                                                                                |
 
-### Luồng sự kiện phụ
+### Alternative Flows
 
-- 6a. Dữ liệu không hợp lệ: hiển thị thông báo lỗi cụ thể (trường nào thiếu/sai format), quay về bước 4
-- 7a. Tên sảnh đã tồn tại: hiển thị "Tên sảnh đã tồn tại trong hệ thống", quay về bước 4
-- 8a. Lỗi database: hiển thị "Có lỗi xảy ra khi thêm sảnh. Vui lòng thử lại", quay về bước 4
+-   None.
 
-### Ràng buộc nghiệp vụ/SQL gợi ý
+### Business Rules/SQL Suggestions
 
-- Tên sảnh phải là duy nhất (UNIQUE constraint)
-- Số lượng bàn tối đa phải là số nguyên dương
-- MaLoaiSanh phải tồn tại trong bảng LOAISANH (FK constraint)
+-   Add indexes on `Hall.HallTypeId` and `Hall.HallName` to speed up searches.
+-   Display the number of bookings currently using the hall (if needed): `SELECT COUNT(*) FROM Booking WHERE HallId = @HallId`
 
 ---
 
-## UC_MH_03: Edit Hall (Sửa thông tin Sảnh)
+## UC_MH_02: Add New Hall
 
-### Mô tả
+### Description
 
-Nhân viên/Admin chỉnh sửa thông tin sảnh đã tồn tại trong hệ thống.
+Staff/Admin creates a new hall in the system with complete information.
 
-### Tác nhân chính
+### Primary Actors
 
-- Staff (Nhân viên)
-- Admin
+-   Staff
+-   Admin
 
-### Điều kiện tiên quyết
+### Preconditions
 
-- Người dùng đã đăng nhập với vai trò Staff hoặc Admin
-- Sảnh cần chỉnh sửa đã tồn tại trong hệ thống
+-   The user is logged in with the role of Staff or Admin.
+-   The HallType already exists in the system.
 
-### Điều kiện hậu
+### Postconditions
 
-- Cập nhật thông tin SANH
+-   A new Hall record is created with complete information.
 
-### Luồng sự kiện chính
+### Main Flow
 
-| Bước | Staff/Admin                     | Hệ thống                                                                                                                                                                                                      |
-| ---- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn chức năng "Chỉnh sửa sảnh" |                                                                                                                                                                                                               |
-| 2    |                                 | Hiển thị danh sách sảnh                                                                                                                                                                                       |
-| 3    | Chọn sảnh muốn chỉnh sửa        |                                                                                                                                                                                                               |
-| 4    |                                 | Truy vấn thông tin sảnh: <br>`SELECT MaSanh, MaLoaiSanh, TenSanh, SoLuongBanToiDa, GhiChu` <br>`FROM SANH` <br>`WHERE MaSanh = @MaSanh`                                                                       |
-| 5    |                                 | Truy vấn danh sách loại sảnh: <br>`SELECT MaLoaiSanh, TenLoaiSanh, DonGiaBanToiThieu` <br>`FROM LOAISANH`                                                                                                     |
-| 6    |                                 | Hiển thị form chỉnh sửa với dữ liệu hiện tại: Trường nhập (Tên sảnh, Loại sảnh - dropdown, Số lượng bàn tối đa, Ghi chú)                                                                                      |
-| 7    | Chỉnh sửa thông tin sảnh        |                                                                                                                                                                                                               |
-| 8    | Click "Lưu"                     |                                                                                                                                                                                                               |
-| 9    |                                 | Kiểm tra dữ liệu: <br>- Tên sảnh không để trống, độ dài ≤ 40 ký tự <br>- Loại sảnh đã được chọn <br>- Số lượng bàn tối đa > 0 và là số nguyên <br>- Ghi chú (nếu có) độ dài ≤ 100 ký tự                       |
-| 10   |                                 | Kiểm tra trùng tên (nếu đổi tên): <br>`SELECT COUNT(*) FROM SANH` <br>`WHERE TenSanh = @TenSanh AND MaSanh <> @MaSanh`                                                                                        |
-| 11   |                                 | Thực hiện cập nhật: <br>`UPDATE SANH` <br>`SET MaLoaiSanh = @MaLoaiSanh,` <br>`    TenSanh = @TenSanh,` <br>`    SoLuongBanToiDa = @SoLuongBanToiDa,` <br>`    GhiChu = @GhiChu` <br>`WHERE MaSanh = @MaSanh` |
-| 12   |                                 | Hiển thị thông báo "Cập nhật sảnh thành công" và reload danh sách                                                                                                                                             |
-| 13   | Xem thông tin sảnh đã cập nhật  |                                                                                                                                                                                                               |
+| Step | Staff/Admin                  | System                                                                                                                                                                                        |
+| :--- | :--------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Selects "Add New Hall".      |                                                                                                                                                                                               |
+| 2    |                              | Queries the list of hall types: <br>`SELECT HallTypeId, HallTypeName, MinTablePrice` <br>`FROM HallType` <br>`ORDER BY HallTypeName`                                                          |
+| 3    |                              | Displays the add hall form with fields: Hall Name, Hall Type (dropdown), Max Table Count, Note.                                                                                               |
+| 4    | Enters the hall information. |                                                                                                                                                                                               |
+| 5    | Clicks "Save".               |                                                                                                                                                                                               |
+| 6    |                              | Validates the data: <br>- Hall Name is not empty, length ≤ 40 characters. <br>- A Hall Type is selected. <br>- Max Table Count > 0 and is an integer. <br>- Note (if any) length ≤ 100 characters. |
+| 7    |                              | Checks for duplicate hall name: <br>`SELECT COUNT(*) FROM Hall` <br>`WHERE HallName = @HallName`                                                                                               |
+| 8    |                              | Executes the insert: <br>`INSERT INTO Hall (HallTypeId, HallName, MaxTableCount, Note)` <br>`VALUES (@HallTypeId, @HallName, @MaxTableCount, @Note)`                                             |
+| 9    |                              | Displays "Hall added successfully" and returns to the hall list.                                                                                                                              |
+| 10   | Views the new hall in the list. |                                                                                                                                                                                               |
 
-### Luồng sự kiện phụ
+### Alternative Flows
 
-- 9a. Dữ liệu không hợp lệ: hiển thị thông báo lỗi cụ thể, quay về bước 7
-- 10a. Tên sảnh đã tồn tại: hiển thị "Tên sảnh đã tồn tại trong hệ thống", quay về bước 7
-- 11a. Lỗi database: hiển thị "Có lỗi xảy ra khi cập nhật sảnh. Vui lòng thử lại", quay về bước 7
+-   6a. Invalid data: Displays a specific error message (which field is missing/has the wrong format), returns to step 4.
+-   7a. Hall name already exists: Displays "Hall name already exists in the system", returns to step 4.
+-   8a. Database error: Displays "An error occurred while adding the hall. Please try again", returns to step 4.
 
-### Ràng buộc nghiệp vụ/SQL gợi ý
+### Business Rules/SQL Suggestions
 
-- Kiểm tra ảnh hưởng khi thay đổi loại sảnh (có thể ảnh hưởng đến đơn giá)
-- Cảnh báo nếu giảm số lượng bàn tối đa xuống thấp hơn số bàn đã được đặt trong các phiếu đặt tiệc
+-   Hall name must be unique (UNIQUE constraint).
+-   Max Table Count must be a positive integer.
+-   HallTypeId must exist in the HallType table (FK constraint).
 
 ---
 
-## UC_MH_04: Delete Hall (Xóa Sảnh)
+## UC_MH_03: Edit Hall
 
-### Mô tả
+### Description
 
-Nhân viên/Admin xóa sảnh khỏi hệ thống sau khi kiểm tra không còn phiếu đặt tiệc nào sử dụng sảnh đó.
+Staff/Admin edits the information of an existing hall in the system.
 
-### Tác nhân chính
+### Primary Actors
 
-- Staff (Nhân viên)
-- Admin
+-   Staff
+-   Admin
 
-### Điều kiện tiên quyết
+### Preconditions
 
-- Người dùng đã đăng nhập với vai trò Staff hoặc Admin
-- Sảnh cần xóa đã tồn tại trong hệ thống
+-   The user is logged in with the role of Staff or Admin.
+-   The hall to be edited exists in the system.
 
-### Điều kiện hậu
+### Postconditions
 
-- Xóa bản ghi SANH
+-   The Hall information is updated.
 
-### Luồng sự kiện chính
+### Main Flow
 
-| Bước | Staff/Admin                 | Hệ thống                                                                                                   |
-| ---- | --------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn chức năng "Xóa sảnh"   |                                                                                                            |
-| 2    |                             | Hiển thị danh sách sảnh                                                                                    |
-| 3    | Chọn sảnh muốn xóa          |                                                                                                            |
-| 4    | Click nút "Xóa"             |                                                                                                            |
-| 5    |                             | Kiểm tra dữ liệu tham chiếu: <br>`SELECT COUNT(*) FROM PHIEUDATTIEC` <br>`WHERE MaSanh = @MaSanh`          |
-| 6    |                             | Hiển thị dialog xác nhận: "Bạn có chắc chắn muốn xóa sảnh '[Tên sảnh]'? Hành động này không thể hoàn tác." |
-| 7    | Click "Xác nhận" hoặc "Hủy" |                                                                                                            |
-| 8    |                             | Thực hiện xóa: <br>`DELETE FROM SANH` <br>`WHERE MaSanh = @MaSanh`                                         |
-| 9    |                             | Hiển thị thông báo "Xóa sảnh thành công" và reload danh sách                                               |
-| 10   | Xem danh sách đã cập nhật   |                                                                                                            |
+| Step | Staff/Admin                     | System                                                                                                                                                                                                  |
+| :--- | :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Selects the "Edit Hall" feature. |                                                                                                                                                                                                           |
+| 2    |                                 | Displays the list of halls.                                                                                                                                                                             |
+| 3    | Selects the hall to edit.       |                                                                                                                                                                                                           |
+| 4    |                                 | Queries the hall information: <br>`SELECT HallId, HallTypeId, HallName, MaxTableCount, Note` <br>`FROM Hall` <br>`WHERE HallId = @HallId`                                                                 |
+| 5    |                                 | Queries the list of hall types: <br>`SELECT HallTypeId, HallTypeName, MinTablePrice` <br>`FROM HallType`                                                                                                  |
+| 6    |                                 | Displays the edit form with the current data: Hall Name, Hall Type (dropdown), Max Table Count, Note.                                                                                                   |
+| 7    | Edits the hall information.     |                                                                                                                                                                                                           |
+| 8    | Clicks "Save".                  |                                                                                                                                                                                                           |
+| 9    |                                 | Validates the data: <br>- Hall Name is not empty, length ≤ 40 characters. <br>- A Hall Type is selected. <br>- Max Table Count > 0 and is an integer. <br>- Note (if any) length ≤ 100 characters.      |
+| 10   |                                 | Checks for duplicate name (if the name is changed): <br>`SELECT COUNT(*) FROM Hall` <br>`WHERE HallName = @HallName AND HallId <> @HallId`                                                                 |
+| 11   |                                 | Executes the update: <br>`UPDATE Hall` <br>`SET HallTypeId = @HallTypeId,` <br>`    HallName = @HallName,` <br>`    MaxTableCount = @MaxTableCount,` <br>`    Note = @Note` <br>`WHERE HallId = @HallId` |
+| 12   |                                 | Displays "Hall updated successfully" and reloads the list.                                                                                                                                              |
+| 13   | Views the updated hall information. |                                                                                                                                                                                                           |
 
-### Luồng sự kiện phụ
+### Alternative Flows
 
-- 5a. Sảnh có phiếu đặt tiệc tham chiếu: chặn thao tác và hiển thị "Không thể xóa sảnh này vì đang có X phiếu đặt tiệc sử dụng. Vui lòng xử lý các phiếu đặt tiệc trước khi xóa.", dừng use case
-- 7a. Staff/Admin click "Hủy": đóng dialog xác nhận, dừng use case
-- 8a. Lỗi database: hiển thị "Có lỗi xảy ra khi xóa sảnh. Vui lòng thử lại"
+-   9a. Invalid data: Displays a specific error message, returns to step 7.
+-   10a. Hall name already exists: Displays "Hall name already exists in the system", returns to step 7.
+-   11a. Database error: Displays "An error occurred while updating the hall. Please try again", returns to step 7.
 
-### Ràng buộc nghiệp vụ/SQL gợi ý
+### Business Rules/SQL Suggestions
 
-- **BẮT BUỘC** kiểm tra dữ liệu tham chiếu từ PHIEUDATTIEC trước khi xóa
-- Chỉ thực hiện xóa vật lý (hard delete) khi không có dữ liệu tham chiếu
-- Có thể thêm trạng thái "Ngừng hoạt động" thay vì xóa vật lý trong tương lai
-
----
-
-## UC_MH_05: Export Halls to Excel (Xuất danh sách Sảnh ra Excel)
-
-### Mô tả
-
-Nhân viên/Admin xuất danh sách sảnh (có thể đã được lọc) ra file Excel để lưu trữ hoặc báo cáo.
-
-### Tác nhân chính
-
-- Staff (Nhân viên)
-- Admin
-
-### Điều kiện tiên quyết
-
-- Người dùng đã đăng nhập với vai trò Staff hoặc Admin
-- Đã xem danh sách sảnh (có thể đã áp dụng bộ lọc)
-
-### Điều kiện hậu
-
-- Tạo file Excel chứa danh sách sảnh và tự động tải về
-
-### Luồng sự kiện chính
-
-| Bước | Staff/Admin                   | Hệ thống                                                                                                                                                                                                                                                                                  |
-| ---- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn chức năng "Quản lý sảnh" |                                                                                                                                                                                                                                                                                           |
-| 2    |                               | Hiển thị danh sách sảnh                                                                                                                                                                                                                                                                   |
-| 3    | (Tùy chọn) Áp dụng bộ lọc     |                                                                                                                                                                                                                                                                                           |
-| 4    | Click "Xuất Excel"            |                                                                                                                                                                                                                                                                                           |
-| 5    |                               | Truy vấn dữ liệu sảnh theo bộ lọc hiện tại: <br>`SELECT s.MaSanh, s.TenSanh, l.TenLoaiSanh, s.SoLuongBanToiDa, l.DonGiaBanToiThieu, s.GhiChu` <br>`FROM SANH s` <br>`LEFT JOIN LOAISANH l ON s.MaLoaiSanh = l.MaLoaiSanh` <br>`WHERE ... -- điều kiện lọc nếu có` <br>`ORDER BY s.MaSanh` |
-| 6    |                               | Tạo file Excel với: <br>- Sheet "Danh sách sảnh" <br>- Header: Mã sảnh, Tên sảnh, Loại sảnh, Số lượng bàn tối đa, Đơn giá bàn tối thiểu, Ghi chú <br>- Dữ liệu từ query <br>- Footer: Tổng số sảnh, Ngày xuất báo cáo                                                                     |
-| 7    |                               | Tạo tên file: "DanhSachSanh_YYYYMMDD_HHmmss.xlsx"                                                                                                                                                                                                                                         |
-| 8    |                               | Gửi file về trình duyệt để tải xuống                                                                                                                                                                                                                                                      |
-| 9    | Tải file Excel về máy         |                                                                                                                                                                                                                                                                                           |
-| 10   | Mở và kiểm tra file Excel     |                                                                                                                                                                                                                                                                                           |
-
-### Luồng sự kiện phụ
-
-- 5a. Không có dữ liệu để xuất: hiển thị "Không có dữ liệu sảnh để xuất", dừng use case
-- 6a. Lỗi khi tạo file Excel: hiển thị "Có lỗi xảy ra khi tạo file Excel. Vui lòng thử lại"
-
-### Ràng buộc nghiệp vụ/SQL gợi ý
-
-- Format file Excel: .xlsx (Office Open XML)
-- Sử dụng thư viện: EPPlus, ClosedXML, hoặc NPOI
-- Giới hạn số lượng bản ghi xuất (VD: tối đa 10,000 sảnh) để tránh quá tải
-- Định dạng số tiền theo currency (VND)
-- Auto-fit column width để hiển thị đẹp
+-   Check the impact of changing the hall type (may affect the unit price).
+-   Warn if the maximum number of tables is reduced to less than the number of tables already booked in bookings.
 
 ---
 
-## PHỤ LỤC: THÔNG TIN BẢNG DATABASE
+## UC_MH_04: Delete Hall
 
-### Bảng SANH
+### Description
 
-| Tên cột         | Kiểu dữ liệu  | Ràng buộc                 | Mô tả               |
-| --------------- | ------------- | ------------------------- | ------------------- |
-| MaSanh          | INT           | PRIMARY KEY IDENTITY(1,1) | Mã sảnh             |
-| MaLoaiSanh      | INT           | FK → LOAISANH(MaLoaiSanh) | Mã loại sảnh        |
-| TenSanh         | NVARCHAR(40)  | UNIQUE NOT NULL           | Tên sảnh            |
-| SoLuongBanToiDa | INT           |                           | Số lượng bàn tối đa |
-| GhiChu          | NVARCHAR(100) |                           | Ghi chú             |
+Staff/Admin deletes a hall from the system after checking that no bookings are using it.
 
-### Bảng LOAISANH (liên quan)
+### Primary Actors
 
-| Tên cột           | Kiểu dữ liệu | Ràng buộc                 | Mô tả                 |
-| ----------------- | ------------ | ------------------------- | --------------------- |
-| MaLoaiSanh        | INT          | PRIMARY KEY IDENTITY(1,1) | Mã loại sảnh          |
-| TenLoaiSanh       | NVARCHAR(40) | UNIQUE NOT NULL           | Tên loại sảnh         |
-| DonGiaBanToiThieu | MONEY        |                           | Đơn giá bàn tối thiểu |
+-   Staff
+-   Admin
 
-### Bảng PHIEUDATTIEC (liên quan)
+### Preconditions
 
-| Tên cột    | Kiểu dữ liệu | Ràng buộc                 | Mô tả        |
-| ---------- | ------------ | ------------------------- | ------------ |
-| MaPhieuDat | INT          | PRIMARY KEY IDENTITY(1,1) | Mã phiếu đặt |
-| MaSanh     | INT          | FK → SANH(MaSanh)         | Mã sảnh      |
-| ...        | ...          | ...                       | ...          |
+-   The user is logged in with the role of Staff or Admin.
+-   The hall to be deleted exists in the system.
+
+### Postconditions
+
+-   The Hall record is deleted.
+
+### Main Flow
+
+| Step | Staff/Admin                     | System                                                                                                                  |
+| :--- | :------------------------------ | :---------------------------------------------------------------------------------------------------------------------- |
+| 1    | Selects the "Delete Hall" feature. |                                                                                                                       |
+| 2    |                                 | Displays the list of halls.                                                                                             |
+| 3    | Selects the hall to delete.     |                                                                                                                       |
+| 4    | Clicks the "Delete" button.     |                                                                                                                       |
+| 5    |                                 | Checks for referenced data: <br>`SELECT COUNT(*) FROM Booking` <br>`WHERE HallId = @HallId`                             |
+| 6    |                                 | Displays a confirmation dialog: "Are you sure you want to delete the hall '[Hall Name]'? This action cannot be undone." |
+| 7    | Clicks "Confirm" or "Cancel".   |                                                                                                                       |
+| 8    |                                 | Executes the delete: <br>`DELETE FROM Hall` <br>`WHERE HallId = @HallId`                                                 |
+| 9    |                                 | Displays "Hall deleted successfully" and reloads the list.                                                              |
+| 10   | Views the updated list.         |                                                                                                                       |
+
+### Alternative Flows
+
+-   5a. The hall has referenced bookings: Blocks the operation and displays "Cannot delete this hall because it is being used by X bookings. Please handle the bookings before deleting.", stops the use case.
+-   7a. Staff/Admin clicks "Cancel": Closes the confirmation dialog, stops the use case.
+-   8a. Database error: Displays "An error occurred while deleting the hall. Please try again."
+
+### Business Rules/SQL Suggestions
+
+-   **MANDATORY** to check for referenced data from Booking before deleting.
+-   Only perform a hard delete when there is no referenced data.
+-   Consider adding an "Inactive" status instead of a physical delete in the future.
+
+---
+
+## UC_MH_05: Export Halls to Excel
+
+### Description
+
+Staff/Admin exports the list of halls (which can be filtered) to an Excel file for storage or reporting.
+
+### Primary Actors
+
+-   Staff
+-   Admin
+
+### Preconditions
+
+-   The user is logged in with the role of Staff or Admin.
+-   The list of halls is being viewed (filters may be applied).
+
+### Postconditions
+
+-   An Excel file containing the list of halls is created and automatically downloaded.
+
+### Main Flow
+
+| Step | Staff/Admin                             | System                                                                                                                                                                                                                                                                    |
+| :--- | :-------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Selects the "Manage Halls" feature.     |                                                                                                                                                                                                                                                                           |
+| 2    |                                         | Displays the list of halls.                                                                                                                                                                                                                                             |
+| 3    | (Optional) Applies filters.             |                                                                                                                                                                                                                                                                           |
+| 4    | Clicks "Export Excel".                  |                                                                                                                                                                                                                                                                           |
+| 5    |                                         | Queries the hall data according to the current filters: <br>`SELECT h.HallId, h.HallName, ht.HallTypeName, h.MaxTableCount, ht.MinTablePrice, h.Note` <br>`FROM Hall h` <br>`LEFT JOIN HallType ht ON h.HallTypeId = ht.HallTypeId` <br>`WHERE ... -- filter condition if any` <br>`ORDER BY h.HallId` |
+| 6    |                                         | Creates an Excel file with: <br>- Sheet "Hall List" <br>- Header: Hall ID, Hall Name, Hall Type, Max Table Count, Min Table Price, Note <br>- Data from the query <br>- Footer: Total number of halls, Report export date                                                        |
+| 7    |                                         | Generates the file name: "HallList_YYYYMMDD_HHmmss.xlsx"                                                                                                                                                                                                                  |
+| 8    |                                         | Sends the file to the browser for download.                                                                                                                                                                                                                               |
+| 9    | Downloads the Excel file to the machine. |                                                                                                                                                                                                                                                                           |
+| 10   | Opens and checks the Excel file.        |                                                                                                                                                                                                                                                                           |
+
+### Alternative Flows
+
+-   5a. No data to export: Displays "No hall data to export", stops the use case.
+-   6a. Error creating Excel file: Displays "An error occurred while creating the Excel file. Please try again."
+
+### Business Rules/SQL Suggestions
+
+-   Excel file format: .xlsx (Office Open XML).
+-   Use a library: EPPlus, ClosedXML, or NPOI.
+-   Limit the number of records to export (e.g., max 10,000 halls) to avoid overload.
+-   Format the currency amount (VND).
+-   Auto-fit column width for better display.
+
+---
+
+## APPENDIX: DATABASE TABLE INFORMATION
+
+### Hall Table
+
+| Column Name   | Data Type     | Constraints               | Description        |
+| :------------ | :------------ | :------------------------ | :----------------- |
+| HallId        | INT           | PRIMARY KEY IDENTITY(1,1) | Hall ID            |
+| HallTypeId    | INT           | FK → HallType(HallTypeId) | Hall Type ID       |
+| HallName      | NVARCHAR(40)  | UNIQUE NOT NULL           | Hall Name          |
+| MaxTableCount | INT           |                           | Max Table Count    |
+| Note          | NVARCHAR(100) |                           | Note               |
+
+### HallType Table (related)
+
+| Column Name   | Data Type    | Constraints               | Description         |
+| :------------ | :----------- | :------------------------ | :------------------ |
+| HallTypeId    | INT          | PRIMARY KEY IDENTITY(1,1) | Hall Type ID        |
+| HallTypeName  | NVARCHAR(40) | UNIQUE NOT NULL           | Hall Type Name      |
+| MinTablePrice | MONEY        |                           | Minimum Table Price |
+
+### Booking Table (related)
+
+| Column Name | Data Type | Constraints               | Description |
+| :---------- | :-------- | :------------------------ | :---------- |
+| BookingId   | INT       | PRIMARY KEY IDENTITY(1,1) | Booking ID  |
+| HallId      | INT       | FK → Hall(HallId)         | Hall ID     |
+| ...         | ...       | ...                       | ...         |

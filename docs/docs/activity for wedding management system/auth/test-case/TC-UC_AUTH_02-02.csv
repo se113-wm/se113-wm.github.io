@@ -1,0 +1,9 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_02-02,Verify canceling logout confirmation keeps session active,"- User is logged in
+- Access to protected pages is available",1,"Click Đăng xuất button in navigation menu","Confirmation dialog appears: 'Bạn có chắc chắn muốn đăng xuất?'","User remains logged in. Session is not terminated, tokens remain valid, and dialog is closed.",,,
+,,,2,"Click Hủy or close dialog (X button)","Dialog disappears",,,,
+,,,3,"Verify session remains active","- User remains on current page
+- Access token and refresh token still in local storage
+- User can continue accessing protected features
+- No API logout request was sent
+- Navigation menu still shows user information",,,,

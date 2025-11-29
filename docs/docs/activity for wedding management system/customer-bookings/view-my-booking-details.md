@@ -29,7 +29,7 @@ endif
 :(5) Select booking to view details;
 
 |Sys|
-:(6) Query booking details from PHIEUDATTIEC, \n THUCDON, CHITIETDV, SANH, CA tables;
+:(6) Query booking details from Booking, \n Menu, ServiceDetail, Hall, Shift tables;
 
 if (Check query successful?) then (No)
 	:(6.1) Display error "Cannot load booking details";

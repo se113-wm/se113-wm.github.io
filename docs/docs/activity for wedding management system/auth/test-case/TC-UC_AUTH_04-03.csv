@@ -1,0 +1,12 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_04-03,Verify validation error when entering password shorter than minimum policy (8 characters),"- User is logged in
+- Password policy: minimum 8 characters
+- Current password: Password123!",1,"Navigate to Change Password page","Change password form is displayed","System validates new password length and triggers inline error when it's shorter than 8 characters. Save is blocked.",,,
+,,,2,"Enter current password: Password123!","Password is masked",,,,
+,,,3,"Enter weak new password: Pass1! (only 6 characters)","Password is masked, too short",,,,
+,,,4,"Tab out of new password field to trigger validation","Validation error appears",,,,
+,,,5,"Verify weak password rejection","- Error message: 'Mật khẩu phải có ít nhất 8 ký tự'
+- New password field is highlighted in red
+- Đổi mật khẩu button is disabled
+- No API request is sent
+- Password policy help text is displayed",,,,

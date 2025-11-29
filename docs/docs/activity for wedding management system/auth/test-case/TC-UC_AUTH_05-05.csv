@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_05-05,Verify transaction rollback when database failure occurs mid-registration,"- Registration data is valid and unique
+- Simulate database constraint violation or connection failure during INSERT",1,"Navigate to registration page","Registration form is displayed","System handles database failure gracefully. No partial data is saved (transaction is rolled back). User-friendly error message is displayed.",,,
+,,,2,"Fill all registration fields with valid data","All fields are completed",,,,
+,,,3,"Click Đăng ký button","Loading indicator appears, database failure occurs",,,,
+,,,4,"Verify rollback and error handling","- Error message: 'Đăng ký thất bại. Vui lòng thử lại sau'
+- Transaction is rolled back (no partial record in database)
+- NGUOIDUNG table remains unchanged
+- Form data is retained so user can retry
+- Error is logged on server for admin investigation
+- No user data is corrupted",,,,

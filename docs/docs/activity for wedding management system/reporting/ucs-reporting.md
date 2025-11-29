@@ -19,7 +19,7 @@ Admin views revenue chart and statistics by month, including daily revenue, tota
 ### Tiền điều kiện / Preconditions
 
 1. Admin đã đăng nhập vào hệ thống
-2. Có dữ liệu báo cáo doanh thu trong hệ thống (BAOCAODS, CTBAOCAODS)
+2. Có dữ liệu báo cáo doanh thu trong hệ thống (RevenueReport, RevenueReportDetail)
 
 ### Hậu điều kiện / Postconditions
 
@@ -40,7 +40,7 @@ Admin views revenue chart and statistics by month, including daily revenue, tota
 2. Hệ thống hiển thị form chọn tháng/năm (mặc định là tháng hiện tại)
 3. Admin chọn tháng và năm cần xem
 4. Admin nhấn nút "Xem báo cáo"
-5. Hệ thống truy vấn dữ liệu báo cáo từ BAOCAODS và CTBAOCAODS
+5. Hệ thống truy vấn dữ liệu báo cáo từ RevenueReport và RevenueReportDetail
 6. Hệ thống hiển thị biểu đồ doanh thu (biểu đồ cột hoặc đường theo ngày)
 7. Hệ thống hiển thị bảng chi tiết: Ngày, Số lượng tiệc, Doanh thu, Tỷ lệ (%)
 8. Hệ thống hiển thị tổng kết: Tổng doanh thu tháng, Tổng số tiệc, Doanh thu trung bình/ngày
@@ -95,8 +95,8 @@ Admin views revenue chart and statistics by month, including daily revenue, tota
 - **BR1**: Dữ liệu báo cáo được tính từ các phiếu đặt tiệc đã thanh toán (NgayThanhToan IS NOT NULL)
 - **BR2**: Doanh thu ngày = Tổng TongTienHoaDon của các phiếu đặt có NgayDaiTiec trong ngày đó
 - **BR3**: Tỷ lệ % = (Doanh thu ngày / Tổng doanh thu tháng) \* 100
-- **BR4**: Tổng doanh thu tháng lưu trong BAOCAODS.TongDoanhThu
-- **BR5**: Chi tiết từng ngày lưu trong CTBAOCAODS (Ngay, SoLuongTiec, DoanhThu, TiLe)
+- **BR4**: Tổng doanh thu tháng lưu trong RevenueReport.TotalRevenue
+- **BR5**: Chi tiết từng ngày lưu trong RevenueReportDetail (ReportDate, WeddingCount, Revenue, Ratio)
 - **BR6**: Chỉ Admin mới có quyền xem báo cáo doanh thu
 
 ### SQL Queries
@@ -104,18 +104,18 @@ Admin views revenue chart and statistics by month, including daily revenue, tota
 **Truy vấn tổng quan tháng:**
 
 ```sql
-SELECT Thang, Nam, TongDoanhThu
-FROM BAOCAODS
-WHERE Thang = @Thang AND Nam = @Nam
+SELECT ReportMonth, ReportYear, TotalRevenue
+FROM RevenueReport
+WHERE ReportMonth = @ReportMonth AND ReportYear = @ReportYear
 ```
 
 **Truy vấn chi tiết từng ngày:**
 
 ```sql
-SELECT Ngay, SoLuongTiec, DoanhThu, TiLe
-FROM CTBAOCAODS
-WHERE Thang = @Thang AND Nam = @Nam
-ORDER BY Ngay
+SELECT ReportDate, WeddingCount, Revenue, Ratio
+FROM RevenueReportDetail
+WHERE ReportMonth = @ReportMonth AND ReportYear = @ReportYear
+ORDER BY ReportDate
 ```
 
 ---
@@ -156,7 +156,7 @@ Admin exports monthly revenue report to Excel file for storage, printing, or sha
 1. Admin xem biểu đồ doanh thu (UC 57)
 2. Hệ thống hiển thị nút "Xuất Excel"
 3. Admin nhấn nút "Xuất Excel"
-4. Hệ thống truy vấn dữ liệu báo cáo từ BAOCAODS và CTBAOCAODS
+4. Hệ thống truy vấn dữ liệu báo cáo từ RevenueReport và RevenueReportDetail
 5. Hệ thống tạo file Excel với định dạng chuẩn
 6. Hệ thống tải file Excel về máy Admin
 7. Hệ thống hiển thị thông báo "Xuất Excel thành công"
@@ -221,16 +221,16 @@ Admin exports monthly revenue report to Excel file for storage, printing, or sha
 
 **Sheet 1: Tổng quan**
 | Mục | Giá trị |
-|-----|---------|
-| Tháng/Năm | [Thang]/[Nam] |
-| Tổng doanh thu | [TongDoanhThu] VNĐ |
-| Tổng số tiệc | [SUM(SoLuongTiec)] |
-| Doanh thu TB/ngày | [TongDoanhThu / Số ngày có tiệc] VNĐ |
+|-----|----------|
+| Tháng/Năm | [ReportMonth]/[ReportYear] |
+| Tổng doanh thu | [TotalRevenue] VNĐ |
+| Tổng số tiệc | [SUM(WeddingCount)] |
+| Doanh thu TB/ngày | [TotalRevenue / Số ngày có tiệc] VNĐ |
 
 **Sheet 2: Chi tiết**
 | Ngày | Số lượng tiệc | Doanh thu (VNĐ) | Tỷ lệ (%) |
-|------|---------------|-----------------|-----------|
-| 1 | [SoLuongTiec] | [DoanhThu] | [TiLe] |
+|------|---------------|-----------------|----------|
+| 1 | [WeddingCount] | [Revenue] | [Ratio] |
 | ... | ... | ... | ... |
 
 ---
@@ -244,10 +244,10 @@ Nhóm chức năng **Báo cáo & Thống kê** bao gồm 2 use case chính:
 
 ### Bảng CRUD tương ứng
 
-| Use Case | BAOCAODS | CTBAOCAODS | PHIEUDATTIEC |
-| -------- | -------- | ---------- | ------------ |
-| UC 57    | R        | R          | -            |
-| UC 58    | R        | R          | -            |
+| Use Case | RevenueReport | RevenueReportDetail | Booking |
+| -------- | ------------- | ------------------- | ------- |
+| UC 57    | R             | R                   | -       |
+| UC 58    | R             | R                   | -       |
 
 ### Lưu ý quan trọng
 
@@ -255,7 +255,7 @@ Nhóm chức năng **Báo cáo & Thống kê** bao gồm 2 use case chính:
 - Dữ liệu báo cáo được **tính toán tự động** từ các phiếu đặt tiệc đã thanh toán
 - Sử dụng **biểu đồ trực quan** (Chart.js, D3.js) để hiển thị doanh thu
 - **File Excel** phải có định dạng chuyên nghiệp, dễ đọc
-- Dữ liệu báo cáo lưu trong 2 bảng: BAOCAODS (tổng quan tháng) và CTBAOCAODS (chi tiết ngày)
+- Dữ liệu báo cáo lưu trong 2 bảng: RevenueReport (tổng quan tháng) và RevenueReportDetail (chi tiết ngày)
 
 ### Luồng nghiệp vụ liên quan
 
@@ -271,11 +271,11 @@ Nhóm chức năng **Báo cáo & Thống kê** bao gồm 2 use case chính:
 
 **Cách tính toán dữ liệu báo cáo:**
 
-1. Hệ thống tự động tính doanh thu từ PHIEUDATTIEC
-2. Doanh thu ngày = SUM(TongTienHoaDon) WHERE NgayDaiTiec = @Ngay AND NgayThanhToan IS NOT NULL
-3. Số lượng tiệc = COUNT(\*) WHERE NgayDaiTiec = @Ngay AND NgayThanhToan IS NOT NULL
+1. Hệ thống tự động tính doanh thu từ Booking
+2. Doanh thu ngày = SUM(TotalAmount) WHERE EventDate = @EventDate AND PaymentDate IS NOT NULL
+3. Số lượng tiệc = COUNT(\*) WHERE EventDate = @EventDate AND PaymentDate IS NOT NULL
 4. Tỷ lệ % = (Doanh thu ngày / Tổng doanh thu tháng) \* 100
-5. Lưu vào BAOCAODS và CTBAOCAODS
+5. Lưu vào RevenueReport và RevenueReportDetail
 
 ---
 

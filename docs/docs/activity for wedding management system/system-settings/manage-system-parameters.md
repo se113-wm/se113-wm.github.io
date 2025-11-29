@@ -11,7 +11,7 @@ start
 :(1) Select function System Settings;
 
 |Sys|
-:(2) Query all system parameters \n from THAMSO table;
+:(2) Query all system parameters \n from `Parameter` table;
 :(3) Display settings form with current values: \n - Enable penalty check (checkbox) \n - Penalty rate (%) \n - Minimum deposit rate (%) \n - Minimum table reservation rate (%);
 
 repeat
@@ -26,12 +26,12 @@ repeat
 	:(7) Click Confirm;
 
 	|Sys|
-	:(8) Verify data valid: \n - KiemTraPhat: 0 or 1 \n - TiLePhat: 0 ≤ value ≤ 1 \n - TiLeTienDatCocToiThieu: 0 < value ≤ 1 \n - TiLeSoBanDatTruocToiThieu: 0 < value ≤ 1;
+	:(8) Verify data valid: \n - `EnablePenalty`: 0 or 1 \n - `PenaltyRate`: 0 ≤ value ≤ 1 \n - `MinDepositRate`: 0 < value ≤ 1 \n - `MinReserveTableRate`: 0 < value ≤ 1;
 	backward: (8.1) Display validation error;
 repeat while (Check all data valid?) is (No) not (Yes)
 
 |Sys|
-:(9) Update all parameters in transaction \n (KiemTraPhat, TiLePhat, \n TiLeTienDatCocToiThieu, TiLeSoBanDatTruocToiThieu);
+:(9) Update all parameters in transaction \n (`EnablePenalty`, `PenaltyRate`, \n `MinDepositRate`, `MinReserveTableRate`);
 
 if (Update successful?) then (Yes)
 	|Sys|

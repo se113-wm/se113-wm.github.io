@@ -1,0 +1,11 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_06-04,Verify expired reset token is rejected after expiry threshold (e.g. 1 hour),"- User received password reset email 2 hours ago
+- Reset token expiry time is 1 hour
+- Token has expired",1,"Receive password reset email","Email contains reset link with token (sent 2 hours ago)"","System checks token expiration time and rejects expired tokens. User must request new reset link.",,,
+,,,2,"Wait for token to expire (or manipulate server time for testing)","Token expiry time has passed",,,,
+,,,3,"Click reset link from old email","Browser opens reset password page",,,,
+,,,4,"Verify expired token rejection","- Error message: 'Link đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu link mới'
+- Password reset form is not displayed or is disabled
+- User is redirected to forgot password page
+- Link to request new reset email is provided
+- No password reset is possible with expired token",,,,

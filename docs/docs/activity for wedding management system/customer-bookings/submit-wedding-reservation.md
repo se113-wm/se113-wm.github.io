@@ -42,8 +42,8 @@ else (Yes)
 endif
 
 |Sys|
-:(14) Calculate costs (TongTienBan, TongTienDV, \n TienDatCoc, TongTienHoaDon, TienConLai);
-:(15) Begin transaction: Insert PHIEUDATTIEC, \n THUCDON, CHITIETDV records;
+:(14) Calculate costs (TotalTableAmount, TotalServiceAmount, \n Deposit, TotalInvoiceAmount, RemainingAmount);
+:(15) Begin transaction: Insert Booking, \n Menu, ServiceDetail records;
 :(16) Commit transaction;
 :(17) Send confirmation email to customer;
 :(18) Display success message with booking ID;

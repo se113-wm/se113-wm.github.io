@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_03-02,Verify inline validation error for malformed email address,"- User is logged in
+- Profile form is displayed",1,"Navigate to Manage Profile page","Profile form is displayed","System shows inline validation error when malformed email is entered. Save is blocked until valid email format is provided.",,,
+,,,2,"Click on Email field to edit","Field is focused and editable",,,,
+,,,3,"Enter invalid email: invalid-email-format","Invalid email text is displayed",,,,
+,,,4,"Click outside the email field or press Tab","Validation triggers",,,,
+,,,5,"Verify email validation","- Error message displayed: 'Email không đúng định dạng'
+- Email field is highlighted in red
+- Lưu thay đổi button is disabled
+- User cannot submit form",,,,

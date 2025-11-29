@@ -1,0 +1,14 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_05-02,Verify inline validation when omitting mandatory registration fields,"- User is not logged in
+- Registration page is displayed",1,"Navigate to registration page","Registration form is displayed","Inline validation errors are shown for each missing required field. Registration is blocked until all mandatory fields are filled.",,,
+,,,2,"Leave TenDangNhap field empty","Field remains empty",,,,
+,,,3,"Leave Email field empty","Field remains empty",,,,
+,,,4,"Leave MatKhau field empty","Field remains empty",,,,
+,,,5,"Click Đăng ký button","Validation errors appear",,,,
+,,,6,"Verify required field validation","- Error messages displayed for each missing field:
+  - 'Vui lòng nhập tên đăng nhập'
+  - 'Vui lòng nhập email'
+  - 'Vui lòng nhập mật khẩu'
+- All empty required fields are highlighted in red
+- Đăng ký button is disabled or form is not submitted
+- No API request is sent",,,,

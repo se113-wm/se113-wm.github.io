@@ -34,20 +34,20 @@ Nhân viên/Admin xem danh sách loại sảnh trong hệ thống và có thể 
 
 ### Luồng sự kiện chính
 
-| Bước | Staff/Admin                        | Hệ thống                                                                                                                                                                                                |
-| ---- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn chức năng "Quản lý loại sảnh" |                                                                                                                                                                                                         |
-| 2    |                                    | Truy vấn danh sách loại sảnh: <br>`SELECT MaLoaiSanh, TenLoaiSanh, DonGiaBanToiThieu` <br>`FROM LOAISANH` <br>`ORDER BY MaLoaiSanh`                                                                     |
-| 3    |                                    | Hiển thị danh sách với các cột: Mã loại sảnh, Tên loại sảnh, Đơn giá bàn tối thiểu, Hành động (Xem chi tiết, Chỉnh sửa, Xóa)                                                                            |
-| 4    | (Tùy chọn) Nhập từ khóa tìm kiếm   |                                                                                                                                                                                                         |
-| 5    | Click "Tìm kiếm"                   |                                                                                                                                                                                                         |
-| 6    |                                    | Truy vấn với WHERE tương ứng: <br>- Theo tên loại sảnh (TenLoaiSanh LIKE N'%keyword%') <br>- Theo khoảng giá (DonGiaBanToiThieu >= @Min AND DonGiaBanToiThieu <= @Max) <br>`... WHERE ... ORDER BY ...` |
-| 7    |                                    | Hiển thị kết quả theo tiêu chí tìm kiếm                                                                                                                                                                 |
-| 8    | Chọn loại sảnh muốn xem chi tiết   |                                                                                                                                                                                                         |
-| 9    |                                    | Truy vấn thông tin chi tiết: <br>`SELECT MaLoaiSanh, TenLoaiSanh, DonGiaBanToiThieu` <br>`FROM LOAISANH` <br>`WHERE MaLoaiSanh = @MaLoaiSanh`                                                           |
-| 10   |                                    | Truy vấn số lượng sảnh thuộc loại này: <br>`SELECT COUNT(*) FROM SANH WHERE MaLoaiSanh = @MaLoaiSanh`                                                                                                   |
-| 11   |                                    | Hiển thị dialog chi tiết với: Mã loại sảnh, Tên loại sảnh, Đơn giá bàn tối thiểu, Số lượng sảnh đang sử dụng loại này, Hành động (Chỉnh sửa, Xóa)                                                       |
-| 12   | Xem thông tin chi tiết             |                                                                                                                                                                                                         |
+| Bước | Staff/Admin                        | Hệ thống                                                                                                                                                                                         |
+| ---- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Chọn chức năng "Quản lý loại sảnh" |                                                                                                                                                                                                  |
+| 2    |                                    | Truy vấn danh sách loại sảnh: <br>`SELECT HallTypeId, HallTypeName, MinTablePrice` <br>`FROM HallType` <br>`ORDER BY HallTypeId`                                                                 |
+| 3    |                                    | Hiển thị danh sách với các cột: Mã loại sảnh, Tên loại sảnh, Đơn giá bàn tối thiểu, Hành động (Xem chi tiết, Chỉnh sửa, Xóa)                                                                     |
+| 4    | (Tùy chọn) Nhập từ khóa tìm kiếm   |                                                                                                                                                                                                  |
+| 5    | Click "Tìm kiếm"                   |                                                                                                                                                                                                  |
+| 6    |                                    | Truy vấn với WHERE tương ứng: <br>- Theo tên loại sảnh (HallTypeName LIKE N'%keyword%') <br>- Theo khoảng giá (MinTablePrice >= @Min AND MinTablePrice <= @Max) <br>`... WHERE ... ORDER BY ...` |
+| 7    |                                    | Hiển thị kết quả theo tiêu chí tìm kiếm                                                                                                                                                          |
+| 8    | Chọn loại sảnh muốn xem chi tiết   |                                                                                                                                                                                                  |
+| 9    |                                    | Truy vấn thông tin chi tiết: <br>`SELECT HallTypeId, HallTypeName, MinTablePrice` <br>`FROM HallType` <br>`WHERE HallTypeId = @HallTypeId`                                                       |
+| 10   |                                    | Truy vấn số lượng sảnh thuộc loại này: <br>`SELECT COUNT(*) FROM Hall WHERE HallTypeId = @HallTypeId`                                                                                            |
+| 11   |                                    | Hiển thị dialog chi tiết với: Mã loại sảnh, Tên loại sảnh, Đơn giá bàn tối thiểu, Số lượng sảnh đang sử dụng loại này, Hành động (Chỉnh sửa, Xóa)                                                |
+| 12   | Xem thông tin chi tiết             |                                                                                                                                                                                                  |
 
 ### Luồng sự kiện phụ
 
@@ -55,7 +55,7 @@ Không có luồng phụ đặc biệt.
 
 ### Ràng buộc nghiệp vụ/SQL gợi ý
 
-- Thêm index trên `LOAISANH.TenLoaiSanh` để tăng tốc tìm kiếm
+- Thêm index trên `HallType.HallTypeName` để tăng tốc tìm kiếm
 - Hiển thị số lượng sảnh đang sử dụng mỗi loại sảnh trong danh sách (optional)
 
 ---
@@ -77,22 +77,22 @@ Nhân viên/Admin tạo loại sảnh mới trong hệ thống với tên và đ
 
 ### Điều kiện hậu
 
-- Tạo bản ghi LOAISANH mới với thông tin đầy đủ
+- Tạo bản ghi HallType mới với thông tin đầy đủ
 
 ### Luồng sự kiện chính
 
-| Bước | Staff/Admin                       | Hệ thống                                                                                                                    |
-| ---- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn "Thêm loại sảnh mới"         |                                                                                                                             |
-| 2    |                                   | Hiển thị form thêm loại sảnh với: Trường nhập (Tên loại sảnh, Đơn giá bàn tối thiểu)                                        |
-| 3    | Nhập thông tin loại sảnh          |                                                                                                                             |
-| 4    | Click "Lưu"                       |                                                                                                                             |
-| 5    |                                   | Kiểm tra dữ liệu: <br>- Tên loại sảnh không để trống, độ dài ≤ 40 ký tự <br>- Đơn giá bàn tối thiểu > 0                     |
-| 6    |                                   | Kiểm tra trùng lặp tên loại sảnh: <br>`SELECT COUNT(*) FROM LOAISANH` <br>`WHERE TenLoaiSanh = @TenLoaiSanh`                |
-| 7    |                                   | Thực hiện thêm: <br>`INSERT INTO LOAISANH (TenLoaiSanh, DonGiaBanToiThieu)` <br>`VALUES (@TenLoaiSanh, @DonGiaBanToiThieu)` |
-| 8    |                                   | Hiển thị thông báo "Thêm loại sảnh thành công" và chuyển về danh sách loại sảnh                                             |
-| 9    | Xem loại sảnh mới trong danh sách |                                                                                                                             |
-| 10   | Xác nhận kết thúc                 |                                                                                                                             |
+| Bước | Staff/Admin                       | Hệ thống                                                                                                              |
+| ---- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| 1    | Chọn "Thêm loại sảnh mới"         |                                                                                                                       |
+| 2    |                                   | Hiển thị form thêm loại sảnh với: Trường nhập (Tên loại sảnh, Đơn giá bàn tối thiểu)                                  |
+| 3    | Nhập thông tin loại sảnh          |                                                                                                                       |
+| 4    | Click "Lưu"                       |                                                                                                                       |
+| 5    |                                   | Kiểm tra dữ liệu: <br>- Tên loại sảnh không để trống, độ dài ≤ 40 ký tự <br>- Đơn giá bàn tối thiểu > 0               |
+| 6    |                                   | Kiểm tra trùng lặp tên loại sảnh: <br>`SELECT COUNT(*) FROM HallType` <br>`WHERE HallTypeName = @HallTypeName`        |
+| 7    |                                   | Thực hiện thêm: <br>`INSERT INTO HallType (HallTypeName, MinTablePrice)` <br>`VALUES (@HallTypeName, @MinTablePrice)` |
+| 8    |                                   | Hiển thị thông báo "Thêm loại sảnh thành công" và chuyển về danh sách loại sảnh                                       |
+| 9    | Xem loại sảnh mới trong danh sách |                                                                                                                       |
+| 10   | Xác nhận kết thúc                 |                                                                                                                       |
 
 ### Luồng sự kiện phụ
 
@@ -126,24 +126,24 @@ Nhân viên/Admin chỉnh sửa thông tin loại sảnh (tên và đơn giá b�
 
 ### Điều kiện hậu
 
-- Cập nhật thông tin LOAISANH
+- Cập nhật thông tin HallType
 
 ### Luồng sự kiện chính
 
-| Bước | Staff/Admin                          | Hệ thống                                                                                                                                                              |
-| ---- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn chức năng "Chỉnh sửa loại sảnh" |                                                                                                                                                                       |
-| 2    |                                      | Hiển thị danh sách loại sảnh                                                                                                                                          |
-| 3    | Chọn loại sảnh muốn chỉnh sửa        |                                                                                                                                                                       |
-| 4    |                                      | Truy vấn thông tin loại sảnh: <br>`SELECT MaLoaiSanh, TenLoaiSanh, DonGiaBanToiThieu` <br>`FROM LOAISANH` <br>`WHERE MaLoaiSanh = @MaLoaiSanh`                        |
-| 5    |                                      | Hiển thị form chỉnh sửa với dữ liệu hiện tại: Trường nhập (Tên loại sảnh, Đơn giá bàn tối thiểu)                                                                      |
-| 6    | Chỉnh sửa thông tin loại sảnh        |                                                                                                                                                                       |
-| 7    | Click "Lưu"                          |                                                                                                                                                                       |
-| 8    |                                      | Kiểm tra dữ liệu: <br>- Tên loại sảnh không để trống, độ dài ≤ 40 ký tự <br>- Đơn giá bàn tối thiểu > 0                                                               |
-| 9    |                                      | Kiểm tra trùng tên (nếu đổi tên): <br>`SELECT COUNT(*) FROM LOAISANH` <br>`WHERE TenLoaiSanh = @TenLoaiSanh AND MaLoaiSanh <> @MaLoaiSanh`                            |
-| 10   |                                      | Thực hiện cập nhật: <br>`UPDATE LOAISANH` <br>`SET TenLoaiSanh = @TenLoaiSanh,` <br>`    DonGiaBanToiThieu = @DonGiaBanToiThieu` <br>`WHERE MaLoaiSanh = @MaLoaiSanh` |
-| 11   |                                      | Hiển thị thông báo "Cập nhật loại sảnh thành công" và reload danh sách                                                                                                |
-| 12   | Xem thông tin loại sảnh đã cập nhật  |                                                                                                                                                                       |
+| Bước | Staff/Admin                          | Hệ thống                                                                                                                                                        |
+| ---- | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Chọn chức năng "Chỉnh sửa loại sảnh" |                                                                                                                                                                 |
+| 2    |                                      | Hiển thị danh sách loại sảnh                                                                                                                                    |
+| 3    | Chọn loại sảnh muốn chỉnh sửa        |                                                                                                                                                                 |
+| 4    |                                      | Truy vấn thông tin loại sảnh: <br>`SELECT HallTypeId, HallTypeName, MinTablePrice` <br>`FROM HallType` <br>`WHERE HallTypeId = @HallTypeId`                     |
+| 5    |                                      | Hiển thị form chỉnh sửa với dữ liệu hiện tại: Trường nhập (Tên loại sảnh, Đơn giá bàn tối thiểu)                                                                |
+| 6    | Chỉnh sửa thông tin loại sảnh        |                                                                                                                                                                 |
+| 7    | Click "Lưu"                          |                                                                                                                                                                 |
+| 8    |                                      | Kiểm tra dữ liệu: <br>- Tên loại sảnh không để trống, độ dài ≤ 40 ký tự <br>- Đơn giá bàn tối thiểu > 0                                                         |
+| 9    |                                      | Kiểm tra trùng tên (nếu đổi tên): <br>`SELECT COUNT(*) FROM HallType` <br>`WHERE HallTypeName = @HallTypeName AND HallTypeId <> @HallTypeId`                    |
+| 10   |                                      | Thực hiện cập nhật: <br>`UPDATE HallType` <br>`SET HallTypeName = @HallTypeName,` <br>`    MinTablePrice = @MinTablePrice` <br>`WHERE HallTypeId = @HallTypeId` |
+| 11   |                                      | Hiển thị thông báo "Cập nhật loại sảnh thành công" và reload danh sách                                                                                          |
+| 12   | Xem thông tin loại sảnh đã cập nhật  |                                                                                                                                                                 |
 
 ### Luồng sự kiện phụ
 
@@ -154,7 +154,7 @@ Nhân viên/Admin chỉnh sửa thông tin loại sảnh (tên và đơn giá b�
 ### Ràng buộc nghiệp vụ/SQL gợi ý
 
 - Cảnh báo nếu thay đổi đơn giá bàn tối thiểu có thể ảnh hưởng đến các sảnh đang sử dụng loại này
-- Kiểm tra số lượng sảnh bị ảnh hưởng: `SELECT COUNT(*) FROM SANH WHERE MaLoaiSanh = @MaLoaiSanh`
+- Kiểm tra số lượng sảnh bị ảnh hưởng: `SELECT COUNT(*) FROM Hall WHERE HallTypeId = @HallTypeId`
 
 ---
 
@@ -176,7 +176,7 @@ Nhân viên/Admin xóa loại sảnh khỏi hệ thống sau khi kiểm tra khô
 
 ### Điều kiện hậu
 
-- Xóa bản ghi LOAISANH
+- Xóa bản ghi HallType
 
 ### Luồng sự kiện chính
 
@@ -186,10 +186,10 @@ Nhân viên/Admin xóa loại sảnh khỏi hệ thống sau khi kiểm tra khô
 | 2    |                                | Hiển thị danh sách loại sảnh                                                                                         |
 | 3    | Chọn loại sảnh muốn xóa        |                                                                                                                      |
 | 4    | Click nút "Xóa"                |                                                                                                                      |
-| 5    |                                | Kiểm tra dữ liệu tham chiếu: <br>`SELECT COUNT(*) FROM SANH` <br>`WHERE MaLoaiSanh = @MaLoaiSanh`                    |
+| 5    |                                | Kiểm tra dữ liệu tham chiếu: <br>`SELECT COUNT(*) FROM Hall` <br>`WHERE HallTypeId = @HallTypeId`                    |
 | 6    |                                | Hiển thị dialog xác nhận: "Bạn có chắc chắn muốn xóa loại sảnh '[Tên loại sảnh]'? Hành động này không thể hoàn tác." |
 | 7    | Click "Xác nhận" hoặc "Hủy"    |                                                                                                                      |
-| 8    |                                | Thực hiện xóa: <br>`DELETE FROM LOAISANH` <br>`WHERE MaLoaiSanh = @MaLoaiSanh`                                       |
+| 8    |                                | Thực hiện xóa: <br>`DELETE FROM HallType` <br>`WHERE HallTypeId = @HallTypeId`                                       |
 | 9    |                                | Hiển thị thông báo "Xóa loại sảnh thành công" và reload danh sách                                                    |
 | 10   | Xem danh sách đã cập nhật      |                                                                                                                      |
 
@@ -201,7 +201,7 @@ Nhân viên/Admin xóa loại sảnh khỏi hệ thống sau khi kiểm tra khô
 
 ### Ràng buộc nghiệp vụ/SQL gợi ý
 
-- **BẮT BUỘC** kiểm tra dữ liệu tham chiếu từ SANH trước khi xóa
+- **BẮT BUỘC** kiểm tra dữ liệu tham chiếu từ Hall trước khi xóa
 - Chỉ thực hiện xóa vật lý (hard delete) khi không có dữ liệu tham chiếu
 - Nên có ít nhất một loại sảnh trong hệ thống
 
@@ -229,18 +229,18 @@ Nhân viên/Admin xuất danh sách loại sảnh (có thể đã được lọc
 
 ### Luồng sự kiện chính
 
-| Bước | Staff/Admin                        | Hệ thống                                                                                                                                                                                                                                                                                              |
-| ---- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Chọn chức năng "Quản lý loại sảnh" |                                                                                                                                                                                                                                                                                                       |
-| 2    |                                    | Hiển thị danh sách loại sảnh                                                                                                                                                                                                                                                                          |
-| 3    | (Tùy chọn) Áp dụng bộ lọc          |                                                                                                                                                                                                                                                                                                       |
-| 4    | Click "Xuất Excel"                 |                                                                                                                                                                                                                                                                                                       |
-| 5    |                                    | Truy vấn dữ liệu loại sảnh theo bộ lọc hiện tại: <br>`SELECT l.MaLoaiSanh, l.TenLoaiSanh, l.DonGiaBanToiThieu,` <br>`       (SELECT COUNT(*) FROM SANH s WHERE s.MaLoaiSanh = l.MaLoaiSanh) AS SoLuongSanh` <br>`FROM LOAISANH l` <br>`WHERE ... -- điều kiện lọc nếu có` <br>`ORDER BY l.MaLoaiSanh` |
-| 6    |                                    | Tạo file Excel với: <br>- Sheet "Danh sách loại sảnh" <br>- Header: Mã loại sảnh, Tên loại sảnh, Đơn giá bàn tối thiểu, Số lượng sảnh <br>- Dữ liệu từ query <br>- Footer: Tổng số loại sảnh, Ngày xuất báo cáo                                                                                       |
-| 7    |                                    | Tạo tên file: "DanhSachLoaiSanh_YYYYMMDD_HHmmss.xlsx"                                                                                                                                                                                                                                                 |
-| 8    |                                    | Gửi file về trình duyệt để tải xuống                                                                                                                                                                                                                                                                  |
-| 9    | Tải file Excel về máy              |                                                                                                                                                                                                                                                                                                       |
-| 10   | Mở và kiểm tra file Excel          |                                                                                                                                                                                                                                                                                                       |
+| Bước | Staff/Admin                        | Hệ thống                                                                                                                                                                                                                                                                                         |
+| ---- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1    | Chọn chức năng "Quản lý loại sảnh" |                                                                                                                                                                                                                                                                                                  |
+| 2    |                                    | Hiển thị danh sách loại sảnh                                                                                                                                                                                                                                                                     |
+| 3    | (Tùy chọn) Áp dụng bộ lọc          |                                                                                                                                                                                                                                                                                                  |
+| 4    | Click "Xuất Excel"                 |                                                                                                                                                                                                                                                                                                  |
+| 5    |                                    | Truy vấn dữ liệu loại sảnh theo bộ lọc hiện tại: <br>`SELECT l.HallTypeId, l.HallTypeName, l.MinTablePrice,` <br>`       (SELECT COUNT(*) FROM Hall s WHERE s.HallTypeId = l.HallTypeId) AS HallCount` <br>`FROM HallType l` <br>`WHERE ... -- điều kiện lọc nếu có` <br>`ORDER BY l.HallTypeId` |
+| 6    |                                    | Tạo file Excel với: <br>- Sheet "Danh sách loại sảnh" <br>- Header: Mã loại sảnh, Tên loại sảnh, Đơn giá bàn tối thiểu, Số lượng sảnh <br>- Dữ liệu từ query <br>- Footer: Tổng số loại sảnh, Ngày xuất báo cáo                                                                                  |
+| 7    |                                    | Tạo tên file: "DanhSachLoaiSanh_YYYYMMDD_HHmmss.xlsx"                                                                                                                                                                                                                                            |
+| 8    |                                    | Gửi file về trình duyệt để tải xuống                                                                                                                                                                                                                                                             |
+| 9    | Tải file Excel về máy              |                                                                                                                                                                                                                                                                                                  |
+| 10   | Mở và kiểm tra file Excel          |                                                                                                                                                                                                                                                                                                  |
 
 ### Luồng sự kiện phụ
 
@@ -259,20 +259,20 @@ Nhân viên/Admin xuất danh sách loại sảnh (có thể đã được lọc
 
 ## PHỤ LỤC: THÔNG TIN BẢNG DATABASE
 
-### Bảng LOAISANH
+### Bảng HallType
 
-| Tên cột           | Kiểu dữ liệu | Ràng buộc                 | Mô tả                 |
-| ----------------- | ------------ | ------------------------- | --------------------- |
-| MaLoaiSanh        | INT          | PRIMARY KEY IDENTITY(1,1) | Mã loại sảnh          |
-| TenLoaiSanh       | NVARCHAR(40) | UNIQUE NOT NULL           | Tên loại sảnh         |
-| DonGiaBanToiThieu | MONEY        |                           | Đơn giá bàn tối thiểu |
+| Tên cột       | Kiểu dữ liệu | Ràng buộc                 | Mô tả                 |
+| ------------- | ------------ | ------------------------- | --------------------- |
+| HallTypeId    | INT          | PRIMARY KEY IDENTITY(1,1) | Mã loại sảnh          |
+| HallTypeName  | NVARCHAR(40) | UNIQUE NOT NULL           | Tên loại sảnh         |
+| MinTablePrice | MONEY        |                           | Đơn giá bàn tối thiểu |
 
-### Bảng SANH (liên quan)
+### Bảng Hall (liên quan)
 
-| Tên cột         | Kiểu dữ liệu  | Ràng buộc                 | Mô tả               |
-| --------------- | ------------- | ------------------------- | ------------------- |
-| MaSanh          | INT           | PRIMARY KEY IDENTITY(1,1) | Mã sảnh             |
-| MaLoaiSanh      | INT           | FK → LOAISANH(MaLoaiSanh) | Mã loại sảnh        |
-| TenSanh         | NVARCHAR(40)  | UNIQUE NOT NULL           | Tên sảnh            |
-| SoLuongBanToiDa | INT           |                           | Số lượng bàn tối đa |
-| GhiChu          | NVARCHAR(100) |                           | Ghi chú             |
+| Tên cột       | Kiểu dữ liệu  | Ràng buộc                 | Mô tả               |
+| ------------- | ------------- | ------------------------- | ------------------- |
+| HallId        | INT           | PRIMARY KEY IDENTITY(1,1) | Mã sảnh             |
+| HallTypeId    | INT           | FK → HallType(HallTypeId) | Mã loại sảnh        |
+| HallName      | NVARCHAR(40)  | UNIQUE NOT NULL           | Tên sảnh            |
+| MaxTableCount | INT           |                           | Số lượng bàn tối đa |
+| Note          | NVARCHAR(100) |                           | Ghi chú             |

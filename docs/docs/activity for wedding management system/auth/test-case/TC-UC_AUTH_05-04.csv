@@ -1,0 +1,14 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_05-04,Verify rejection when registering with email already in system,"- Existing user has email 'customer@weddingms.com'
+- User attempts to register with same email",1,"Navigate to registration page","Registration form is displayed","System detects duplicate email and shows error. Registration is rejected.",,,
+,,,2,"Enter unique username: newuser123","Username is displayed",,,,
+,,,3,"Enter existing email: customer@weddingms.com","Duplicate email is displayed",,,,
+,,,4,"Enter password: Password123!","Password is masked",,,,
+,,,5,"Enter confirm password: Password123!","Password is masked",,,,
+,,,6,"Fill other required fields","Fields are filled",,,,
+,,,7,"Click Đăng ký button","Loading indicator appears briefly",,,,
+,,,8,"Verify duplicate email rejection","- Error message: 'Email đã được đăng ký. Vui lòng sử dụng email khác hoặc đăng nhập'
+- Email field is highlighted in red
+- No database insert occurs
+- User remains on registration page
+- Link to login page may be provided",,,,

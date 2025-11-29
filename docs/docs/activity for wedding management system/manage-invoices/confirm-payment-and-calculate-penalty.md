@@ -11,24 +11,24 @@ start
 :(1) View invoice details (UC 54);
 
 |Sys|
-:(2) Display "Confirm Payment" button (if TienConLai > 0);
+:(2) Display "Confirm Payment" button (if `RemainingAmount` > 0);
 
 |S|
 :(3) Click "Confirm Payment" button;
 
 |Sys|
 :(4) Retrieve payment information from customer's transaction \n (payment method and full remaining amount);
-:(5) Check payment deadline \n (Current date vs Wedding date - 3 days);
-:(6) Query THAMSO for KiemTraPhat and TiLePhat;
+:(5) Check payment deadline \n (Current date vs `WeddingDate` - 3 days);
+:(6) Query `Parameter` for `EnablePenalty` and `PenaltyRate`;
 
-if (Check late payment \n (Current date > Deadline \n AND KiemTraPhat = 1)?) then (Yes)
-	:(6.1) Auto-calculate penalty: \n TienPhat = TienConLai * TiLePhat;
+if (Check late payment \n (Current date > Deadline \n AND `EnablePenalty` = 1)?) then (Yes)
+	:(6.1) Auto-calculate penalty: \n `PenaltyAmount` = `RemainingAmount` * `PenaltyRate`;
 else (No)
-	:(6.2) TienPhat = 0;
+	:(6.2) `PenaltyAmount` = 0;
 endif
 
 |Sys|
-:(7) Display payment confirmation summary: \n - Payment amount (TienConLai) \n - Payment method (from customer transaction) \n - Auto-calculated penalty fee (if any) \n - Total amount processed;
+:(7) Display payment confirmation summary: \n - Payment amount (`RemainingAmount`) \n - Payment method (from customer transaction) \n - Auto-calculated penalty (`PenaltyAmount`) \n - Total amount processed;
 
 |S|
 :(8) Review payment information;
@@ -36,7 +36,7 @@ endif
 :(10) Click "Confirm";
 
 |Sys|
-:(11) Begin transaction: Update PHIEUDATTIEC \n (TienConLai = 0, TienPhat, \n NgayThanhToan = current date);
+:(11) Begin transaction: Update `Booking` \n (`RemainingAmount` = 0, `PenaltyAmount`, \n `PaymentDate` = current date);
 
 if (Check update successful?) then (No)
 	:(11.1) Rollback transaction;

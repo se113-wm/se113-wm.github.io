@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_06-02,Verify generic success message when submitting email not in system (security best practice),"- Email 'notexist@test.com' does not exist in NGUOIDUNG table
+- Forgot password page is accessible",1,"Navigate to forgot password page","Email input field is displayed","System shows generic success message without revealing whether email exists (prevents email enumeration attack).",,,
+,,,2,"Enter unknown email: notexist@test.com","Email is displayed in field",,,,
+,,,3,"Click Gửi yêu cầu button","Loading indicator appears",,,,
+,,,4,"Verify security response","- Generic success message: 'Nếu email tồn tại trong hệ thống, bạn sẽ nhận được link đặt lại mật khẩu'
+- No email is actually sent (email doesn't exist)
+- No error revealing email doesn't exist
+- User cannot tell if email is valid or not
+- Prevents attackers from discovering valid emails",,,,

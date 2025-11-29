@@ -25,7 +25,7 @@ repeat
 repeat while (Check data valid?) is (No) not (Yes)
 
 |Sys|
-:(6) Update NGUOIDUNG record;
+:(6) Update AppUser record;
 
 if (Update successful?) then (Yes)
 	|Sys|

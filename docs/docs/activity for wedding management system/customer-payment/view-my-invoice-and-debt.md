@@ -11,7 +11,7 @@ start
 :(1) Select function "My Invoices";
 
 |Sys|
-:(2) Query customer's invoices from PHIEUDATTIEC;
+:(2) Query customer's invoices from `Booking`;
 
 if (Check has invoices?) then (No)
 	:(2.1) Display "You don't have any invoices yet" message;
@@ -28,7 +28,7 @@ endif
 :(4) Select invoice to view details;
 
 |Sys|
-:(5) Query invoice details from PHIEUDATTIEC, \n THUCDON, CHITIETDV, SANH, CA;
+:(5) Query invoice details from `Booking`, \n `Menu`, `ServiceDetail`, `Hall`, `Shift`;
 
 if (Check query successful?) then (No)
 	:(5.1) Display "Cannot load invoice details" error;

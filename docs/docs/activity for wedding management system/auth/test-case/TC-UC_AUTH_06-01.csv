@@ -1,0 +1,17 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_06-01,Verify complete password reset flow using valid email and reset token,"- User account exists with email: customer@test.com
+- User has forgotten password
+- Email service is functional",1,"Navigate to login page","Login page is displayed with Quên mật khẩu link","User successfully receives reset email, clicks link, sets new password, and can login with new credentials.",,,
+,,,2,"Click Quên mật khẩu? link","Forgot password page is displayed with email input field",,,,
+,,,3,"Enter registered email: customer@test.com","Email is displayed in field",,,,
+,,,4,"Click Gửi yêu cầu button","Loading indicator appears, then success message",,,,
+,,,5,"Check email inbox for reset link","Email received with reset link containing token",,,,
+,,,6,"Click reset link in email","Browser opens reset password page with token in URL",,,,
+,,,7,"Enter new password: NewSecurePass123!","Password is masked",,,,
+,,,8,"Enter confirm password: NewSecurePass123!","Password is masked",,,,
+,,,9,"Click Đặt lại mật khẩu button","Loading indicator appears",,,,
+,,,10,"Verify password reset success","- Success message: 'Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập'
+- MatKhauHash updated in NGUOIDUNG table
+- Reset token is invalidated (deleted or marked used)
+- User is redirected to login page
+- User can login with new password: NewSecurePass123!",,,,

@@ -45,7 +45,7 @@ else (Yes)
 endif
 
 |Sys|
-:(9) Begin transaction: Update PHIEUDATTIEC \n (Status="Cancelled", NgayHuy, LyDoHuy, TienConLai=0);
+:(9) Begin transaction: Update Booking \n (Status="Cancelled", CancelDate, CancelReason, RemainingAmount=0);
 :(10) Commit transaction;
 :(11) Send cancellation confirmation email \n (notify deposit is non-refundable);
 :(12) Display success message: \n "Booking cancelled. Deposit [amount] is non-refundable";

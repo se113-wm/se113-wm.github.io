@@ -1,0 +1,13 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_06-05,Verify rate limiting prevents abuse by triggering throttling after repeated reset requests,"- User has same email address
+- Rate limit threshold: 5 requests per 15 minutes
+- Forgot password page is accessible",1,"Navigate to forgot password page","Email input field is displayed","System enforces rate limiting. After threshold is exceeded, further requests are blocked with error message.",,,
+,,,2,"Enter email: customer@test.com","Email is displayed",,,,
+,,,3,"Click Gửi yêu cầu button (Request 1)","Success message appears",,,,
+,,,4,"Repeat steps 2-3 four more times (Requests 2-5)","Each request succeeds",,,,
+,,,5,"Attempt 6th request within 15 minutes","Submit same email again",,,,
+,,,6,"Verify rate limit enforcement","- Error message: 'Bạn đã yêu cầu quá nhiều lần. Vui lòng thử lại sau 15 phút'
+- 6th request is blocked (no email sent)
+- User cannot submit more requests until cooldown period expires
+- Counter resets after 15 minutes
+- Prevents spam and abuse",,,,

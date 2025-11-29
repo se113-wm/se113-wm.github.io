@@ -1,0 +1,10 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_06-03,Verify invalid or tampered reset token is rejected,"- User has received password reset email
+- Reset token in URL has been modified or tampered with",1,"Receive password reset email with valid token","Email contains reset link"","System validates token signature and rejects tampered/invalid tokens. Error message is displayed.",,,
+,,,2,"Manually tamper with token in URL (change few characters)","URL is modified to contain invalid token",,,,
+,,,3,"Open reset password page with tampered token","Page attempts to load",,,,
+,,,4,"Verify invalid token detection","- Error message: 'Link đặt lại mật khẩu không hợp lệ hoặc đã hết hạn'
+- Password reset form is not displayed or is disabled
+- User is redirected to forgot password page
+- Prompt to request new reset link
+- No password reset is possible with invalid token",,,,

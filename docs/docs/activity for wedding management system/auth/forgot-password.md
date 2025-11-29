@@ -51,7 +51,7 @@ repeat
 repeat while (Valid?) is (No) not (Yes)
 
 |Sys|
-:(13) Hash password and update NGUOIDUNG;
+:(13) Hash password and update AppUser;
 :(14) Delete token and all refresh tokens;
 :(15) Display success and redirect to login;
 

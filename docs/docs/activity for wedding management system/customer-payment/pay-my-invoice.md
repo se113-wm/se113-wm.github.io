@@ -11,7 +11,7 @@ start
 :(1) View invoice details (UC 51);
 
 |Sys|
-:(2) Display "Pay" button (if TienConLai > 0);
+:(2) Display "Pay" button (if `RemainingAmount` > 0);
 
 |C|
 :(3) Click "Pay" button;
@@ -28,7 +28,7 @@ repeat
 	|Sys|
 	:(8) Validate payment amount;
 	backward: (8.1) Display "Invalid amount" error;
-repeat while (Check amount valid \n (> 0 and ≤ TienConLai)?) is (No) not (Yes)
+repeat while (Check amount valid \n (> 0 and ≤ RemainingAmount)?) is (No) not (Yes)
 
 |Sys|
 :(9) Redirect to payment gateway;
@@ -48,7 +48,7 @@ else (Yes)
 endif
 
 |Sys|
-:(12) Begin transaction: Update PHIEUDATTIEC \n (TienConLai = TienConLai - Amount, \n NgayThanhToan if TienConLai = 0);
+:(12) Begin transaction: Update `Booking` \n (`RemainingAmount` = `RemainingAmount` - Amount, \n set `PaymentDate` if `RemainingAmount` = 0);
 
 if (Check update successful?) then (No)
 	:(12.1) Rollback transaction;

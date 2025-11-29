@@ -38,10 +38,10 @@ Customer views invoice information and debt for their wedding bookings.
 ### Luồng sự kiện chính / Main Flow
 
 1. Khách hàng chọn chức năng "Hóa đơn của tôi"
-2. Hệ thống truy vấn danh sách hóa đơn của khách hàng từ PHIEUDATTIEC
+2. Hệ thống truy vấn danh sách hóa đơn của khách hàng từ `Booking`
 3. Hệ thống hiển thị danh sách hóa đơn
 4. Khách hàng chọn hóa đơn muốn xem chi tiết
-5. Hệ thống truy vấn chi tiết hóa đơn từ PHIEUDATTIEC, THUCDON, CHITIETDV, SANH, CA
+5. Hệ thống truy vấn chi tiết hóa đơn từ `Booking`, `Menu`, `ServiceDetail`, `Hall`, `Shift`
 6. Hệ thống hiển thị thông tin chi tiết hóa đơn
 7. Khách hàng xem thông tin hóa đơn và công nợ
 8. Use case kết thúc
@@ -87,7 +87,7 @@ Customer views invoice information and debt for their wedding bookings.
 
 - **BR1**: Khách hàng chỉ xem được hóa đơn của phiếu đặt của mình
 - **BR2**: Chỉ phiếu đặt đã được duyệt mới có hóa đơn
-- **BR3**: Công nợ = TongTienHoaDon - TienDatCoc - TienDaThanhToan
+  -- **BR3**: Debt = `TotalInvoiceAmount` - `Deposit` - `AmountPaid`
 - **BR4**: Hiển thị cảnh báo nếu quá hạn thanh toán (NgayDaiTiec - 3 ngày)
 
 ---
@@ -108,17 +108,17 @@ Customer pays deposit or full amount for their wedding booking invoice.
 
 1. Khách hàng đã đăng nhập vào hệ thống
 2. Khách hàng có phiếu đặt đã được duyệt
-3. Hóa đơn chưa được thanh toán đầy đủ (TienConLai > 0)
+3. Hóa đơn chưa được thanh toán đầy đủ (`RemainingAmount` > 0)
 
 ### Hậu điều kiện / Postconditions
 
 **Thành công:**
 
-- Cập nhật thông tin thanh toán trong PHIEUDATTIEC
-- Cập nhật TienConLai
-- Cập nhật NgayThanhToan (nếu thanh toán đủ)
-- Gửi email xác nhận thanh toán
-- Hiển thị thông báo thành công
+- Update payment information in `Booking`
+- Update `RemainingAmount`
+- Update `PaymentDate` (if fully paid)
+- Send payment confirmation email
+- Display success message
 
 **Thất bại:**
 
@@ -128,7 +128,7 @@ Customer pays deposit or full amount for their wedding booking invoice.
 ### Luồng sự kiện chính / Main Flow
 
 1. Khách hàng xem chi tiết hóa đơn (UC 51)
-2. Hệ thống hiển thị nút "Thanh toán" (nếu TienConLai > 0)
+2. Hệ thống hiển thị nút "Thanh toán" (if `RemainingAmount` > 0)
 3. Khách hàng nhấn nút "Thanh toán"
 4. Hệ thống hiển thị thông tin thanh toán
 5. Khách hàng chọn phương thức thanh toán
@@ -138,7 +138,7 @@ Customer pays deposit or full amount for their wedding booking invoice.
 9. Hệ thống chuyển hướng đến cổng thanh toán
 10. Khách hàng thực hiện thanh toán qua cổng thanh toán
 11. Hệ thống nhận kết quả thanh toán từ cổng thanh toán
-12. Hệ thống cập nhật PHIEUDATTIEC
+12. Hệ thống cập nhật `Booking`
 13. Hệ thống gửi email xác nhận thanh toán
 14. Hệ thống hiển thị thông báo "Thanh toán thành công"
 15. Khách hàng xem thông tin thanh toán đã cập nhật
@@ -148,7 +148,7 @@ Customer pays deposit or full amount for their wedding booking invoice.
 
 **7a. Số tiền không hợp lệ**
 
-- 7a1. Số tiền < 0 hoặc số tiền > TienConLai
+- 7a1. Số tiền < 0 hoặc số tiền > `RemainingAmount`
 - 7a2. Hiển thị thông báo lỗi "Số tiền thanh toán không hợp lệ"
 - 7a3. Quay lại bước 6
 
@@ -204,9 +204,10 @@ Customer pays deposit or full amount for their wedding booking invoice.
 
 ### Quy tắc nghiệp vụ / Business Rules
 
-- **BR1**: Số tiền thanh toán phải > 0 và ≤ TienConLai
-- **BR2**: Sau khi thanh toán, cập nhật: TienConLai = TienConLai - SoTienThanhToan
-- **BR3**: Nếu TienConLai = 0 sau thanh toán, cập nhật NgayThanhToan = ngày hiện tại
+-- **BR1**: Payment amount must be > 0 and ≤ `RemainingAmount`
+-- **BR2**: After payment, update: `RemainingAmount` = `RemainingAmount` - PaymentAmount
+-- **BR3**: If `RemainingAmount` = 0 after payment, update `PaymentDate` = current date
+
 - **BR4**: Lưu lại lịch sử thanh toán (timestamp, số tiền, phương thức)
 - **BR5**: Gửi email xác nhận ngay sau khi thanh toán thành công
 
@@ -248,7 +249,7 @@ Customer exports their wedding booking invoice to PDF file for storage or printi
 1. Khách hàng xem chi tiết hóa đơn (UC 51)
 2. Hệ thống hiển thị nút "Xuất PDF"
 3. Khách hàng nhấn nút "Xuất PDF"
-4. Hệ thống truy vấn đầy đủ thông tin hóa đơn từ PHIEUDATTIEC, THUCDON, CHITIETDV, SANH, CA
+4. Hệ thống truy vấn đầy đủ thông tin hóa đơn từ `Booking`, `Menu`, `ServiceDetail`, `Hall`, `Shift`
 5. Hệ thống tạo file PDF với nội dung hóa đơn
 6. Hệ thống tải file PDF về máy khách hàng
 7. Hệ thống hiển thị thông báo "Xuất PDF thành công"
@@ -282,14 +283,14 @@ Customer exports their wedding booking invoice to PDF file for storage or printi
 - File PDF phải chứa đầy đủ thông tin hóa đơn:
   - Logo và thông tin công ty
   - Thông tin khách hàng (tên chú rể, cô dâu, SĐT)
-  - Thông tin đại tiệc (ngày, ca, sảnh)
+  - Thông tin đại tiệc (ngày, `Shift`, `Hall`)
   - Bảng thực đơn với số lượng và đơn giá
   - Bảng dịch vụ với số lượng và đơn giá
   - Tổng tiền bàn, tổng tiền dịch vụ, tổng hóa đơn
-  - Tiền đặt cọc, tiền đã thanh toán, tiền còn lại
+  - `Deposit`, `AmountPaid`, `RemainingAmount`
   - Ngày xuất hóa đơn
 - Định dạng PDF chuẩn, dễ in
-- Tên file: `HoaDon_[MaPhieuDat]_[NgayXuat].pdf`
+  - File name: `Invoice_[BookingId]_[ExportDate].pdf`
 
 ### Các yêu cầu phi chức năng / Non-functional Requirements
 
@@ -315,11 +316,11 @@ Nhóm chức năng **Hóa đơn & Thanh toán (Khách hàng)** bao gồm 3 use c
 
 ### Bảng CRUD tương ứng
 
-| Use Case | PHIEUDATTIEC | THUCDON | CHITIETDV | SANH | CA  | NGUOIDUNG |
-| -------- | ------------ | ------- | --------- | ---- | --- | --------- |
-| UC 51    | R            | R       | R         | R    | R   | -         |
-| UC 52    | U            | -       | -         | -    | -   | -         |
-| UC 53    | R            | R       | R         | R    | R   | -         |
+| Use Case | `Booking` | `Menu` | `ServiceDetail` | `Hall` | `Shift` | `AppUser` |
+| -------- | --------- | ------ | --------------- | ------ | ------- | --------- |
+| UC 51    | R         | R      | R               | R      | R       | -         |
+| UC 52    | U         | -      | -               | -      | -       | -         |
+| UC 53    | R         | R      | R               | R      | R       | -         |
 
 ### Lưu ý quan trọng
 
@@ -337,7 +338,7 @@ Nhóm chức năng **Hóa đơn & Thanh toán (Khách hàng)** bao gồm 3 use c
 1. Khách hàng đặt tiệc (UC 41) → Tạo phiếu đặt với trạng thái "Chờ duyệt"
 2. Staff duyệt phiếu đặt → Trạng thái "Đã duyệt", tạo hóa đơn
 3. Khách hàng xem hóa đơn (UC 51) → Xem công nợ
-4. Khách hàng thanh toán (UC 52) → Cập nhật TienConLai
+4. Khách hàng thanh toán (UC 52) → Cập nhật `RemainingAmount`
 5. Khách hàng xuất PDF (UC 53) → Lưu trữ hóa đơn
 
 **Thời điểm thanh toán:**

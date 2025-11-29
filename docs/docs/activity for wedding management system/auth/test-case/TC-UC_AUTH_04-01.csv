@@ -1,0 +1,13 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_04-01,Verify successful password change with correct current password and matching confirmation,"- User is logged in (staff01)
+- Current password: Password123!
+- User knows their current password",1,"Navigate to Change Password page","Change password form is displayed with three fields: Current Password, New Password, Confirm New Password","Password is successfully changed. All existing refresh tokens are revoked, user is logged out from all devices except current session.",,,
+,,,2,"Enter current password: Password123!","Password is masked",,,,
+,,,3,"Enter new password: NewPassword456!","Password is masked",,,,
+,,,4,"Enter confirm password: NewPassword456!","Password is masked, matches new password",,,,
+,,,5,"Click Đổi mật khẩu button","Loading indicator appears",,,,
+,,,6,"Verify password change success","- Success message: 'Đổi mật khẩu thành công. Bạn sẽ cần đăng nhập lại trên các thiết bị khác'
+- MatKhauHash is updated in NGUOIDUNG table with BCrypt hash of new password
+- All refresh tokens are deleted from REFRESH_TOKENS table (force logout on all other devices)
+- Current session remains active
+- User can login with new password",,,,

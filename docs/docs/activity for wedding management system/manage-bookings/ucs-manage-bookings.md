@@ -21,14 +21,14 @@ Staff/Admin checks system-wide hall availability to assist customers or plan eve
 
 1. Staff/Admin đã đăng nhập vào hệ thống
 2. Staff/Admin có quyền truy cập chức năng quản lý đặt tiệc
-3. Hệ thống có dữ liệu sảnh, ca và phiếu đặt tiệc
+3. Hệ thống có dữ liệu `Hall`, `Shift` và `Booking`
 
 ### Hậu điều kiện / Postconditions
 
 **Thành công:**
 
-- Hiển thị danh sách tất cả các sảnh và trạng thái (trống/đã đặt)
-- Hiển thị thông tin chi tiết phiếu đặt (nếu sảnh đã được đặt)
+- Hiển thị danh sách tất cả các `Hall` và trạng thái (trống/đã đặt)
+- Hiển thị thông tin chi tiết `Booking` (nếu `Hall` đã được đặt)
 - Staff/Admin có thể xem lịch đặt sảnh theo ngày, tuần, tháng
 
 **Thất bại:**
@@ -43,18 +43,18 @@ Staff/Admin checks system-wide hall availability to assist customers or plan eve
    - Chế độ xem: Ngày / Tuần / Tháng
    - Ngày bắt đầu
    - Loại sảnh (tùy chọn)
-   - Ca tổ chức (tùy chọn)
+   - `Shift` (tùy chọn)
 3. Staff/Admin chọn chế độ xem (mặc định: Ngày)
 4. Staff/Admin chọn ngày bắt đầu
-5. Staff/Admin có thể lọc theo loại sảnh và ca
+5. Staff/Admin có thể lọc theo `HallType` và `Shift`
 6. Staff/Admin nhấn nút "Tra cứu"
 7. Hệ thống truy vấn dữ liệu:
-   - Lấy danh sách tất cả sảnh (có thể lọc theo loại)
-   - Lấy danh sách phiếu đặt trong khoảng thời gian
-   - Kết hợp để hiển thị trạng thái sảnh
+   - Lấy danh sách tất cả `Hall` (có thể lọc theo `HallType`)
+   - Lấy danh sách `Booking` trong khoảng thời gian
+   - Kết hợp để hiển thị trạng thái `Hall`
 8. Hệ thống hiển thị lịch sảnh dạng bảng/lịch:
-   - **Nếu xem theo Ngày**: Hiển thị ma trận Sảnh x Ca
-   - **Nếu xem theo Tuần**: Hiển thị ma trận Sảnh x Ngày (7 ngày)
+   - **Nếu xem theo Ngày**: Hiển thị matrix `Hall` x `Shift`
+   - **Nếu xem theo Tuần**: Hiển thị matrix `Hall` x Day (7 ngày)
    - **Nếu xem theo Tháng**: Hiển thị lịch tháng với các ngày có sảnh trống
 9. Mỗi ô trong bảng hiển thị:
    - **Sảnh trống**: Màu xanh lá, có thể nhấn để tạo phiếu đặt
@@ -118,15 +118,15 @@ Staff creates a new wedding booking for customers (when customers book via phone
 
 1. Staff đã đăng nhập vào hệ thống
 2. Staff có quyền tạo phiếu đặt tiệc
-3. Hệ thống có dữ liệu sảnh, ca, món ăn, dịch vụ
+3. Hệ thống có dữ liệu `Hall`, `Shift`, `Dish`, `Service`
 
 ### Hậu điều kiện / Postconditions
 
 **Thành công:**
 
-- Tạo mới bản ghi PHIEUDATTIEC với trạng thái "Chờ duyệt" hoặc "Đã duyệt" (tùy quyền Staff)
-- Tạo các bản ghi THUCDON và CHITIETDV
-- Tính toán và lưu các giá trị tài chính
+- Create a new `Booking` record with status "Pending approval" or "Approved" (depending on staff permission)
+- Create `Menu` and `ServiceDetail` records
+- Calculate and persist financial values (`TotalTableAmount`, `TotalServiceAmount`, `TotalInvoiceAmount`, `Deposit`, `RemainingAmount`)
 - Gửi email xác nhận cho khách hàng
 - Hiển thị thông báo thành công
 
@@ -150,7 +150,7 @@ Staff creates a new wedding booking for customers (when customers book via phone
    **B. Thông tin đại tiệc:**
 
    - Ngày đại tiệc (bắt buộc)
-   - Ca tổ chức (bắt buộc)
+   - `Shift` (bắt buộc)
    - Sảnh (bắt buộc)
    - Số lượng bàn (bắt buộc)
    - Số bàn dự trù (tùy chọn)
@@ -173,7 +173,7 @@ Staff creates a new wedding booking for customers (when customers book via phone
 4. Hệ thống kiểm tra định dạng số điện thoại và email
 5. Staff chọn ngày đại tiệc
 6. Hệ thống kiểm tra ngày hợp lệ (phải trong tương lai)
-7. Staff chọn ca tổ chức
+7. Staff chọn `Shift`
 8. Hệ thống hiển thị danh sách sảnh còn trống
 9. Staff chọn sảnh
 10. Hệ thống tự động điền đơn giá bàn tiệc
@@ -181,11 +181,13 @@ Staff creates a new wedding booking for customers (when customers book via phone
 12. Hệ thống kiểm tra số lượng bàn ≤ sức chứa sảnh
 13. Staff chọn món ăn và dịch vụ với số lượng
 14. Hệ thống tính toán tự động:
-    - `TongTienBan = SoLuongBan × DonGiaBanTiec`
-    - `TongTienDV = ∑(SoLuong × DonGia)` của dịch vụ
-    - `TongTienHoaDon = TongTienBan + TongTienDV`
-    - `TienDatCoc = TongTienHoaDon × TiLeTienDatCocToiThieu` (có thể điều chỉnh)
-    - `TienConLai = TongTienHoaDon - TienDatCoc`
+
+- `TotalTableAmount = TableCount × TablePrice`
+- `TotalServiceAmount = ∑(Quantity × UnitPrice)` for services
+- `TotalInvoiceAmount = TotalTableAmount + TotalServiceAmount`
+- `Deposit = TotalInvoiceAmount × MinDepositRate` (adjustable)
+- `RemainingAmount = TotalInvoiceAmount - Deposit`
+
 15. Staff xem lại thông tin
 16. Staff có thể chọn trạng thái ban đầu:
     - "Chờ duyệt" (mặc định)
@@ -193,10 +195,12 @@ Staff creates a new wedding booking for customers (when customers book via phone
 17. Staff nhấn nút "Lưu phiếu đặt"
 18. Hệ thống kiểm tra lại tất cả dữ liệu
 19. Hệ thống bắt đầu transaction:
-    - Tạo bản ghi PHIEUDATTIEC
-    - Tạo các bản ghi THUCDON
-    - Tạo các bản ghi CHITIETDV
-    - Commit transaction
+
+- Insert `Booking` record
+- Insert `Menu` records
+- Insert `ServiceDetail` records
+- Commit transaction
+
 20. Hệ thống gửi email xác nhận cho khách hàng
 21. Hệ thống hiển thị thông báo thành công và mã phiếu đặt
 22. Use case kết thúc thành công
@@ -219,7 +223,7 @@ Staff creates a new wedding booking for customers (when customers book via phone
 **8a. Không có sảnh trống**
 
 - 8a1. Hệ thống không tìm thấy sảnh trống
-- 8a2. Hiển thị thông báo và gợi ý chọn ngày/ca khác
+- 8a2. Hiển thị thông báo và gợi ý chọn ngày/`Shift` khác
 - 8a3. Quay lại bước 5 hoặc 7
 
 **12a. Số lượng bàn vượt quá sức chứa**
@@ -295,8 +299,8 @@ Staff/Admin deletes a wedding booking from the system (typically rejected or can
 ### Tiền điều kiện / Preconditions
 
 1. Staff/Admin đã đăng nhập vào hệ thống
-2. Staff/Admin có quyền xóa phiếu đặt
-3. Phiếu đặt tồn tại trong hệ thống
+2. Staff/Admin có quyền xóa `Booking`
+3. `Booking` tồn tại trong hệ thống
 
 ### Hậu điều kiện / Postconditions
 
@@ -320,9 +324,9 @@ Staff/Admin deletes a wedding booking from the system (typically rejected or can
 5. Hệ thống hiển thị hộp thoại xác nhận "Bạn có chắc chắn muốn xóa phiếu đặt này?"
 6. Staff/Admin nhấn nút "Xác nhận" hoặc "Hủy"
 7. Hệ thống bắt đầu transaction:
-   - Xóa các bản ghi CHITIETDV
-   - Xóa các bản ghi THUCDON
-   - Xóa bản ghi PHIEUDATTIEC
+   - Delete `ServiceDetail` records
+   - Delete `Menu` records
+   - Delete `Booking` record
 8. Hệ thống commit transaction và ghi log hành động
 9. Hệ thống hiển thị thông báo thành công và tải lại danh sách
 10. Staff/Admin xem danh sách đã cập nhật
@@ -421,7 +425,7 @@ Staff/Admin searches and filters all wedding bookings in the system.
    - Có thể tìm kiếm theo từ khóa
    - Có thể chọn trạng thái
    - Có thể chọn khoảng thời gian
-   - Có thể chọn sảnh/ca cụ thể
+   - Có thể chọn `Hall`/`Shift` cụ thể
 5. Staff/Admin nhấn nút "Tìm kiếm"
 6. Hệ thống truy vấn cơ sở dữ liệu với các điều kiện lọc
 7. Hệ thống hiển thị danh sách kết quả phiếu đặt
@@ -480,8 +484,8 @@ Staff/Admin views detailed information of any wedding booking in the system.
 ### Tiền điều kiện / Preconditions
 
 1. Staff/Admin đã đăng nhập vào hệ thống
-2. Staff/Admin có quyền xem chi tiết phiếu đặt
-3. Phiếu đặt tồn tại trong hệ thống
+2. Staff/Admin có quyền xem chi tiết `Booking`
+3. `Booking` tồn tại trong hệ thống
 
 ### Hậu điều kiện / Postconditions
 
@@ -499,7 +503,7 @@ Staff/Admin views detailed information of any wedding booking in the system.
 ### Luồng sự kiện chính / Main Flow
 
 1. Staff/Admin chọn phiếu đặt từ danh sách (UC 48)
-2. Hệ thống truy vấn thông tin chi tiết phiếu đặt từ PHIEUDATTIEC, THUCDON, CHITIETDV, SANH, CA, NGUOIDUNG
+2. Hệ thống truy vấn thông tin chi tiết `Booking` từ `Booking`, `Menu`, `ServiceDetail`, `Hall`, `Shift`, `AppUser`
 3. Hệ thống hiển thị thông tin chi tiết các phần: Thông tin cơ bản, Thông tin khách hàng, Thông tin đại tiệc, Thực đơn, Dịch vụ, Thanh toán, Ghi chú, Lịch sử
 4. Staff/Admin xem chi tiết phiếu đặt
 5. Use case kết thúc
@@ -571,9 +575,9 @@ Staff modifies wedding booking information (customer info, dishes, services, tab
 
 **Thành công:**
 
-- Cập nhật thông tin PHIEUDATTIEC
-- Cập nhật THUCDON và CHITIETDV (nếu thay đổi)
-- Tính toán lại chi phí
+- Update `Booking` information
+- Update `Menu` and `ServiceDetail` (if changed)
+- Recalculate costs
 - Gửi email thông báo thay đổi cho khách hàng
 - Ghi lại lịch sử thay đổi
 - Hiển thị thông báo thành công
@@ -610,7 +614,7 @@ Staff modifies wedding booking information (customer info, dishes, services, tab
      - Ngày đặt tiệc
      - Trạng thái
 7. Hệ thống validate dữ liệu khi Staff thay đổi:
-   - Nếu đổi ngày/ca/sảnh: Kiểm tra sảnh còn trống
+   - Nếu đổi Date/`Shift`/`Hall`: Kiểm tra `Hall` còn trống
    - Nếu đổi số lượng bàn: Kiểm tra ≤ sức chứa sảnh
    - Nếu đổi thực đơn/dịch vụ: Kiểm tra tồn tại
 8. Hệ thống tính toán lại chi phí tự động
@@ -618,11 +622,13 @@ Staff modifies wedding booking information (customer info, dishes, services, tab
 10. Staff nhấn nút "Lưu thay đổi"
 11. Hệ thống kiểm tra lại tất cả dữ liệu
 12. Hệ thống bắt đầu transaction:
-    - Cập nhật PHIEUDATTIEC
-    - Xóa và tạo lại THUCDON (nếu có thay đổi)
-    - Xóa và tạo lại CHITIETDV (nếu có thay đổi)
-    - Ghi lại lịch sử thay đổi
-    - Commit transaction
+
+- Update `Booking`
+- Delete and recreate `Menu` (if changed)
+- Delete and recreate `ServiceDetail` (if changed)
+- Record change history
+- Commit transaction
+
 13. Hệ thống gửi email thông báo thay đổi cho khách hàng
 14. Hệ thống hiển thị thông báo "Cập nhật phiếu đặt thành công"
 15. Use case kết thúc thành công
@@ -636,12 +642,12 @@ Staff modifies wedding booking information (customer info, dishes, services, tab
 - 3a3. Hiển thị thông báo "Phiếu đặt này không thể chỉnh sửa"
 - 3a4. Use case kết thúc
 
-**7a. Ngày/Ca/Sảnh mới không khả dụng**
+**7a. New Date/Shift/Hall not available**
 
-- 7a1. Staff thay đổi ngày/ca/sảnh
+- 7a1. Staff thay đổi Date/`Shift`/`Hall`
 - 7a2. Hệ thống kiểm tra sảnh còn trống
 - 7a3. Nếu đã đặt, hiển thị thông báo lỗi
-- 7a4. Gợi ý chọn sảnh/ca/ngày khác
+- 7a4. Gợi ý chọn `Hall`/`Shift`/ngày khác
 - 7a5. Quay lại bước 6
 
 **7b. Số lượng bàn vượt quá sức chứa**
@@ -697,7 +703,7 @@ Staff modifies wedding booking information (customer info, dishes, services, tab
 ### Quy tắc nghiệp vụ / Business Rules
 
 - **BR1**: Chỉ cho phép sửa phiếu đặt "Chờ duyệt" hoặc "Đã duyệt"
-- **BR2**: Khi thay đổi ngày/ca/sảnh, phải kiểm tra trống
+- **BR2**: When changing Date/`Shift`/`Hall`, must check availability
 - **BR3**: Staff có thể điều chỉnh tiền đặt cọc và chi phí phát sinh
 - **BR4**: Ghi lại lịch sử thay đổi để audit
 
@@ -716,14 +722,14 @@ Nhóm chức năng **Quản lý Đặt tiệc (Staff/Admin)** bao gồm 6 use ca
 
 ### Bảng CRUD tương ứng
 
-| Use Case | PHIEUDATTIEC | THUCDON | CHITIETDV | SANH | CA  | LOAISANH | MONAN | DICHVU | THAMSO | NGUOIDUNG |
-| -------- | ------------ | ------- | --------- | ---- | --- | -------- | ----- | ------ | ------ | --------- |
-| UC 45    | R            | -       | -         | R    | R   | R        | -     | -      | -      | -         |
-| UC 46    | C            | C       | C         | R    | R   | R        | R     | R      | R      | -         |
-| UC 47    | D            | D       | D         | -    | -   | -        | -     | -      | -      | R         |
-| UC 48    | R            | -       | -         | R    | R   | -        | -     | -      | -      | -         |
-| UC 49    | R            | R       | R         | R    | R   | R        | R     | R      | -      | R         |
-| UC 50    | U            | U       | U         | R    | R   | R        | R     | R      | -      | R         |
+| Use Case | `Booking` | `Menu` | `ServiceDetail` | `Hall` | `Shift` | `HallType` | `Dish` | `Service` | `Parameter` | `AppUser` |
+| -------- | --------- | ------ | --------------- | ------ | ------- | ---------- | ------ | --------- | ----------- | --------- |
+| UC 45    | R         | -      | -               | R      | R       | R          | -      | -         | -           | -         |
+| UC 46    | C         | C      | C               | R      | R       | R          | R      | R         | R           | -         |
+| UC 47    | D         | D      | D               | -      | -       | -          | -      | -         | -           | R         |
+| UC 48    | R         | -      | -               | R      | R       | -          | -      | -         | -           | -         |
+| UC 49    | R         | R      | R               | R      | R       | R          | R      | R         | -           | R         |
+| UC 50    | U         | U      | U               | R      | R       | R          | R      | R         | -           | R         |
 
 ### Lưu ý quan trọng
 

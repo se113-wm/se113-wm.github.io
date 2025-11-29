@@ -1,0 +1,12 @@
+Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
+TC-UC_AUTH_04-05,Verify all refresh tokens are revoked after successful password change,"- User is logged in on multiple devices (Browser A, Browser B, Mobile App)
+- Each device has a valid refresh token in REFRESH_TOKENS table
+- Current password: Password123!",1,"In Browser A: Navigate to Change Password page","Change password form is displayed","All refresh tokens are deleted from database after password change. User is forced to re-login on all other devices.",,,
+,,,2,"Complete password change: Current=Password123!, New=NewPassword456!","Password change succeeds",,,,
+,,,3,"Verify token cleanup in database","Query REFRESH_TOKENS table: all entries for user are deleted",,,,
+,,,4,"In Browser B: Attempt to use old refresh token to get new access token","Refresh token API is called",,,,
+,,,5,"Verify forced logout on other devices","- Browser B refresh token is invalid (not found in database)
+- API returns 401 Unauthorized: 'Invalid refresh token'
+- Browser B is forced to redirect to login page
+- Mobile App also cannot refresh token
+- Only Browser A (where password was changed) remains logged in with new access token",,,,

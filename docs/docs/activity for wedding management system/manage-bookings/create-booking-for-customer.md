@@ -37,8 +37,8 @@ else (Yes)
 endif
 
 |Sys|
-:(9) Calculate costs (TongTienBan, TongTienDV, \n TienDatCoc, TongTienHoaDon, TienConLai);
-:(10) Begin transaction: Insert PHIEUDATTIEC, \n THUCDON, CHITIETDV with selected status;
+:(9) Calculate costs (`TotalTableAmount`, `TotalServiceAmount`, \n `Deposit`, `TotalInvoiceAmount`, `RemainingAmount`);
+:(10) Begin transaction: Insert `Booking`, \n `Menu`, `ServiceDetail` with selected status;
 :(11) Commit transaction;
 :(12) Send confirmation email to customer;
 :(13) Display success message with booking ID;

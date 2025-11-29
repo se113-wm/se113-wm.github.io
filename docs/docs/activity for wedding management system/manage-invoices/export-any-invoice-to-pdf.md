@@ -17,7 +17,7 @@ start
 :(3) Click "Export PDF" button;
 
 |Sys|
-:(4) Query full invoice information from \n PHIEUDATTIEC, THUCDON, CHITIETDV, \n SANH, CA, NGUOIDUNG;
+:(4) Query full invoice information from \n `Booking`, `Menu`, `ServiceDetail`, \n `Hall`, `Shift`, `AppUser`;
 :(5) Generate PDF file with complete invoice content \n (including payment history, staff signatures);
 
 if (Check PDF generation successful?) then (No)

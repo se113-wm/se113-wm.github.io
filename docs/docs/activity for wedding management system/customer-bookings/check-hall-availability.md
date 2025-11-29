@@ -26,7 +26,7 @@ repeat
 repeat while (Check date valid?) is (No) not (Yes)
 
 |Sys|
-:(8) Query available halls \n (check PHIEUDATTIEC for booked halls);
+:(8) Query available halls \n (check Booking for booked halls);
 :(9) Filter by shift and hall type if selected;
 
 if (Check has available halls?) then (No)

@@ -33,7 +33,7 @@ else (Yes)
 endif
 
 |Sys|
-:(7) Begin transaction: Delete from CHITIETDV, \n THUCDON, PHIEUDATTIEC;
+:(7) Begin transaction: Delete from `ServiceDetail`, \n `Menu`, `Booking`;
 
 if (Check deletion successful?) then (No)
 	:(7.1) Rollback transaction;

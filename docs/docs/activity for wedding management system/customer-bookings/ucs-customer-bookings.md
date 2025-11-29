@@ -125,12 +125,12 @@ Customer creates a new wedding reservation with basic information, hall selectio
 
 **Thành công:**
 
-- Tạo mới bản ghi PHIEUDATTIEC với trạng thái "Chờ duyệt"
-- Tạo các bản ghi THUCDON (thực đơn món ăn)
-- Tạo các bản ghi CHITIETDV (chi tiết dịch vụ)
-- Tính toán và lưu các giá trị: TongTienBan, TongTienDV, TienDatCoc, TongTienHoaDon, TienConLai
-- Gửi email xác nhận đặt tiệc cho khách hàng
-- Hiển thị thông báo thành công và mã phiếu đặt
+- Create a new `Booking` record with status "Pending approval"
+- Create corresponding `Menu` records (food menu)
+- Create corresponding `ServiceDetail` records (service details)
+- Calculate and store values: `TotalTableAmount`, `TotalServiceAmount`, `Deposit`, `TotalInvoiceAmount`, `RemainingAmount`
+- Send booking confirmation email to the customer
+- Display success message with booking code
 
 **Thất bại:**
 
@@ -186,19 +186,23 @@ Customer creates a new wedding reservation with basic information, hall selectio
 16. Hệ thống hiển thị danh sách dịch vụ
 17. Khách hàng chọn dịch vụ và nhập số lượng cho mỗi dịch vụ
 18. Hệ thống tính toán tự động:
-    - `TongTienBan = SoLuongBan × DonGiaBanTiec`
-    - `TongTienDV = ∑(SoLuong × DonGia)` của các dịch vụ
-    - `TongTienHoaDon = TongTienBan + TongTienDV`
-    - `TienDatCoc = TongTienHoaDon × TiLeTienDatCocToiThieu` (từ THAMSO)
-    - `TienConLai = TongTienHoaDon - TienDatCoc`
+
+- `TotalTableAmount = TableCount × TablePrice`
+- `TotalServiceAmount = ∑(Quantity × UnitPrice)` of selected services
+- `TotalInvoiceAmount = TotalTableAmount + TotalServiceAmount`
+- `Deposit = TotalInvoiceAmount × MinDepositRate` (from `Parameter`)
+- `RemainingAmount = TotalInvoiceAmount - Deposit`
+
 19. Hệ thống hiển thị tổng kết chi phí dự kiến
 20. Khách hàng xem lại thông tin và nhấn nút "Xác nhận đặt tiệc"
 21. Hệ thống kiểm tra lại tất cả dữ liệu
-22. Hệ thống bắt đầu transaction:
-    - Tạo bản ghi mới trong PHIEUDATTIEC
-    - Tạo các bản ghi trong THUCDON
-    - Tạo các bản ghi trong CHITIETDV
-    - Commit transaction
+22. The system begins a transaction:
+
+- Insert a new record into `Booking`
+- Insert records into `Menu`
+- Insert records into `ServiceDetail`
+- Commit transaction
+
 23. Hệ thống gửi email xác nhận đến khách hàng
 24. Hệ thống hiển thị thông báo thành công kèm mã phiếu đặt
 25. Use case kết thúc thành công
@@ -298,11 +302,11 @@ Customer creates a new wedding reservation with basic information, hall selectio
 
 ### Quy tắc nghiệp vụ / Business Rules
 
-- **BR1**: Tiền đặt cọc tối thiểu = TongTienHoaDon × TiLeTienDatCocToiThieu (từ THAMSO, mặc định 15%)
-- **BR2**: Số lượng bàn phải ≥ 1 và ≤ Sức chứa tối đa của sảnh
-- **BR3**: Ngày đại tiệc phải là ngày trong tương lai
-- **BR4**: Phiếu đặt mới luôn có trạng thái "Chờ duyệt"
-- **BR5**: Một sảnh chỉ có thể đặt một tiệc trong một ca, một ngày
+- **BR1**: Minimum deposit = `TotalInvoiceAmount × MinDepositRate` (from `Parameter`, default 15%)
+- **BR2**: `TableCount` must be ≥ 1 and ≤ the Hall's `MaxTableCount`
+- **BR3**: `WeddingDate` must be a future date
+- **BR4**: A new `Booking` always has status "Pending approval"
+- **BR5**: A `Hall` can only have one confirmed booking per `Shift` on a given `WeddingDate`
 
 ---
 

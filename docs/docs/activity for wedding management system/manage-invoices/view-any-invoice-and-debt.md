@@ -11,7 +11,7 @@ start
 :(1) Click "View Invoice" button \n from booking details (UC 49);
 
 |Sys|
-:(2) Query invoice details from PHIEUDATTIEC, \n THUCDON, CHITIETDV, SANH, CA, NGUOIDUNG;
+:(2) Query invoice details from `Booking`, \n `Menu`, `ServiceDetail`, `Hall`, `Shift`, `AppUser`;
 
 if (Check query successful?) then (No)
 	:(2.1) Display "Cannot load invoice details" error;
@@ -22,7 +22,7 @@ else (Yes)
 endif
 
 |Sys|
-:(3) Display invoice details: \n - Booking info (groom, bride, phone, wedding date, hall, shift) \n - Menu items with quantities and prices \n - Services with quantities and prices \n - Payment summary (total, deposit, paid, remaining, penalty if any);
+:(3) Display invoice details: \n - Booking info (groom, bride, phone, `WeddingDate`, `Hall`, `Shift`) \n - Menu items with quantities and prices \n - Services with quantities and prices \n - Payment summary (`TotalInvoiceAmount`, `Deposit`, `AmountPaid`, `RemainingAmount`, `PenaltyAmount` if any);
 
 |S|
 :(4) View invoice details and debt information;

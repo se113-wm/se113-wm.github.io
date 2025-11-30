@@ -1,0 +1,27 @@
+,List 02 - Hall,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - Hall,,,,,,,,,,
+,2,HallId,INT (Identity),Hall ID,HallId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,HallTypeId,INT,Hall Type,HallTypeId,Lookup (Dropdown),Yes,Yes,,Foreign Key to HallType. Dropdown selection.,References HallType.HallTypeId,
+,4,HallName,NVARCHAR(40),Hall Name,HallName,Text (Single Value),Yes,Yes,,Unique name for the hall. E.g: "Sảnh A1", "Sảnh B2".,Must be unique in system.,Max 40 characters
+,5,MaxTableCount,INT,Maximum Table Count,MaxTableCount,Number,Yes,Yes,,Maximum number of tables the hall can accommodate. Must be > 0.,Must be positive integer,
+,6,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes about the hall.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: HallManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- HallName must be unique across all halls.
+- If duplicate name entered, system shows error message: ""Tên sảnh đã tồn tại!""",,,,,,,,,
+,2,Table Count Validation,"- MaxTableCount must be greater than 0.
+- If invalid, system shows error message: ""Số bàn tối đa phải lớn hơn 0!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete Hall if there are Bookings referencing it.
+- System shows: ""Không thể xóa sảnh đang có tiệc cưới đặt!""",,,,,,,,,
+,4,HallType Lookup,"- When HallType is selected, MinTablePrice is auto-filled from HallType.MinTablePrice.",,,,,,,,,
+,5,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,

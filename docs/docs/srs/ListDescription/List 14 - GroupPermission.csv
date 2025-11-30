@@ -1,0 +1,22 @@
+,List 14 - GroupPermission,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,System - GroupPermission (Phân quyền Nhóm),,,,,,,,,,
+,2,GroupId,VARCHAR(10),Group ID,GroupId,Lookup (Hidden),No,Yes,,Foreign Key to UserGroup. Part of composite PK.,References UserGroup.GroupId,Hidden field
+,3,PermissionId,VARCHAR(10),Permission,PermissionId,Checkbox List,Yes,Yes,,Foreign Key to Permission. Part of composite PK.,References Permission.PermissionId,CheckBox in UI
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: PermissionManagementScreen.xaml (CheckBox DataGrid),,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (GroupId, PermissionId) must be unique.
+- Same permission cannot be assigned twice to same group.",,,,,,,,,
+,2,Toggle Permission,"- Admin can toggle permission assignment by checking/unchecking.
+- Insert record when checked, delete when unchecked.",,,,,,,,,
+,3,Admin Only,"- Only Administrator can modify group permissions.
+- Staff cannot access permission management.",,,,,,,,,

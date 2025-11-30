@@ -1,0 +1,495 @@
+================================================================================
+SHEET: List 01 - HallType
+================================================================================
+,List 01 - HallType,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - HallType,,,,,,,,,,
+,2,HallTypeId,INT (Identity),Hall Type ID,HallTypeId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,HallTypeName,NVARCHAR(40),Hall Type Name,HallTypeName,Text (Single Value),Yes,Yes,,Unique name for the hall type. E.g: "Loại A", "Loại B", "Loại C".,Must be unique in system.,Max 40 characters
+,4,MinTablePrice,MONEY,Minimum Table Price,MinTablePrice,Currency,Yes,Yes,,Minimum price per table for this hall type. Must be >= 10000 VNĐ.,Format: ###,###,### VNĐ,Default currency: VNĐ
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: HallTypeManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- HallTypeName must be unique across all hall types.
+- If duplicate name entered, system shows error message: ""Tên loại sảnh đã tồn tại!""",,,,,,,,,
+,2,Price Validation,"- MinTablePrice must be greater than or equal to 10,000 VNĐ.
+- If invalid price, system shows error message: ""Đơn giá bàn tối thiểu phải >= 10,000 VNĐ!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete HallType if there are Halls referencing it.
+- System shows: ""Không thể xóa loại sảnh đang được sử dụng!""",,,,,,,,,
+,4,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,
+
+================================================================================
+SHEET: List 02 - Hall
+================================================================================
+,List 02 - Hall,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - Hall,,,,,,,,,,
+,2,HallId,INT (Identity),Hall ID,HallId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,HallTypeId,INT,Hall Type,HallTypeId,Lookup (Dropdown),Yes,Yes,,Foreign Key to HallType. Dropdown selection.,References HallType.HallTypeId,
+,4,HallName,NVARCHAR(40),Hall Name,HallName,Text (Single Value),Yes,Yes,,Unique name for the hall. E.g: "Sảnh A1", "Sảnh B2".,Must be unique in system.,Max 40 characters
+,5,MaxTableCount,INT,Maximum Table Count,MaxTableCount,Number,Yes,Yes,,Maximum number of tables the hall can accommodate. Must be > 0.,Must be positive integer,
+,6,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes about the hall.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: HallManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- HallName must be unique across all halls.
+- If duplicate name entered, system shows error message: ""Tên sảnh đã tồn tại!""",,,,,,,,,
+,2,Table Count Validation,"- MaxTableCount must be greater than 0.
+- If invalid, system shows error message: ""Số bàn tối đa phải lớn hơn 0!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete Hall if there are Bookings referencing it.
+- System shows: ""Không thể xóa sảnh đang có tiệc cưới đặt!""",,,,,,,,,
+,4,HallType Lookup,"- When HallType is selected, MinTablePrice is auto-filled from HallType.MinTablePrice.",,,,,,,,,
+,5,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,
+
+================================================================================
+SHEET: List 03 - Shift
+================================================================================
+,List 03 - Shift,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - Shift,,,,,,,,,,
+,2,ShiftId,INT (Identity),Shift ID,ShiftId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,ShiftName,NVARCHAR(40),Shift Name,ShiftName,Text (Single Value),Yes,Yes,,Unique name for the shift. E.g: "Trưa", "Tối".,Must be unique in system.,Max 40 characters
+,4,StartTime,TIME,Start Time,StartTime,Time Picker,Yes,Yes,,Start time of the shift. Format: HH:mm.,Must be between 07:30 and 24:00,
+,5,EndTime,TIME,End Time,EndTime,Time Picker,Yes,Yes,,End time of the shift. Format: HH:mm. Must be > StartTime.,Must be > StartTime,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ShiftManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- ShiftName must be unique across all shifts.
+- If duplicate name entered, system shows error message: ""Tên ca đã tồn tại!""",,,,,,,,,
+,2,Time Validation,"- StartTime must be between 07:30 and 24:00.
+- EndTime must be greater than StartTime.
+- If invalid, system shows error message: ""Thời gian ca không hợp lệ!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete Shift if there are Bookings referencing it.
+- System shows: ""Không thể xóa ca đang có tiệc cưới đặt!""",,,,,,,,,
+,4,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,
+
+================================================================================
+SHEET: List 04 - Dish
+================================================================================
+,List 04 - Dish,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - Dish,,,,,,,,,,
+,2,DishId,INT (Identity),Dish ID,DishId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,DishName,NVARCHAR(40),Dish Name,DishName,Text (Single Value),Yes,Yes,,Unique name for the dish. E.g: "Gà hấp", "Cá lóc chiên".,Must be unique in system.,Max 40 characters
+,4,UnitPrice,MONEY,Unit Price,UnitPrice,Currency,Yes,Yes,,Price per dish. Must be > 0.,Format: ###,###,### VNĐ,
+,5,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes about the dish.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: DishManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- DishName must be unique across all dishes.
+- If duplicate name entered, system shows error message: ""Tên món ăn đã tồn tại!""",,,,,,,,,
+,2,Price Validation,"- UnitPrice must be greater than 0.
+- If invalid, system shows error message: ""Đơn giá phải lớn hơn 0!""",,,,,,,,,
+,3,Maximum Dishes,"- System allows maximum 100 dishes.
+- If exceeded, system shows: ""Số lượng món ăn đã đạt giới hạn tối đa (100)!""",,,,,,,,,
+,4,Delete Constraint,"- Cannot delete Dish if it's used in any Menu.
+- System shows: ""Không thể xóa món ăn đang được sử dụng trong thực đơn!""",,,,,,,,,
+,5,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,
+
+================================================================================
+SHEET: List 05 - Service
+================================================================================
+,List 05 - Service,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - Service,,,,,,,,,,
+,2,ServiceId,INT (Identity),Service ID,ServiceId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,ServiceName,NVARCHAR(40),Service Name,ServiceName,Text (Single Value),Yes,Yes,,Unique name for the service. E.g: "Trang trí hoa", "Nhạc sống".,Must be unique in system.,Max 40 characters
+,4,UnitPrice,MONEY,Unit Price,UnitPrice,Currency,Yes,Yes,,Price per service unit. Can be 0 (free services).,Format: ###,###,### VNĐ,
+,5,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes about the service.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ServiceManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- ServiceName must be unique across all services.
+- If duplicate name entered, system shows error message: ""Tên dịch vụ đã tồn tại!""",,,,,,,,,
+,2,Price Validation,"- UnitPrice must be >= 0.
+- If negative, system shows error message: ""Đơn giá không được âm!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete Service if it's used in any ServiceDetail.
+- System shows: ""Không thể xóa dịch vụ đang được sử dụng!""",,,,,,,,,
+,4,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,
+
+================================================================================
+SHEET: List 06 - Booking
+================================================================================
+,List 06 - Booking,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Transaction - Booking (Phiếu Đặt Tiệc),,,,,,,,,,
+,2,BookingId,INT (Identity),Booking ID,BookingId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,GroomName,NVARCHAR(40),Groom Name,GroomName,Text (Single Value),Yes,Yes,,Full name of the groom.,Max 40 characters,
+,4,BrideName,NVARCHAR(40),Bride Name,BrideName,Text (Single Value),Yes,Yes,,Full name of the bride.,Max 40 characters,
+,5,Phone,VARCHAR(10),Phone Number,Phone,Text (Phone),Yes,Yes,,Contact phone number. 10 digits.,Format: 0xxxxxxxxx,
+,6,BookingDate,SMALLDATETIME,Booking Date,BookingDate,Date Picker,No,Yes,Current Date,Date when booking was created. Auto-set to today.,Auto-filled,Read-only
+,7,WeddingDate,SMALLDATETIME,Wedding Date,WeddingDate,Date Picker,Yes,Yes,,Date of the wedding event. Must be >= Today + 3 days.,Must be in future,
+,8,ShiftId,INT,Shift,ShiftId,Lookup (Dropdown),Yes,Yes,,Foreign Key to Shift. Dropdown selection.,References Shift.ShiftId,
+,9,HallId,INT,Hall,HallId,Lookup (Dropdown),Yes,Yes,,Foreign Key to Hall. Filtered by availability.,References Hall.HallId,
+,10,TableCount,INT,Table Count,TableCount,Number,Yes,Yes,,Number of tables booked. Must meet MinReserveTableRate.,>= MinRatio × MaxTableCount,
+,11,ReserveTableCount,INT,Reserve Table Count,ReserveTableCount,Number,Yes,No,0,Number of reserve tables. <= MaxTableCount - TableCount.,Optional,
+,12,Deposit,MONEY,Deposit Amount,Deposit,Currency,Yes,Yes,,Deposit paid. Must >= MinDepositRate × Estimated Total.,Format: ###,###,### VNĐ,
+,13,TablePrice,MONEY,Table Unit Price,TablePrice,Currency,No,Yes,,Price per table at booking time. From Hall → HallType.MinTablePrice.,Auto-filled from HallType,Read-only
+,14,TotalTableAmount,MONEY,Total Table Amount,TotalTableAmount,Currency,No,Yes,,Calculated: TableCount × (TablePrice + Menu Total per table).,Auto-calculated,Read-only
+,15,TotalServiceAmount,MONEY,Total Service Amount,TotalServiceAmount,Currency,No,Yes,,Calculated: Sum of all ServiceDetail amounts.,Auto-calculated,Read-only
+,16,TotalInvoiceAmount,MONEY,Total Invoice Amount,TotalInvoiceAmount,Currency,No,Yes,,Calculated: TotalTableAmount + TotalServiceAmount + AdditionalCost + PenaltyAmount.,Auto-calculated,Read-only
+,17,RemainingAmount,MONEY,Remaining Amount,RemainingAmount,Currency,No,Yes,,Calculated: TotalInvoiceAmount - Deposit.,Auto-calculated,Read-only
+,18,AdditionalCost,MONEY,Additional Cost,AdditionalCost,Currency,Yes,No,0,Additional/damage fees added at payment time.,Editable in Invoice,
+,19,PenaltyAmount,MONEY,Penalty Amount,PenaltyAmount,Currency,No,No,0,Late payment penalty. Calculated if payment > WeddingDate.,Auto-calculated,Read-only
+,20,PaymentDate,SMALLDATETIME,Payment Date,PaymentDate,Date Picker,No,No,,Date when final payment was made. NULL if unpaid.,Set on payment confirm,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screens: BookingListScreen.xaml; AddBookingScreen.xaml; BookingDetailScreen.xaml; InvoiceScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Wedding Date Rule,"- WeddingDate must be at least 3 days from today.
+- If invalid, system shows: ""Ngày cưới phải cách ngày đặt ít nhất 3 ngày!""",,,,,,,,,
+,2,Hall Availability,"- One hall can only have one booking per shift per day.
+- If conflict, system shows: ""Sảnh đã được đặt vào ngày và ca này!""",,,,,,,,,
+,3,Table Count Rule,"- TableCount >= MinReserveTableRate × Hall.MaxTableCount (default 85%).
+- If invalid, system shows: ""Số lượng bàn phải >= [MinRatio]% sức chứa sảnh!""",,,,,,,,,
+,4,Reserve Table Rule,"- ReserveTableCount <= Hall.MaxTableCount - TableCount.
+- If exceeded, system shows: ""Số bàn dự trữ vượt quá số bàn còn lại của sảnh!""",,,,,,,,,
+,5,Deposit Rule,"- Deposit >= MinDepositRate × Estimated Total (default 15%).
+- If insufficient, system shows: ""Tiền cọc phải >= [MinRate]% tổng tiền ước tính!""",,,,,,,,,
+,6,Menu Requirement,"- At least one dish must be selected in the menu.
+- If empty, system shows: ""Vui lòng chọn ít nhất một món ăn!""",,,,,,,,,
+,7,Penalty Calculation,"- If PaymentDate > WeddingDate and EnablePenalty = 1:
+  PenaltyAmount = (PaymentDate - WeddingDate) × PenaltyRate × TotalInvoiceAmount",,,,,,,,,
+,8,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,
+
+================================================================================
+SHEET: List 07 - Menu
+================================================================================
+,List 07 - Menu,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Transaction Detail - Menu (Thực đơn),,,,,,,,,,
+,2,BookingId,INT,Booking ID,BookingId,Lookup (Hidden),No,Yes,,Foreign Key to Booking. Part of composite PK.,References Booking.BookingId,Hidden field
+,3,DishId,INT,Dish,DishId,Lookup (Dropdown),Yes,Yes,,Foreign Key to Dish. Part of composite PK.,References Dish.DishId,
+,4,Quantity,INT,Quantity,Quantity,Number,Yes,Yes,1,Quantity per table. Must be > 0.,Default: 1,
+,5,UnitPrice,MONEY,Unit Price,UnitPrice,Currency,No,Yes,,Price at booking time. Copied from Dish.UnitPrice.,Auto-filled from Dish,Read-only (historical)
+,6,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes for this menu item.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: AddBookingScreen.xaml (DataGrid section),,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (BookingId, DishId) must be unique.
+- Cannot add same dish twice to one booking.",,,,,,,,,
+,2,Quantity Validation,"- Quantity must be greater than 0.
+- If invalid, system shows: ""Số lượng phải lớn hơn 0!""",,,,,,,,,
+,3,Price Snapshot,"- UnitPrice is captured at booking time to preserve historical pricing.
+- Changes to Dish.UnitPrice do not affect existing bookings.",,,,,,,,,
+,4,At Least One Dish,"- Each booking must have at least one menu item.
+- If empty, system shows: ""Vui lòng chọn ít nhất một món ăn!""",,,,,,,,,
+
+================================================================================
+SHEET: List 08 - ServiceDetail
+================================================================================
+,List 08 - ServiceDetail,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Transaction Detail - ServiceDetail (Chi tiết Dịch vụ),,,,,,,,,,
+,2,BookingId,INT,Booking ID,BookingId,Lookup (Hidden),No,Yes,,Foreign Key to Booking. Part of composite PK.,References Booking.BookingId,Hidden field
+,3,ServiceId,INT,Service,ServiceId,Lookup (Dropdown),Yes,Yes,,Foreign Key to Service. Part of composite PK.,References Service.ServiceId,
+,4,Quantity,INT,Quantity,Quantity,Number,Yes,Yes,1,Number of service units. Must be > 0.,Default: 1,
+,5,UnitPrice,MONEY,Unit Price,UnitPrice,Currency,No,Yes,,Price at booking time. Copied from Service.UnitPrice.,Auto-filled from Service,Read-only (historical)
+,6,TotalAmount,MONEY,Total Amount,TotalAmount,Currency,No,Yes,,Calculated: Quantity × UnitPrice.,Auto-calculated,Read-only
+,7,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes for this service.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: AddBookingScreen.xaml (DataGrid section),,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (BookingId, ServiceId) must be unique.
+- Cannot add same service twice to one booking.",,,,,,,,,
+,2,Quantity Validation,"- Quantity must be greater than 0.
+- If invalid, system shows: ""Số lượng phải lớn hơn 0!""",,,,,,,,,
+,3,Price Snapshot,"- UnitPrice is captured at booking time to preserve historical pricing.
+- Changes to Service.UnitPrice do not affect existing bookings.",,,,,,,,,
+,4,Auto Calculate,"- TotalAmount is automatically calculated: Quantity × UnitPrice.
+- Updates Booking.TotalServiceAmount via trigger.",,,,,,,,,
+
+================================================================================
+SHEET: List 09 - RevenueReport
+================================================================================
+,List 09 - RevenueReport,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Report - RevenueReport (Báo cáo Doanh số Tháng),,,,,,,,,,
+,2,Month,INT,Month,Month,Number (Dropdown),No,Yes,,Month of report (1-12). Part of composite PK.,1-12 only,Read-only
+,3,Year,INT,Year,Year,Number (Dropdown),No,Yes,,Year of report. Part of composite PK.,4-digit year,Read-only
+,4,TotalRevenue,MONEY,Total Revenue,TotalRevenue,Currency,No,Yes,,Total revenue for the month. Sum of all daily revenues.,Auto-calculated,Read-only
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ReportScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (Month, Year) must be unique.
+- One report per month per year.",,,,,,,,,
+,2,Auto Generation,"- Report is automatically generated/updated when viewing.
+- Aggregates data from Booking table where PaymentDate is in the month/year.",,,,,,,,,
+,3,Revenue Calculation,"- TotalRevenue = Sum of Booking.TotalInvoiceAmount where PaymentDate falls in the month/year.",,,,,,,,,
+
+================================================================================
+SHEET: List 10 - RevenueReportDetail
+================================================================================
+,List 10 - RevenueReportDetail,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Report Detail - RevenueReportDetail (Chi tiết Báo cáo Doanh số),,,,,,,,,,
+,2,Day,INT,Day,Day,Number,No,Yes,,Day of month (1-31). Part of composite PK.,1-31,Read-only
+,3,Month,INT,Month,Month,Number,No,Yes,,Month of report. Part of composite FK to RevenueReport.,1-12,Read-only
+,4,Year,INT,Year,Year,Number,No,Yes,,Year of report. Part of composite FK to RevenueReport.,4-digit year,Read-only
+,5,WeddingCount,INT,Wedding Count,WeddingCount,Number,No,Yes,,Number of weddings with payment on this day.,Count of bookings,Read-only
+,6,Revenue,MONEY,Daily Revenue,Revenue,Currency,No,Yes,,Total revenue for this day.,Sum of TotalInvoiceAmount,Read-only
+,7,Ratio,DECIMAL(7;2),Ratio (%),Ratio,Percentage,No,Yes,,Percentage of daily revenue vs monthly total.,Format: ##.##%,Read-only
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ReportScreen.xaml (DataGrid section),,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (Day, Month, Year) must be unique.
+- One detail record per day.",,,,,,,,,
+,2,Foreign Key,"- (Month, Year) references RevenueReport(Month, Year).",,,,,,,,,
+,3,Auto Calculation,"- WeddingCount = COUNT of Booking where PaymentDate = this day.
+- Revenue = SUM of Booking.TotalInvoiceAmount where PaymentDate = this day.
+- Ratio = (Revenue / RevenueReport.TotalRevenue) × 100.",,,,,,,,,
+
+================================================================================
+SHEET: List 11 - Parameter
+================================================================================
+,List 11 - Parameter,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,System - Parameter (Quy định / Tham số Hệ thống),,,,,,,,,,
+,2,ParameterName,NVARCHAR(100),Parameter Name,ParameterName,Text (Single Value),No,Yes,,Primary Key. Name of the parameter.,Max 100 characters,Read-only
+,3,Value,DECIMAL(5;2),Value,Value,Number,Yes,Yes,,Value of the parameter. Interpretation depends on ParameterName.,0.00 - 1.00 for rates,
+,,,,,,,,,,,,
+,Parameter Values,,,,,,,,,,,
+,Name,Default Value,Description,,,,,,,,,
+,EnablePenalty,1,Enable/disable penalty calculation. 0 = disabled; 1 = enabled.,,,,,,,,,
+,PenaltyRate,0.01,Late payment penalty rate per day (1% = 0.01).,,,,,,,,,
+,MinDepositRate,0.15,Minimum deposit rate (15% = 0.15).,,,,,,,,,
+,MinReserveTableRate,0.85,Minimum table ratio vs hall capacity (85% = 0.85).,,,,,,,,,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ParameterScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Admin Only,"- Only Administrator can modify parameters.
+- Staff cannot access parameter settings.",,,,,,,,,
+,2,Rate Validation,"- Rate values (PenaltyRate, MinDepositRate, MinReserveTableRate) must be between 0 and 1.
+- If invalid, system shows: ""Giá trị tỷ lệ phải từ 0 đến 1!""",,,,,,,,,
+,3,Enable Penalty Toggle,"- EnablePenalty must be 0 or 1.
+- If invalid, system shows: ""Giá trị bật/tắt phải là 0 hoặc 1!""",,,,,,,,,
+
+================================================================================
+SHEET: List 12 - Permission
+================================================================================
+,List 12 - Permission,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,System - Permission (Quyền truy cập),,,,,,,,,,
+,2,PermissionId,VARCHAR(10),Permission ID,PermissionId,Text (Single Value),No,Yes,,Primary Key. Short code for permission. E.g: "P001".,Max 10 characters,Read-only
+,3,PermissionName,NVARCHAR(100),Permission Name,PermissionName,Text (Single Value),Yes,Yes,,Display name of the permission. E.g: "Quản lý Sảnh".,Max 100 characters,
+,4,LoadedScreenName,NVARCHAR(100),Screen Name,LoadedScreenName,Text (Single Value),Yes,Yes,,Name of the XAML screen to load. E.g: "HallManagementScreen".,Maps to XAML UserControl,
+,,,,,,,,,,,,
+,Permission List Values,,,,,,,,,,,
+,PermissionId,PermissionName,LoadedScreenName,,,,,,,,,
+,P001,Trang chủ,HomeScreen,,,,,,,,,
+,P002,Quản lý sảnh,HallManagementScreen,,,,,,,,,
+,P003,Quản lý loại sảnh,HallTypeManagementScreen,,,,,,,,,
+,P004,Quản lý món ăn,DishManagementScreen,,,,,,,,,
+,P005,Quản lý dịch vụ,ServiceManagementScreen,,,,,,,,,
+,P006,Quản lý ca,ShiftManagementScreen,,,,,,,,,
+,P007,Danh sách tiệc cưới,BookingListScreen,,,,,,,,,
+,P008,Thêm tiệc cưới,AddBookingScreen,,,,,,,,,
+,P009,Chi tiết tiệc cưới,BookingDetailScreen,,,,,,,,,
+,P010,Hóa đơn thanh toán,InvoiceScreen,,,,,,,,,
+,P011,Báo cáo doanh thu,ReportScreen,,,,,,,,,
+,P012,Quản lý người dùng,UserManagementScreen,,,,,,,,,
+,P013,Quản lý nhóm người dùng,PermissionManagementScreen,,,,,,,,,
+,P014,Quy định,ParameterScreen,,,,,,,,,
+,P015,Tài khoản,AccountScreen,,,,,,,,,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: N/A (System configuration),,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,System Managed,"- Permission records are system-managed.
+- Users cannot directly add/edit/delete permissions.",,,,,,,,,
+,2,Screen Mapping,"- LoadedScreenName must match an existing XAML UserControl name in Presentation folder.",,,,,,,,,
+
+================================================================================
+SHEET: List 13 - UserGroup
+================================================================================
+,List 13 - UserGroup,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,System - UserGroup (Nhóm Người dùng),,,,,,,,,,
+,2,GroupId,VARCHAR(10),Group ID,GroupId,Text (Single Value),No,Yes,,Primary Key. Short code for user group. E.g: "G001".,Max 10 characters,Read-only
+,3,GroupName,NVARCHAR(100),Group Name,GroupName,Text (Single Value),Yes,Yes,,Display name of the user group. E.g: "Quản lý"; "Nhân viên".,Must be unique,Max 100 characters
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: PermissionManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- GroupName must be unique across all user groups.
+- If duplicate, system shows: ""Tên nhóm người dùng đã tồn tại!""",,,,,,,,,
+,2,Reserved Names,"- Cannot use 'Administrator' or 'admin' as group name (reserved for system).
+- System shows: ""Không thể sử dụng tên nhóm này!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete UserGroup if there are AppUsers assigned to it.
+- System shows: ""Không thể xóa nhóm đang có người dùng!""",,,,,,,,,
+,4,Permission Assignment,"- Group permissions are managed via GroupPermission junction table.
+- Admin can assign/remove permissions for each group.",,,,,,,,,
+
+================================================================================
+SHEET: List 14 - GroupPermission
+================================================================================
+,List 14 - GroupPermission,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,System - GroupPermission (Phân quyền Nhóm),,,,,,,,,,
+,2,GroupId,VARCHAR(10),Group ID,GroupId,Lookup (Hidden),No,Yes,,Foreign Key to UserGroup. Part of composite PK.,References UserGroup.GroupId,Hidden field
+,3,PermissionId,VARCHAR(10),Permission,PermissionId,Checkbox List,Yes,Yes,,Foreign Key to Permission. Part of composite PK.,References Permission.PermissionId,CheckBox in UI
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: PermissionManagementScreen.xaml (CheckBox DataGrid),,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (GroupId, PermissionId) must be unique.
+- Same permission cannot be assigned twice to same group.",,,,,,,,,
+,2,Toggle Permission,"- Admin can toggle permission assignment by checking/unchecking.
+- Insert record when checked, delete when unchecked.",,,,,,,,,
+,3,Admin Only,"- Only Administrator can modify group permissions.
+- Staff cannot access permission management.",,,,,,,,,
+
+================================================================================
+SHEET: List 15 - AppUser
+================================================================================
+,List 15 - AppUser,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,System - AppUser (Người dùng),,,,,,,,,,
+,2,UserId,INT (Identity),User ID,UserId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,Username,VARCHAR(50),Username,Username,Text (Single Value),No,Yes,,Login username. Must be unique. Cannot change after creation.,Max 50 characters,Read-only after create
+,4,PasswordHash,VARCHAR(256),Password,PasswordHash,Password (Hashed),No,Yes,,MD5 hashed password. Never displayed.,Hash: MD5,Hidden in UI
+,5,FullName,NVARCHAR(100),Full Name,FullName,Text (Single Value),Yes,Yes,,Full name of the user.,Max 100 characters,
+,6,Email,VARCHAR(100),Email,Email,Text (Email),Yes,No,,Email address. Must be unique if provided.,Optional but unique,
+,7,PhoneNumber,VARCHAR(15),Phone Number,PhoneNumber,Text (Phone),Yes,No,,Contact phone number.,Max 15 characters,
+,8,Address,NVARCHAR(200),Address,Address,Text (Multi-line),Yes,No,,Home address.,Max 200 characters,
+,9,BirthDate,DATE,Birth Date,BirthDate,Date Picker,Yes,No,,Date of birth.,Optional,
+,10,Gender,NVARCHAR(10),Gender,Gender,Radio Button,Yes,No,,Gender: "Nam" / "Nữ" / "Khác".,3 options,
+,11,GroupId,VARCHAR(10),User Group,GroupId,Lookup (Dropdown),Yes,Yes,,Foreign Key to UserGroup. Determines permissions.,References UserGroup.GroupId,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screens: UserManagementScreen.xaml; AccountScreen.xaml; LoginScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Username,"- Username must be unique across all users.
+- If duplicate, system shows: ""Tên đăng nhập đã tồn tại!""",,,,,,,,,
+,2,Unique Email,"- If Email is provided, it must be unique.
+- If duplicate, system shows: ""Email đã được sử dụng!""",,,,,,,,,
+,3,Password Hashing,"- Password is hashed using MD5 before storage.
+- Original password is never stored or displayed.",,,,,,,,,
+,4,Username Immutable,"- Username cannot be changed after user creation.
+- Field is read-only in edit mode.",,,,,,,,,
+,5,Self Profile Edit,"- Users can edit their own profile via Account screen.
+- Users cannot change their own UserGroup.",,,,,,,,,
+,6,Admin User Management,"- Only Administrator can add/edit/delete users.
+- Administrator can assign UserGroup to users.",,,,,,,,,
+,7,Delete Constraint,"- Cannot delete the last Administrator user.
+- System shows: ""Không thể xóa người quản trị cuối cùng!""",,,,,,,,,
+,8,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,
+
+================================================================================
+END OF LIST DESCRIPTION DOCUMENT
+================================================================================

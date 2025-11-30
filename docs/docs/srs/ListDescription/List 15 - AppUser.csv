@@ -1,0 +1,39 @@
+,List 15 - AppUser,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,System - AppUser (Người dùng),,,,,,,,,,
+,2,UserId,INT (Identity),User ID,UserId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,Username,VARCHAR(50),Username,Username,Text (Single Value),No,Yes,,Login username. Must be unique. Cannot change after creation.,Max 50 characters,Read-only after create
+,4,PasswordHash,VARCHAR(256),Password,PasswordHash,Password (Hashed),No,Yes,,MD5 hashed password. Never displayed.,Hash: MD5,Hidden in UI
+,5,FullName,NVARCHAR(100),Full Name,FullName,Text (Single Value),Yes,Yes,,Full name of the user.,Max 100 characters,
+,6,Email,VARCHAR(100),Email,Email,Text (Email),Yes,No,,Email address. Must be unique if provided.,Optional but unique,
+,7,PhoneNumber,VARCHAR(15),Phone Number,PhoneNumber,Text (Phone),Yes,No,,Contact phone number.,Max 15 characters,
+,8,Address,NVARCHAR(200),Address,Address,Text (Multi-line),Yes,No,,Home address.,Max 200 characters,
+,9,BirthDate,DATE,Birth Date,BirthDate,Date Picker,Yes,No,,Date of birth.,Optional,
+,10,Gender,NVARCHAR(10),Gender,Gender,Radio Button,Yes,No,,Gender: "Nam" / "Nữ" / "Khác".,3 options,
+,11,GroupId,VARCHAR(10),User Group,GroupId,Lookup (Dropdown),Yes,Yes,,Foreign Key to UserGroup. Determines permissions.,References UserGroup.GroupId,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screens: UserManagementScreen.xaml; AccountScreen.xaml; LoginScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Username,"- Username must be unique across all users.
+- If duplicate, system shows: ""Tên đăng nhập đã tồn tại!""",,,,,,,,,
+,2,Unique Email,"- If Email is provided, it must be unique.
+- If duplicate, system shows: ""Email đã được sử dụng!""",,,,,,,,,
+,3,Password Hashing,"- Password is hashed using MD5 before storage.
+- Original password is never stored or displayed.",,,,,,,,,
+,4,Username Immutable,"- Username cannot be changed after user creation.
+- Field is read-only in edit mode.",,,,,,,,,
+,5,Self Profile Edit,"- Users can edit their own profile via Account screen.
+- Users cannot change their own UserGroup.",,,,,,,,,
+,6,Admin User Management,"- Only Administrator can add/edit/delete users.
+- Administrator can assign UserGroup to users.",,,,,,,,,
+,7,Delete Constraint,"- Cannot delete the last Administrator user.
+- System shows: ""Không thể xóa người quản trị cuối cùng!""",,,,,,,,,
+,8,Mandatory Fields,"- If any mandatory field is left blank, system shows: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,

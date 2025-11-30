@@ -1,0 +1,22 @@
+,List 09 - RevenueReport,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Report - RevenueReport (Báo cáo Doanh số Tháng),,,,,,,,,,
+,2,Month,INT,Month,Month,Number (Dropdown),No,Yes,,Month of report (1-12). Part of composite PK.,1-12 only,Read-only
+,3,Year,INT,Year,Year,Number (Dropdown),No,Yes,,Year of report. Part of composite PK.,4-digit year,Read-only
+,4,TotalRevenue,MONEY,Total Revenue,TotalRevenue,Currency,No,Yes,,Total revenue for the month. Sum of all daily revenues.,Auto-calculated,Read-only
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ReportScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (Month, Year) must be unique.
+- One report per month per year.",,,,,,,,,
+,2,Auto Generation,"- Report is automatically generated/updated when viewing.
+- Aggregates data from Booking table where PaymentDate is in the month/year.",,,,,,,,,
+,3,Revenue Calculation,"- TotalRevenue = Sum of Booking.TotalInvoiceAmount where PaymentDate falls in the month/year.",,,,,,,,,

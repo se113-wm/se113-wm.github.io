@@ -1,0 +1,26 @@
+,List 10 - RevenueReportDetail,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Report Detail - RevenueReportDetail (Chi tiết Báo cáo Doanh số),,,,,,,,,,
+,2,Day,INT,Day,Day,Number,No,Yes,,Day of month (1-31). Part of composite PK.,1-31,Read-only
+,3,Month,INT,Month,Month,Number,No,Yes,,Month of report. Part of composite FK to RevenueReport.,1-12,Read-only
+,4,Year,INT,Year,Year,Number,No,Yes,,Year of report. Part of composite FK to RevenueReport.,4-digit year,Read-only
+,5,WeddingCount,INT,Wedding Count,WeddingCount,Number,No,Yes,,Number of weddings with payment on this day.,Count of bookings,Read-only
+,6,Revenue,MONEY,Daily Revenue,Revenue,Currency,No,Yes,,Total revenue for this day.,Sum of TotalInvoiceAmount,Read-only
+,7,Ratio,DECIMAL(7;2),Ratio (%),Ratio,Percentage,No,Yes,,Percentage of daily revenue vs monthly total.,Format: ##.##%,Read-only
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ReportScreen.xaml (DataGrid section),,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (Day, Month, Year) must be unique.
+- One detail record per day.",,,,,,,,,
+,2,Foreign Key,"- (Month, Year) references RevenueReport(Month, Year).",,,,,,,,,
+,3,Auto Calculation,"- WeddingCount = COUNT of Booking where PaymentDate = this day.
+- Revenue = SUM of Booking.TotalInvoiceAmount where PaymentDate = this day.
+- Ratio = (Revenue / RevenueReport.TotalRevenue) × 100.",,,,,,,,,

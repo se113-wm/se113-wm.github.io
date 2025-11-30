@@ -1,0 +1,24 @@
+,List 13 - UserGroup,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,System - UserGroup (Nhóm Người dùng),,,,,,,,,,
+,2,GroupId,VARCHAR(10),Group ID,GroupId,Text (Single Value),No,Yes,,Primary Key. Short code for user group. E.g: "G001".,Max 10 characters,Read-only
+,3,GroupName,NVARCHAR(100),Group Name,GroupName,Text (Single Value),Yes,Yes,,Display name of the user group. E.g: "Quản lý"; "Nhân viên".,Must be unique,Max 100 characters
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: PermissionManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- GroupName must be unique across all user groups.
+- If duplicate, system shows: ""Tên nhóm người dùng đã tồn tại!""",,,,,,,,,
+,2,Reserved Names,"- Cannot use 'Administrator' or 'admin' as group name (reserved for system).
+- System shows: ""Không thể sử dụng tên nhóm này!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete UserGroup if there are AppUsers assigned to it.
+- System shows: ""Không thể xóa nhóm đang có người dùng!""",,,,,,,,,
+,4,Permission Assignment,"- Group permissions are managed via GroupPermission junction table.
+- Admin can assign/remove permissions for each group.",,,,,,,,,

@@ -1,0 +1,24 @@
+,List 01 - HallType,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - HallType,,,,,,,,,,
+,2,HallTypeId,INT (Identity),Hall Type ID,HallTypeId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,HallTypeName,NVARCHAR(40),Hall Type Name,HallTypeName,Text (Single Value),Yes,Yes,,Unique name for the hall type. E.g: "Loại A", "Loại B", "Loại C".,Must be unique in system.,Max 40 characters
+,4,MinTablePrice,MONEY,Minimum Table Price,MinTablePrice,Currency,Yes,Yes,,Minimum price per table for this hall type. Must be >= 10000 VNĐ.,Format: ###,###,### VNĐ,Default currency: VNĐ
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: HallTypeManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- HallTypeName must be unique across all hall types.
+- If duplicate name entered, system shows error message: ""Tên loại sảnh đã tồn tại!""",,,,,,,,,
+,2,Price Validation,"- MinTablePrice must be greater than or equal to 10,000 VNĐ.
+- If invalid price, system shows error message: ""Đơn giá bàn tối thiểu phải >= 10,000 VNĐ!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete HallType if there are Halls referencing it.
+- System shows: ""Không thể xóa loại sảnh đang được sử dụng!""",,,,,,,,,
+,4,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,

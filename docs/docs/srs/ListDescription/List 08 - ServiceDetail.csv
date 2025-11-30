@@ -1,0 +1,28 @@
+,List 08 - ServiceDetail,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Transaction Detail - ServiceDetail (Chi tiết Dịch vụ),,,,,,,,,,
+,2,BookingId,INT,Booking ID,BookingId,Lookup (Hidden),No,Yes,,Foreign Key to Booking. Part of composite PK.,References Booking.BookingId,Hidden field
+,3,ServiceId,INT,Service,ServiceId,Lookup (Dropdown),Yes,Yes,,Foreign Key to Service. Part of composite PK.,References Service.ServiceId,
+,4,Quantity,INT,Quantity,Quantity,Number,Yes,Yes,1,Number of service units. Must be > 0.,Default: 1,
+,5,UnitPrice,MONEY,Unit Price,UnitPrice,Currency,No,Yes,,Price at booking time. Copied from Service.UnitPrice.,Auto-filled from Service,Read-only (historical)
+,6,TotalAmount,MONEY,Total Amount,TotalAmount,Currency,No,Yes,,Calculated: Quantity × UnitPrice.,Auto-calculated,Read-only
+,7,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes for this service.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: AddBookingScreen.xaml (DataGrid section),,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Composite Primary Key,"- Combination of (BookingId, ServiceId) must be unique.
+- Cannot add same service twice to one booking.",,,,,,,,,
+,2,Quantity Validation,"- Quantity must be greater than 0.
+- If invalid, system shows: ""Số lượng phải lớn hơn 0!""",,,,,,,,,
+,3,Price Snapshot,"- UnitPrice is captured at booking time to preserve historical pricing.
+- Changes to Service.UnitPrice do not affect existing bookings.",,,,,,,,,
+,4,Auto Calculate,"- TotalAmount is automatically calculated: Quantity × UnitPrice.
+- Updates Booking.TotalServiceAmount via trigger.",,,,,,,,,

@@ -1,0 +1,26 @@
+,List 03 - Shift,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - Shift,,,,,,,,,,
+,2,ShiftId,INT (Identity),Shift ID,ShiftId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,ShiftName,NVARCHAR(40),Shift Name,ShiftName,Text (Single Value),Yes,Yes,,Unique name for the shift. E.g: "Trưa", "Tối".,Must be unique in system.,Max 40 characters
+,4,StartTime,TIME,Start Time,StartTime,Time Picker,Yes,Yes,,Start time of the shift. Format: HH:mm.,Must be between 07:30 and 24:00,
+,5,EndTime,TIME,End Time,EndTime,Time Picker,Yes,Yes,,End time of the shift. Format: HH:mm. Must be > StartTime.,Must be > StartTime,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ShiftManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- ShiftName must be unique across all shifts.
+- If duplicate name entered, system shows error message: ""Tên ca đã tồn tại!""",,,,,,,,,
+,2,Time Validation,"- StartTime must be between 07:30 and 24:00.
+- EndTime must be greater than StartTime.
+- If invalid, system shows error message: ""Thời gian ca không hợp lệ!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete Shift if there are Bookings referencing it.
+- System shows: ""Không thể xóa ca đang có tiệc cưới đặt!""",,,,,,,,,
+,4,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,

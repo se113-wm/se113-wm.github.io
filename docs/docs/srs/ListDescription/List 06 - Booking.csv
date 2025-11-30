@@ -1,0 +1,48 @@
+,List 06 - Booking,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Transaction - Booking (Phiếu Đặt Tiệc),,,,,,,,,,
+,2,BookingId,INT (Identity),Booking ID,BookingId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,GroomName,NVARCHAR(40),Groom Name,GroomName,Text (Single Value),Yes,Yes,,Full name of the groom.,Max 40 characters,
+,4,BrideName,NVARCHAR(40),Bride Name,BrideName,Text (Single Value),Yes,Yes,,Full name of the bride.,Max 40 characters,
+,5,Phone,VARCHAR(10),Phone Number,Phone,Text (Phone),Yes,Yes,,Contact phone number. 10 digits.,Format: 0xxxxxxxxx,
+,6,BookingDate,SMALLDATETIME,Booking Date,BookingDate,Date Picker,No,Yes,Current Date,Date when booking was created. Auto-set to today.,Auto-filled,Read-only
+,7,WeddingDate,SMALLDATETIME,Wedding Date,WeddingDate,Date Picker,Yes,Yes,,Date of the wedding event. Must be >= Today + 3 days.,Must be in future,
+,8,ShiftId,INT,Shift,ShiftId,Lookup (Dropdown),Yes,Yes,,Foreign Key to Shift. Dropdown selection.,References Shift.ShiftId,
+,9,HallId,INT,Hall,HallId,Lookup (Dropdown),Yes,Yes,,Foreign Key to Hall. Filtered by availability.,References Hall.HallId,
+,10,TableCount,INT,Table Count,TableCount,Number,Yes,Yes,,Number of tables booked. Must meet MinReserveTableRate.,>= MinRatio × MaxTableCount,
+,11,ReserveTableCount,INT,Reserve Table Count,ReserveTableCount,Number,Yes,No,0,Number of reserve tables. <= MaxTableCount - TableCount.,Optional,
+,12,Deposit,MONEY,Deposit Amount,Deposit,Currency,Yes,Yes,,Deposit paid. Must >= MinDepositRate × Estimated Total.,Format: ###,###,### VNĐ,
+,13,TablePrice,MONEY,Table Unit Price,TablePrice,Currency,No,Yes,,Price per table at booking time. From Hall → HallType.MinTablePrice.,Auto-filled from HallType,Read-only
+,14,TotalTableAmount,MONEY,Total Table Amount,TotalTableAmount,Currency,No,Yes,,Calculated: TableCount × (TablePrice + Menu Total per table).,Auto-calculated,Read-only
+,15,TotalServiceAmount,MONEY,Total Service Amount,TotalServiceAmount,Currency,No,Yes,,Calculated: Sum of all ServiceDetail amounts.,Auto-calculated,Read-only
+,16,TotalInvoiceAmount,MONEY,Total Invoice Amount,TotalInvoiceAmount,Currency,No,Yes,,Calculated: TotalTableAmount + TotalServiceAmount + AdditionalCost + PenaltyAmount.,Auto-calculated,Read-only
+,17,RemainingAmount,MONEY,Remaining Amount,RemainingAmount,Currency,No,Yes,,Calculated: TotalInvoiceAmount - Deposit.,Auto-calculated,Read-only
+,18,AdditionalCost,MONEY,Additional Cost,AdditionalCost,Currency,Yes,No,0,Additional/damage fees added at payment time.,Editable in Invoice,
+,19,PenaltyAmount,MONEY,Penalty Amount,PenaltyAmount,Currency,No,No,0,Late payment penalty. Calculated if payment > WeddingDate.,Auto-calculated,Read-only
+,20,PaymentDate,SMALLDATETIME,Payment Date,PaymentDate,Date Picker,No,No,,Date when final payment was made. NULL if unpaid.,Set on payment confirm,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screens: BookingListScreen.xaml; AddBookingScreen.xaml; BookingDetailScreen.xaml; InvoiceScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Wedding Date Rule,"- WeddingDate must be at least 3 days from today.
+- If invalid, system shows: ""Ngày cưới phải cách ngày đặt ít nhất 3 ngày!""",,,,,,,,,
+,2,Hall Availability,"- One hall can only have one booking per shift per day.
+- If conflict, system shows: ""Sảnh đã được đặt vào ngày và ca này!""",,,,,,,,,
+,3,Table Count Rule,"- TableCount >= MinReserveTableRate × Hall.MaxTableCount (default 85%).
+- If invalid, system shows: ""Số lượng bàn phải >= [MinRatio]% sức chứa sảnh!""",,,,,,,,,
+,4,Reserve Table Rule,"- ReserveTableCount <= Hall.MaxTableCount - TableCount.
+- If exceeded, system shows: ""Số bàn dự trữ vượt quá số bàn còn lại của sảnh!""",,,,,,,,,
+,5,Deposit Rule,"- Deposit >= MinDepositRate × Estimated Total (default 15%).
+- If insufficient, system shows: ""Tiền cọc phải >= [MinRate]% tổng tiền ước tính!""",,,,,,,,,
+,6,Menu Requirement,"- At least one dish must be selected in the menu.
+- If empty, system shows: ""Vui lòng chọn ít nhất một món ăn!""",,,,,,,,,
+,7,Penalty Calculation,"- If PaymentDate > WeddingDate and EnablePenalty = 1:
+  PenaltyAmount = (PaymentDate - WeddingDate) × PenaltyRate × TotalInvoiceAmount",,,,,,,,,
+,8,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,

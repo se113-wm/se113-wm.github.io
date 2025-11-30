@@ -1,0 +1,26 @@
+,List 03 - Reason,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,List Design,,,,,,,,,,,,,,,
+,#,SharePoint Column,,,Notes Field,,Detailed Description,,,,,For Unit Test,,,,
+,,Column Name,Column Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,"Extracting UT
+(After migrate data)","Per-Processing UT
+(After migrate data)","Transforming UT
+(After migrate data)","Post-Processing UT
+(After migrate data)",Comment
+,1,Administration - Reason,,,,,,,,,,,,,,
+,2,Cancellation Reason For,Radio Button,Cancellation Reason For,CancellationReasonFor,Radio Button,Yes,,"""GES""","Value list: 
++ dbIRS
++ GES",,,,,,
+,3,Cancellation Reason,Single line Of Text,Cancellation Reason,CancellationReason,Text (Allows Single Value),Yes,Yes,,,,,,,,
+,4,dbIRS ID,Single line Of Text,dbIRS ID,dbIRSID,Text (Allows Single Value),Yes,,,"Hide when: [Cancellation Reason For] = ""GES""
+",,,,,,
+ ,5,Audit Trail,,Audit Trail,N/A,N/A,,,,Use SharePoint's audit trail.,,,,,,
+,,,,,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,,,,,
+,1,Validation Rules,"- If any mandatory field is left blank, system shows error message MSG1.
+- If [Cancellation Reason For] = ""dbIRS"", and [dbIRS ID] is blank, then system shows error message MSG1.",,,,,,,,,,,,,

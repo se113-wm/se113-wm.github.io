@@ -1,0 +1,25 @@
+,List 05 - Service,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - Service,,,,,,,,,,
+,2,ServiceId,INT (Identity),Service ID,ServiceId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,ServiceName,NVARCHAR(40),Service Name,ServiceName,Text (Single Value),Yes,Yes,,Unique name for the service. E.g: "Trang trí hoa", "Nhạc sống".,Must be unique in system.,Max 40 characters
+,4,UnitPrice,MONEY,Unit Price,UnitPrice,Currency,Yes,Yes,,Price per service unit. Can be 0 (free services).,Format: ###,###,### VNĐ,
+,5,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes about the service.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: ServiceManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- ServiceName must be unique across all services.
+- If duplicate name entered, system shows error message: ""Tên dịch vụ đã tồn tại!""",,,,,,,,,
+,2,Price Validation,"- UnitPrice must be >= 0.
+- If negative, system shows error message: ""Đơn giá không được âm!""",,,,,,,,,
+,3,Delete Constraint,"- Cannot delete Service if it's used in any ServiceDetail.
+- System shows: ""Không thể xóa dịch vụ đang được sử dụng!""",,,,,,,,,
+,4,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,

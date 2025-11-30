@@ -1,0 +1,27 @@
+,List 04 - Dish,,,,,,,,,,,
+,,,,,,,,,,,,
+,List Design,,,,,,,,,,,
+,#,Database Column,,,Notes Field,,Detailed Description,,,,
+,,Column Name,Data Type,Label,Field Name,Field Type,"Editable
+(Yes/No)","Mandatory
+(Yes/No)",Default Value,Description,Design Solution,Comment
+,1,Master Data - Dish,,,,,,,,,,
+,2,DishId,INT (Identity),Dish ID,DishId,Auto Number,No,Yes,,Primary Key. Auto-generated identity value.,,"System-generated, read-only"
+,3,DishName,NVARCHAR(40),Dish Name,DishName,Text (Single Value),Yes,Yes,,Unique name for the dish. E.g: "Gà hấp", "Cá lóc chiên".,Must be unique in system.,Max 40 characters
+,4,UnitPrice,MONEY,Unit Price,UnitPrice,Currency,Yes,Yes,,Price per dish. Must be > 0.,Format: ###,###,### VNĐ,
+,5,Note,NVARCHAR(100),Notes,Note,Text (Multi-line),Yes,No,,Optional notes about the dish.,Max 100 characters,
+,,,,,,,,,,,,
+,Screen Layout,,,,,,,,,,,
+,Related Screen: DishManagementScreen.xaml,,,,,,,,,,,
+,,,,,,,,,,,,
+,Custom Business Rules,,,,,,,,,,,
+,#,Rule Name,Rule Description,,,,,,,,,
+,1,Unique Name Rule,"- DishName must be unique across all dishes.
+- If duplicate name entered, system shows error message: ""Tên món ăn đã tồn tại!""",,,,,,,,,
+,2,Price Validation,"- UnitPrice must be greater than 0.
+- If invalid, system shows error message: ""Đơn giá phải lớn hơn 0!""",,,,,,,,,
+,3,Maximum Dishes,"- System allows maximum 100 dishes.
+- If exceeded, system shows: ""Số lượng món ăn đã đạt giới hạn tối đa (100)!""",,,,,,,,,
+,4,Delete Constraint,"- Cannot delete Dish if it's used in any Menu.
+- System shows: ""Không thể xóa món ăn đang được sử dụng trong thực đơn!""",,,,,,,,,
+,5,Mandatory Fields,"- If any mandatory field is left blank, system shows error message: ""Vui lòng nhập đầy đủ thông tin!""",,,,,,,,,

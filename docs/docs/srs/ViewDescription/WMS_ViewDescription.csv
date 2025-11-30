@@ -1,0 +1,194 @@
+,View Description,,,,,,,,
+,,,,,,,,,
+,XAML File,View Code,View Name,Type,Title,Value,"Sort
+(Ascending / Descending)","Categorized
+(Yes/No)",View Selection / Column Description
+,,,,,,,,,
+,LoginWindow.xaml,V01,Login,1. View,Đăng nhập,,,,"Màn hình đăng nhập hệ thống. Yêu cầu Username và Password."
+,,V01,Login,2. Column,Username,[Username],,,Tên đăng nhập (bắt buộc)
+,,V01,Login,2. Column,Password,[Password],,,Mật khẩu (bắt buộc - masked)
+,,V01,Login,3. Action,Login Button,btnLogin,,,"Xác thực đăng nhập. Refer to UC 1.1.1 ""Login"""
+,,V01,Login,3. Action,Remember Me,chkRemember,,,Ghi nhớ phiên đăng nhập
+,,,,,,,,,
+,HomeView.xaml,V02,Home/Dashboard,1. View,Trang chủ,,,,"Màn hình chính sau khi đăng nhập. Hiển thị dashboard tổng quan."
+,,V02,Home/Dashboard,2. Column,System Title,[Title],,,Hiển thị: "Hệ thống quản lý tiệc cưới"
+,,V02,Home/Dashboard,2. Column,Quick Book Button,[btnQuickBook],,,Nút "Đặt Tiệc Ngay" - navigate to AddWeddingView
+,,V02,Home/Dashboard,2. Column,Image Carousel,[CurrentImage],,,Slideshow hình ảnh sảnh/tiệc cưới
+,,V02,Home/Dashboard,2. Column,Recent Bookings,[DataGrid],Descending,,Danh sách tiệc cưới gần đây (mới nhất trước)
+,,V02,Home/Dashboard,2. Column,Calendar,[calUpcoming],,,Lịch tiệc cưới sắp tới trong tháng
+,,V02,Home/Dashboard,3. Action,Previous Image,btnPrevious,,,Xem ảnh trước trong carousel
+,,V02,Home/Dashboard,3. Action,Next Image,btnNext,,,Xem ảnh sau trong carousel
+,,,,,,,,,
+,HallView.xaml,V03,Hall Management,1. View,Quản lý Sảnh,,,,"Màn hình CRUD sảnh. Select all ""Hall"" items."
+,,V03,Hall Management,2. Column,Hall Image,[Image],,,Hình ảnh sảnh (100x100 pixel)
+,,V03,Hall Management,2. Column,Hall Name,[HallName],Ascending,,Tên sảnh (bắt buộc, unique)
+,,V03,Hall Management,2. Column,Hall Type,[HallTypeId],Ascending,Yes,Loại sảnh (dropdown từ HallType)
+,,V03,Hall Management,2. Column,Min Table Price,[MinTablePrice],,,Đơn giá bàn tối thiểu (auto-fill từ HallType)
+,,V03,Hall Management,2. Column,Max Table Count,[MaxTableCount],,,Số bàn tối đa (bắt buộc, > 0)
+,,V03,Hall Management,2. Column,Note,[Note],,,Ghi chú (tùy chọn)
+,,V03,Hall Management,3. Action,Reset,btnReset,,,"Reset form về trạng thái ban đầu"
+,,V03,Hall Management,3. Action,Select Image,btnSelectImage,,,"Chọn hình ảnh cho sảnh"
+,,V03,Hall Management,3. Action,Add/Edit/Delete,ActionComboBox,,,"Refer to UC 2.1.2 ""Manage Hall"""
+,,V03,Hall Management,3. Action,Search,txtSearch + cboSearchBy,,,"Tìm kiếm theo: Tên sảnh, Loại sảnh"
+,,,,,,,,,
+,HallTypeView.xaml,V04,HallType Management,1. View,Quản lý Loại Sảnh,,,,"Màn hình CRUD loại sảnh. Select all ""HallType"" items."
+,,V04,HallType Management,2. Column,Hall Type Name,[HallTypeName],Ascending,,Tên loại sảnh (bắt buộc, unique)
+,,V04,HallType Management,2. Column,Min Table Price,[MinTablePrice],,,Đơn giá bàn tối thiểu (>= 10,000 VNĐ)
+,,V04,HallType Management,3. Action,Reset,btnReset,,,"Reset form về trạng thái ban đầu"
+,,V04,HallType Management,3. Action,Add/Edit/Delete,ActionComboBox,,,"Refer to UC 2.1.1 ""Manage HallType"""
+,,V04,HallType Management,3. Action,Search,txtSearch + cboSearchBy,,,"Tìm kiếm theo: Tên loại sảnh, Đơn giá"
+,,,,,,,,,
+,ShiftView.xaml,V05,Shift Management,1. View,Quản lý Ca,,,,"Màn hình CRUD ca. Select all ""Shift"" items."
+,,V05,Shift Management,2. Column,Shift Name,[ShiftName],Ascending,,Tên ca (bắt buộc, unique). VD: "Trưa", "Tối"
+,,V05,Shift Management,2. Column,Start Time,[StartTime],,,Thời gian bắt đầu (07:30 - 24:00)
+,,V05,Shift Management,2. Column,End Time,[EndTime],,,Thời gian kết thúc (> StartTime)
+,,V05,Shift Management,3. Action,Reset,btnReset,,,"Reset form về trạng thái ban đầu"
+,,V05,Shift Management,3. Action,Add/Edit/Delete,ActionComboBox,,,"Refer to UC 2.1.3 ""Manage Shift"""
+,,V05,Shift Management,3. Action,Search,txtSearch + cboSearchBy,,,"Tìm kiếm theo: Tên ca"
+,,,,,,,,,
+,FoodView.xaml,V06,Dish Management,1. View,Quản lý Món Ăn,,,,"Màn hình CRUD món ăn. Select all ""Dish"" items. Max 100 món."
+,,V06,Dish Management,2. Column,Dish Name,[DishName],Ascending,,Tên món ăn (bắt buộc, unique)
+,,V06,Dish Management,2. Column,Unit Price,[UnitPrice],,,Đơn giá (bắt buộc, > 0)
+,,V06,Dish Management,2. Column,Note,[Note],,,Ghi chú (tùy chọn)
+,,V06,Dish Management,3. Action,Reset,btnReset,,,"Reset form về trạng thái ban đầu"
+,,V06,Dish Management,3. Action,Add/Edit/Delete,ActionComboBox,,,"Refer to UC 2.1.4 ""Manage Dish"""
+,,V06,Dish Management,3. Action,Search,txtSearch + cboSearchBy,,,"Tìm kiếm theo: Tên món, Đơn giá"
+,,,,,,,,,
+,ServiceView.xaml,V07,Service Management,1. View,Quản lý Dịch Vụ,,,,"Màn hình CRUD dịch vụ. Select all ""Service"" items."
+,,V07,Service Management,2. Column,Service Name,[ServiceName],Ascending,,Tên dịch vụ (bắt buộc, unique)
+,,V07,Service Management,2. Column,Unit Price,[UnitPrice],,,Đơn giá (>= 0, cho phép dịch vụ miễn phí)
+,,V07,Service Management,2. Column,Note,[Note],,,Ghi chú (tùy chọn)
+,,V07,Service Management,3. Action,Reset,btnReset,,,"Reset form về trạng thái ban đầu"
+,,V07,Service Management,3. Action,Add/Edit/Delete,ActionComboBox,,,"Refer to UC 2.1.5 ""Manage Service"""
+,,V07,Service Management,3. Action,Search,txtSearch + cboSearchBy,,,"Tìm kiếm theo: Tên dịch vụ, Đơn giá"
+,,,,,,,,,
+,WeddingView.xaml,V08,Booking List,1. View,Danh sách Tiệc Cưới,,,,"Màn hình xem/tìm kiếm tất cả tiệc cưới. Select all ""Booking"" items."
+,,V08,Booking List,2. Column,Groom Name,[GroomName],Ascending,,Filter: Tên chú rể (ComboBox editable)
+,,V08,Booking List,2. Column,Bride Name,[BrideName],Ascending,,Filter: Tên cô dâu (ComboBox editable)
+,,V08,Booking List,2. Column,Hall Name,[HallId],Ascending,Yes,Filter: Tên sảnh (ComboBox)
+,,V08,Booking List,2. Column,Table Count,[TableCount],,,Filter: Số lượng bàn (ComboBox)
+,,V08,Booking List,2. Column,Wedding Date,[WeddingDate],Descending,,Filter: Ngày đãi tiệc (DatePicker)
+,,V08,Booking List,2. Column,Status,[Status],Ascending,Yes,Filter: Trạng thái (Chưa thanh toán / Đã thanh toán)
+,,V08,Booking List,2. Column,Phone,[Phone],,,Số điện thoại liên hệ
+,,V08,Booking List,3. Action,Reset Filter,btnReset,,,"Làm mới bộ lọc về mặc định"
+,,V08,Booking List,3. Action,Add New,btnAdd,,,"Navigate to AddWeddingView. Refer to UC 2.1.6.1"
+,,V08,Booking List,3. Action,View Detail,btnDetail,,,"Navigate to WeddingDetailView. Refer to UC 2.1.6.2"
+,,V08,Booking List,3. Action,Delete,btnDelete,,,"Xóa tiệc cưới đã chọn. Refer to UC 2.1.6.4"
+,,V08,Booking List,3. Action,Search,txtSearch + cboSearchBy,,,"Tìm kiếm theo: Tên chú rể, Tên cô dâu, SĐT"
+,,,,,,,,,
+,AddWeddingView.xaml,V09,Add Booking,1. View,Đặt Tiệc Cưới,,,,"Màn hình thêm mới phiếu đặt tiệc. Window popup."
+,,V09,Add Booking,2. Column,Groom Name,[GroomName],,,Tên chú rể (bắt buộc)
+,,V09,Add Booking,2. Column,Bride Name,[BrideName],,,Tên cô dâu (bắt buộc)
+,,V09,Add Booking,2. Column,Phone,[Phone],,,Số điện thoại (bắt buộc, 10 số)
+,,V09,Add Booking,2. Column,Wedding Date,[WeddingDate],,,Ngày đãi tiệc (>= today + 3 ngày)
+,,V09,Add Booking,2. Column,Booking Date,[BookingDate],,,Ngày đặt tiệc (auto = today, read-only)
+,,V09,Add Booking,2. Column,Shift,[ShiftId],,,Ca (dropdown từ Shift)
+,,V09,Add Booking,2. Column,Hall,[HallId],,,Sảnh (dropdown, lọc theo khả dụng)
+,,V09,Add Booking,2. Column,Table Count,[TableCount],,,Số lượng bàn (>= MinRatio × MaxTableCount)
+,,V09,Add Booking,2. Column,Reserve Table Count,[ReserveTableCount],,,Số bàn dự trữ (tùy chọn)
+,,V09,Add Booking,2. Column,Deposit,[Deposit],,,Tiền đặt cọc (>= MinDepositRate × Total)
+,,V09,Add Booking,2. Column,Menu List,[MenuDataGrid],,,Danh sách thực đơn (ít nhất 1 món)
+,,V09,Add Booking,2. Column,Service List,[ServiceDataGrid],,,Danh sách dịch vụ (tùy chọn)
+,,V09,Add Booking,3. Action,Reset,btnResetWedding,,,"Reset form về trạng thái ban đầu"
+,,V09,Add Booking,3. Action,Save,btnSave,,,"Lưu phiếu đặt tiệc. Refer to UC 2.1.6.1"
+,,V09,Add Booking,3. Action,Cancel,btnCancel,,,"Hủy và đóng cửa sổ"
+,,V09,Add Booking,3. Action,Add Menu Item,btnAddMenu,,,"Thêm món ăn vào thực đơn"
+,,V09,Add Booking,3. Action,Remove Menu Item,btnRemoveMenu,,,"Xóa món ăn khỏi thực đơn"
+,,V09,Add Booking,3. Action,Add Service,btnAddService,,,"Thêm dịch vụ"
+,,V09,Add Booking,3. Action,Remove Service,btnRemoveService,,,"Xóa dịch vụ"
+,,,,,,,,,
+,WeddingDetailView.xaml,V10,Booking Detail,1. View,Chi tiết Tiệc Cưới,,,,"Màn hình xem/sửa chi tiết tiệc cưới. Window popup."
+,,V10,Booking Detail,2. Column,All Booking Fields,[Booking.*],,,Tất cả thông tin tiệc cưới (tương tự V09)
+,,V10,Booking Detail,2. Column,Menu List,[MenuDataGrid],,,Danh sách thực đơn đã chọn
+,,V10,Booking Detail,2. Column,Service List,[ServiceDataGrid],,,Danh sách dịch vụ đã chọn
+,,V10,Booking Detail,2. Column,Total Amount,[TotalAmount],,,Tổng tiền (auto-calculated)
+,,V10,Booking Detail,3. Action,Edit,btnEdit,,,"Chuyển sang chế độ sửa. Refer to UC 2.1.6.3"
+,,V10,Booking Detail,3. Action,Save,btnSave,,,"Lưu thay đổi"
+,,V10,Booking Detail,3. Action,Cancel,btnCancel,,,"Hủy thay đổi"
+,,V10,Booking Detail,3. Action,View Invoice,btnInvoice,,,"Navigate to InvoiceView. Refer to UC 2.1.7.1"
+,,,,,,,,,
+,InvoiceView.xaml,V11,Invoice,1. View,Hóa đơn Thanh toán,,,,"Màn hình xem/thanh toán hóa đơn. Window popup."
+,,V11,Invoice,2. Column,Invoice ID,[InvoiceId],,,Mã hóa đơn (= BookingId)
+,,V11,Invoice,2. Column,Status,[Status],,,Trạng thái: "Chưa thanh toán" / "Đã thanh toán"
+,,V11,Invoice,2. Column,Groom Name,[GroomName],,,Tên chú rể (read-only)
+,,V11,Invoice,2. Column,Bride Name,[BrideName],,,Tên cô dâu (read-only)
+,,V11,Invoice,2. Column,Payment Date,[PaymentDate],,,Ngày thanh toán (auto = today khi confirm)
+,,V11,Invoice,2. Column,Table Quantity,[TableQuantity],,,Số lượng bàn (có thể điều chỉnh)
+,,V11,Invoice,2. Column,Table Price,[TablePrice],,,Đơn giá bàn (read-only)
+,,V11,Invoice,2. Column,Total Table Amount,[TotalTableAmount],,,Tổng tiền bàn (auto-calculated)
+,,V11,Invoice,2. Column,Service List,[ServiceListView],,,Danh sách dịch vụ + đơn giá
+,,V11,Invoice,2. Column,Menu List,[MenuListView],,,Danh sách thực đơn + đơn giá
+,,V11,Invoice,2. Column,Total Service Amount,[TotalServiceAmount],,,Tổng tiền dịch vụ
+,,V11,Invoice,2. Column,Additional Cost,[AdditionalCost],,,Chi phí phát sinh (editable)
+,,V11,Invoice,2. Column,Penalty Amount,[PenaltyAmount],,,Tiền phạt trễ hạn (auto-calculated)
+,,V11,Invoice,2. Column,Grand Total,[GrandTotal],,,Tổng cộng hóa đơn
+,,V11,Invoice,2. Column,Deposit,[Deposit],,,Tiền đặt cọc đã trả
+,,V11,Invoice,2. Column,Remaining Amount,[RemainingAmount],,,Còn lại phải trả
+,,V11,Invoice,3. Action,Confirm Payment,btnConfirmPayment,,,"Xác nhận thanh toán. Refer to UC 2.1.7.2"
+,,V11,Invoice,3. Action,Export PDF,btnExportPdf,,,"Xuất hóa đơn PDF. Refer to UC 2.1.7.3"
+,,V11,Invoice,3. Action,Close,btnClose,,,"Đóng cửa sổ hóa đơn"
+,,,,,,,,,
+,ReportView.xaml,V12,Revenue Report,1. View,Báo cáo Doanh Số,,,,"Màn hình xem báo cáo doanh thu theo tháng. Select RevenueReportDetail by Month/Year."
+,,V12,Revenue Report,2. Column,Month,[SelectedMonth],,,Tháng báo cáo (ComboBox 1-12)
+,,V12,Revenue Report,2. Column,Year,[SelectedYear],,,Năm báo cáo (ComboBox)
+,,V12,Revenue Report,2. Column,Total Revenue,[TotalRevenue],,,Tổng doanh thu tháng
+,,V12,Revenue Report,2. Column,Day,[Day],Ascending,,Ngày trong tháng
+,,V12,Revenue Report,2. Column,Wedding Count,[WeddingCount],,,"Số lượng tiệc. Sum for all items."
+,,V12,Revenue Report,2. Column,Revenue,[Revenue],,,"Doanh thu ngày. Sum for all items."
+,,V12,Revenue Report,2. Column,Ratio,[Ratio],,,Tỉ lệ % so với tổng tháng
+,,V12,Revenue Report,3. Action,Load Report,btnLoadReport,,,"Tải báo cáo theo tháng/năm đã chọn. Refer to UC 2.1.8.1"
+,,V12,Revenue Report,3. Action,Export PDF,btnExportPdf,,,"Xuất báo cáo PDF. Refer to UC 2.1.8.2"
+,,V12,Revenue Report,3. Action,Export Excel,btnExportExcel,,,"Xuất báo cáo Excel. Refer to UC 2.1.8.3"
+,,,,,,,,,
+,ChartView.xaml,V13,Revenue Chart,1. View,Biểu đồ Doanh Số,,,,"Màn hình xem biểu đồ doanh thu. LiveCharts visualization."
+,,V13,Revenue Chart,2. Column,Chart Type,[ChartType],,,Loại biểu đồ: Bar / Line / Pie
+,,V13,Revenue Chart,2. Column,Time Period,[TimePeriod],,,Khoảng thời gian: Tháng / Quý / Năm
+,,V13,Revenue Chart,2. Column,Revenue Data,[RevenueData],,,Dữ liệu doanh thu để vẽ biểu đồ
+,,V13,Revenue Chart,3. Action,Refresh,btnRefresh,,,"Làm mới dữ liệu biểu đồ"
+,,,,,,,,,
+,UserView.xaml,V14,User Management,1. View,Quản lý Người Dùng,,,,"Màn hình CRUD người dùng. Select all ""AppUser"" items. Admin only."
+,,V14,User Management,2. Column,Username,[Username],Ascending,,Tên đăng nhập (bắt buộc, unique, không đổi sau khi tạo)
+,,V14,User Management,2. Column,Full Name,[FullName],Ascending,,Họ tên đầy đủ (bắt buộc)
+,,V14,User Management,2. Column,Email,[Email],,,Email (tùy chọn, unique nếu có)
+,,V14,User Management,2. Column,User Group,[GroupId],Ascending,Yes,Nhóm người dùng (dropdown từ UserGroup)
+,,V14,User Management,2. Column,New Password,[NewPassword],,,Mật khẩu mới (khi checkbox được chọn)
+,,V14,User Management,2. Column,Change Password,[IsPasswordChangeEnabled],,,Checkbox bật/tắt đổi mật khẩu
+,,V14,User Management,3. Action,Reset,btnReset,,,"Reset form về trạng thái ban đầu"
+,,V14,User Management,3. Action,Add/Edit/Delete,ActionComboBox,,,"Refer to UC 2.1.9 ""Manage User"""
+,,V14,User Management,3. Action,Search,txtSearch + cboSearchBy,,,"Tìm kiếm theo: Username, Họ tên, Email"
+,,,,,,,,,
+,PermissionView.xaml,V15,Permission Management,1. View,Quản lý Phân Quyền,,,,"Màn hình CRUD nhóm quyền. Select all ""UserGroup"" + ""GroupPermission"" items. Admin only."
+,,V15,Permission Management,2. Column,Group Name,[GroupName],Ascending,,Tên nhóm phân quyền (bắt buộc, unique)
+,,V15,Permission Management,2. Column,Permission List,[PermissionCheckboxes],,,Danh sách quyền (checkbox cho mỗi Permission)
+,,V15,Permission Management,3. Action,Reset,btnReset,,,"Reset form về trạng thái ban đầu"
+,,V15,Permission Management,3. Action,Add/Edit/Delete,ActionComboBox,,,"Refer to UC 2.1.10 ""Manage Permission Group"""
+,,V15,Permission Management,3. Action,Search,txtSearch + cboSearchBy,,,"Tìm kiếm theo: Tên nhóm"
+,,,,,,,,,
+,ParameterView.xaml,V16,Parameter Settings,1. View,Quy định Hệ thống,,,,"Màn hình cài đặt tham số. Select all ""Parameter"" items. Admin only."
+,,V16,Parameter Settings,2. Column,Enable Penalty,[EnablePenalty],,,Bật/tắt tính phạt trễ hạn (0/1)
+,,V16,Parameter Settings,2. Column,Penalty Rate,[PenaltyRate],,,Tỷ lệ phạt theo ngày (mặc định 1%)
+,,V16,Parameter Settings,2. Column,Min Deposit Rate,[MinDepositRate],,,Tỷ lệ đặt cọc tối thiểu (mặc định 15%)
+,,V16,Parameter Settings,2. Column,Min Table Ratio,[MinReserveTableRate],,,Tỷ lệ bàn tối thiểu (mặc định 85%)
+,,V16,Parameter Settings,3. Action,Save,btnSave,,,"Lưu thay đổi tham số. Refer to UC 2.1.11"
+,,V16,Parameter Settings,3. Action,Reset,btnReset,,,"Reset về giá trị mặc định"
+,,,,,,,,,
+,AccountView.xaml,V17,Account Settings,1. View,Tài khoản Cá nhân,,,,"Màn hình xem/sửa thông tin tài khoản cá nhân. Current logged-in user."
+,,V17,Account Settings,2. Column,Username,[Username],,,Tên đăng nhập (read-only)
+,,V17,Account Settings,2. Column,Full Name,[FullName],,,Họ tên (editable)
+,,V17,Account Settings,2. Column,Email,[Email],,,Email (editable)
+,,V17,Account Settings,2. Column,Phone,[PhoneNumber],,,Số điện thoại (editable)
+,,V17,Account Settings,2. Column,Address,[Address],,,Địa chỉ (editable)
+,,V17,Account Settings,2. Column,Birth Date,[BirthDate],,,Ngày sinh (editable)
+,,V17,Account Settings,2. Column,Gender,[Gender],,,Giới tính: Nam / Nữ / Khác (editable)
+,,V17,Account Settings,2. Column,Current Password,[CurrentPassword],,,Mật khẩu hiện tại (để xác nhận đổi MK)
+,,V17,Account Settings,2. Column,New Password,[NewPassword],,,Mật khẩu mới
+,,V17,Account Settings,2. Column,Confirm Password,[ConfirmPassword],,,Xác nhận mật khẩu mới
+,,V17,Account Settings,3. Action,Save Profile,btnSaveProfile,,,"Lưu thông tin cá nhân. Refer to UC 1.1.2"
+,,V17,Account Settings,3. Action,Change Password,btnChangePassword,,,"Đổi mật khẩu. Refer to UC 1.1.3"
+,,,,,,,,,
+,MainWindow.xaml,V18,Main Window/Navigation,1. View,Cửa sổ Chính,,,,"Cửa sổ chính chứa navigation menu và content area."
+,,V18,Main Window/Navigation,2. Column,User Info,[CurrentUser],,,Hiển thị tên người dùng đang đăng nhập
+,,V18,Main Window/Navigation,2. Column,Navigation Menu,[NavigationMenu],,,Menu điều hướng theo quyền của user
+,,V18,Main Window/Navigation,2. Column,Content Area,[ContentFrame],,,Vùng hiển thị nội dung (UserControl)
+,,V18,Main Window/Navigation,3. Action,Navigate,MenuItem_Click,,,"Chuyển đến màn hình tương ứng"
+,,V18,Main Window/Navigation,3. Action,Logout,btnLogout,,,"Đăng xuất. Refer to UC 1.1.4"

@@ -10,13 +10,13 @@ Wedding Management System
 
 | Author   | Version | Change reference                                                                                           | Date       |
 | :------- | :------ | :--------------------------------------------------------------------------------------------------------- | :--------- |
-| WMS Team | 1.0.0   | Initial SRS creation with Authentication Use Cases                                                         | 29/11/2025 |
-| WMS Team | 1.2.0   | Refined BR descriptions following activity flows                                                           | 30/11/2025 |
-| WMS Team | 1.3.0   | Added Edit/Delete Permission Group, Manage System Parameters; BR line breaks                               | 01/12/2025 |
-| WMS Team | 1.4.0   | Added Master Data Management: Manage Halls (5 UCs), Manage Hall Types (5 UCs); BR41-BR72; MSG 31-50        | 02/12/2025 |
-| WMS Team | 1.5.0   | Added Manage Dishes (5 UCs), Manage Services (5 UCs); BR73-BR104; MSG 51-71                                | 03/12/2025 |
-| WMS Team | 1.6.0   | Added Manage Shifts (5 UCs) + Export, Customer Booking (6 UCs); BR105-BR137; MSG 72-98                     | 30/11/2025 |
-| WMS Team | 1.7.0   | Added Forgot Password, Staff Booking Management (6 UCs), Customer Payment (3 UCs); BR138-BR159; MSG 99-112 | 30/11/2025 |
+| WMS Team | 1.0.0   | Initial SRS creation with Authentication Use Cases                                                         | 26/10/2025 |
+| WMS Team | 1.2.0   | Refined BR descriptions following activity flows                                                           | 10/11/2025 |
+| WMS Team | 1.3.0   | Added Edit/Delete Permission Group, Manage System Parameters; BR line breaks                               | 11/11/2025 |
+| WMS Team | 1.4.0   | Added Master Data Management: Manage Halls (5 UCs), Manage Hall Types (5 UCs); BR41-BR72; MSG 31-50        | 14/11/2025 |
+| WMS Team | 1.5.0   | Added Manage Dishes (5 UCs), Manage Services (5 UCs); BR73-BR104; MSG 51-71                                | 17/11/2025 |
+| WMS Team | 1.6.0   | Added Manage Shifts (5 UCs) + Export, Customer Booking (6 UCs); BR105-BR137; MSG 72-98                     | 26/11/2025 |
+| WMS Team | 1.7.0   | Added Forgot Password, Staff Booking Management (6 UCs), Customer Payment (3 UCs); BR138-BR159; MSG 99-112 | 27/11/2025 |
 | WMS Team | 1.8.0   | Added Staff Invoice Management (3 UCs), Reports & Statistics (2 UCs); BR160-BR171; MSG 114-116             | 30/11/2025 |
 
 ### Reviewers

@@ -1,9 +1,0 @@
-Test Case ID,Test Case Description,PreRequisites,Steps,Steps to Perform,Step Expected Result,Test Case Expected Result,Actual Result,Status,Note
-TC-UC_AUTH_02-04,Verify logout API returns 401 when called without Authorization header,"- User has access to API testing tool (Postman/curl)
-- Logout endpoint URL is known",1,"Open API testing tool (Postman/curl)","Tool is ready to send requests","System returns 401 Unauthorized when logout API is called without valid Authorization header.",,,
-,,,2,"Prepare POST request to logout endpoint without Authorization header","Request is configured",,,,
-,,,3,"Send the request","Request is sent to server",,,,
-,,,4,"Verify unauthorized response","- HTTP status code: 401 Unauthorized
-- Response body contains error message
-- No tokens are blacklisted
-- No database changes occur",,,,
